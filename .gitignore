@@ -79,4 +79,4 @@ _[Ss]cripts
 *.ncrunchsolution
 *.dot[Cc]over
 .idea
-UI/wwwroot/lib
+*/wwwroot/lib
