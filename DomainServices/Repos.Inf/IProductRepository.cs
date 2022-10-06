@@ -1,6 +1,8 @@
+using Domain;
+
 namespace DomainServices.Repos.Inf;
 
-public interface Product
+public interface IProductRepository
 {
     public Product GetProductById(int id);
     public List<Product> GetProducts();
