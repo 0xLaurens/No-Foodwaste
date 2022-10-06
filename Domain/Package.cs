@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Common;
 
 namespace Domain;
 
@@ -20,6 +22,7 @@ public class Package
     [Required(ErrorMessage = "Please add an age indicator")]
     public bool? EighteenPlus { get; set; }
     [Required(ErrorMessage = "Please add a price for the package")]
+    [Column(TypeName = "decimal(5, 2")]
     public decimal? Price { get; set; }
     [Required(ErrorMessage = "Please add a Category")]
     public Category? Category { get; set; }

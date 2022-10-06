@@ -14,5 +14,5 @@ public class Student
     [Phone] 
     public string? PhoneNumber { get; set; }
     [Required(ErrorMessage = "Enter your Date of Birth")]
-    public DateOnly? DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 }
