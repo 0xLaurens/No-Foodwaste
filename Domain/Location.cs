@@ -2,7 +2,7 @@ namespace Domain;
 
 public class Location
 {
-    public int LocationId { get; set; }
-    public City? City { get; set; }
-    public List<Employee>? Employees { get; set; }
+   public int LocationId { get; set; }
+   public string Name { get; set; }
+   public int CityId { get; set; }
 }

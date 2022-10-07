@@ -60,6 +60,13 @@ namespace Infrastructure.Migrations
                     b.HasKey("CityId");
 
                     b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            CityId = 1,
+                            Name = "Breda"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Employee", b =>
@@ -70,7 +77,7 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -79,9 +86,21 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("LocationId");
-
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = 1,
+                            LocationId = 1,
+                            Name = "Harry de Strijder"
+                        },
+                        new
+                        {
+                            EmployeeId = 2,
+                            LocationId = 2,
+                            Name = "Ankie Bloempot"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Location", b =>
@@ -92,14 +111,38 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocationId"), 1L, 1);
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LocationId");
 
                     b.HasIndex("CityId");
 
                     b.ToTable("Locations");
+
+                    b.HasData(
+                        new
+                        {
+                            LocationId = 1,
+                            CityId = 0,
+                            Name = "La"
+                        },
+                        new
+                        {
+                            LocationId = 2,
+                            CityId = 0,
+                            Name = "Ld"
+                        },
+                        new
+                        {
+                            LocationId = 3,
+                            CityId = 0,
+                            Name = "Hl"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Package", b =>
@@ -171,6 +214,26 @@ namespace Infrastructure.Migrations
                     b.HasIndex("PackageId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            Name = "Cheese slice",
+                            Photo = "Image of cheese"
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            Name = "Bread",
+                            Photo = "Image of Bread"
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            Name = "Ham",
+                            Photo = "Image of ham"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Student", b =>
@@ -198,9 +261,17 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("StudentId");
 
-                    b.HasIndex("CityId");
-
                     b.ToTable("Students");
+
+                    b.HasData(
+                        new
+                        {
+                            StudentId = 1,
+                            CityId = 1,
+                            DateOfBirth = new DateTime(2003, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmailAddress = "Lhh.weterings@student.avans.nl",
+                            PhoneNumber = "06 58912302"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Cafeteria", b =>
@@ -218,22 +289,13 @@ namespace Infrastructure.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("Domain.Employee", b =>
-                {
-                    b.HasOne("Domain.Location", "Location")
-                        .WithMany("Employees")
-                        .HasForeignKey("LocationId");
-
-                    b.Navigation("Location");
-                });
-
             modelBuilder.Entity("Domain.Location", b =>
                 {
-                    b.HasOne("Domain.City", "City")
+                    b.HasOne("Domain.City", null)
                         .WithMany("Locations")
-                        .HasForeignKey("CityId");
-
-                    b.Navigation("City");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Package", b =>
@@ -268,25 +330,9 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("PackageId");
                 });
 
-            modelBuilder.Entity("Domain.Student", b =>
-                {
-                    b.HasOne("Domain.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-                });
-
             modelBuilder.Entity("Domain.City", b =>
                 {
                     b.Navigation("Locations");
-                });
-
-            modelBuilder.Entity("Domain.Location", b =>
-                {
-                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Domain.Package", b =>
