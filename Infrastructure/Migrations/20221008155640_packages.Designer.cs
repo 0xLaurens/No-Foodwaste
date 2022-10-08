@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    partial class FoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221008155640_packages")]
+    partial class packages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,6 +63,7 @@ namespace Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"), 1L, 1);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CityId");
@@ -77,11 +80,6 @@ namespace Infrastructure.Migrations
                         {
                             CityId = 2,
                             Name = "Den Bosch"
-                        },
-                        new
-                        {
-                            CityId = 3,
-                            Name = "Tilburg"
                         });
                 });
 
@@ -128,10 +126,11 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocationId"), 1L, 1);
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LocationId");
@@ -150,13 +149,13 @@ namespace Infrastructure.Migrations
                         new
                         {
                             LocationId = 2,
-                            CityId = 2,
+                            CityId = 1,
                             Name = "Ld"
                         },
                         new
                         {
                             LocationId = 3,
-                            CityId = 3,
+                            CityId = 1,
                             Name = "Hl"
                         });
                 });
@@ -169,28 +168,29 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageId"), 1L, 1);
 
-                    b.Property<DateTime?>("BestBeforeDate")
+                    b.Property<DateTime>("BestBeforeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CafeteriaId")
+                    b.Property<int>("CafeteriaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Category")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("EighteenPlus")
+                    b.Property<bool>("EighteenPlus")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("PickupTime")
+                    b.Property<DateTime>("PickupTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ReservedByStudentId")
@@ -277,7 +277,7 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"), 1L, 1);
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateOfBirth")
@@ -348,21 +348,27 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.City", null)
                         .WithMany("Locations")
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Package", b =>
                 {
                     b.HasOne("Domain.Cafeteria", null)
                         .WithMany("Packages")
-                        .HasForeignKey("CafeteriaId");
+                        .HasForeignKey("CafeteriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Student", b =>
                 {
                     b.HasOne("Domain.City", null)
                         .WithMany("Students")
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PackageProduct", b =>

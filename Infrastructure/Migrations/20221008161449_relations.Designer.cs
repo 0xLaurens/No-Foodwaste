@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    [Migration("20221008095853_data-update")]
-    partial class dataupdate
+    [Migration("20221008161449_relations")]
+    partial class relations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,7 +63,6 @@ namespace Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CityId");
@@ -80,6 +79,11 @@ namespace Infrastructure.Migrations
                         {
                             CityId = 2,
                             Name = "Den Bosch"
+                        },
+                        new
+                        {
+                            CityId = 3,
+                            Name = "Tilburg"
                         });
                 });
 
@@ -126,11 +130,10 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocationId"), 1L, 1);
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LocationId");
@@ -149,13 +152,13 @@ namespace Infrastructure.Migrations
                         new
                         {
                             LocationId = 2,
-                            CityId = 1,
+                            CityId = 2,
                             Name = "Ld"
                         },
                         new
                         {
                             LocationId = 3,
-                            CityId = 1,
+                            CityId = 3,
                             Name = "Hl"
                         });
                 });
@@ -168,29 +171,28 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageId"), 1L, 1);
 
-                    b.Property<DateTime>("BestBeforeDate")
+                    b.Property<DateTime?>("BestBeforeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CafeteriaId")
+                    b.Property<int?>("CafeteriaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Category")
+                    b.Property<int?>("Category")
                         .HasColumnType("int");
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("EighteenPlus")
+                    b.Property<bool?>("EighteenPlus")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PickupTime")
+                    b.Property<DateTime?>("PickupTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ReservedByStudentId")
@@ -200,11 +202,34 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CafeteriaId");
 
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("ReservedByStudentId");
-
                     b.ToTable("Packages");
+
+                    b.HasData(
+                        new
+                        {
+                            PackageId = 1,
+                            BestBeforeDate = new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Local),
+                            CafeteriaId = 1,
+                            Category = 0,
+                            CityId = 1,
+                            EighteenPlus = false,
+                            Name = "Broodpakket",
+                            PickupTime = new DateTime(2022, 10, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            Price = 1.99m,
+                            ReservedByStudentId = 1
+                        },
+                        new
+                        {
+                            PackageId = 2,
+                            BestBeforeDate = new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Local),
+                            CafeteriaId = 1,
+                            Category = 0,
+                            CityId = 1,
+                            EighteenPlus = true,
+                            Name = "Pretpakket",
+                            PickupTime = new DateTime(2022, 10, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            Price = 20.99m
+                        });
                 });
 
             modelBuilder.Entity("Domain.Product", b =>
@@ -218,15 +243,10 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PackageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
-
-                    b.HasIndex("PackageId");
 
                     b.ToTable("Products");
 
@@ -259,7 +279,7 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"), 1L, 1);
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateOfBirth")
@@ -297,6 +317,21 @@ namespace Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("PackageProduct", b =>
+                {
+                    b.Property<int>("PackagesPackageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PackagesPackageId", "ProductsProductId");
+
+                    b.HasIndex("ProductsProductId");
+
+                    b.ToTable("PackageProduct");
+                });
+
             modelBuilder.Entity("Domain.Cafeteria", b =>
                 {
                     b.HasOne("Domain.City", null)
@@ -315,50 +350,41 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.City", null)
                         .WithMany("Locations")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
                 });
 
             modelBuilder.Entity("Domain.Package", b =>
                 {
-                    b.HasOne("Domain.Cafeteria", "Cafeteria")
-                        .WithMany()
-                        .HasForeignKey("CafeteriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Student", "ReservedBy")
-                        .WithMany()
-                        .HasForeignKey("ReservedByStudentId");
-
-                    b.Navigation("Cafeteria");
-
-                    b.Navigation("City");
-
-                    b.Navigation("ReservedBy");
-                });
-
-            modelBuilder.Entity("Domain.Product", b =>
-                {
-                    b.HasOne("Domain.Package", null)
-                        .WithMany("Products")
-                        .HasForeignKey("PackageId");
+                    b.HasOne("Domain.Cafeteria", null)
+                        .WithMany("Packages")
+                        .HasForeignKey("CafeteriaId");
                 });
 
             modelBuilder.Entity("Domain.Student", b =>
                 {
                     b.HasOne("Domain.City", null)
                         .WithMany("Students")
-                        .HasForeignKey("CityId")
+                        .HasForeignKey("CityId");
+                });
+
+            modelBuilder.Entity("PackageProduct", b =>
+                {
+                    b.HasOne("Domain.Package", null)
+                        .WithMany()
+                        .HasForeignKey("PackagesPackageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Cafeteria", b =>
+                {
+                    b.Navigation("Packages");
                 });
 
             modelBuilder.Entity("Domain.City", b =>
@@ -373,11 +399,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Location", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("Domain.Package", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

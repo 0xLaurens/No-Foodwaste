@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class dataupdate : Migration
+    public partial class packages : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,20 @@ namespace Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cities", x => x.CityId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,25 +97,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LocationId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
-                    table.ForeignKey(
-                        name: "FK_Employees_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "LocationId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Packages",
                 columns: table => new
                 {
@@ -126,37 +121,49 @@ namespace Infrastructure.Migrations
                         principalTable: "Cafeterias",
                         principalColumn: "CafeteriaId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Packages_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "CityId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Packages_Students_ReservedByStudentId",
-                        column: x => x.ReservedByStudentId,
-                        principalTable: "Students",
-                        principalColumn: "StudentId");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Employees",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PackageId = table.Column<int>(type: "int", nullable: true)
+                    LocationId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ProductId);
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
                     table.ForeignKey(
-                        name: "FK_Products_Packages_PackageId",
-                        column: x => x.PackageId,
+                        name: "FK_Employees_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "LocationId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PackageProduct",
+                columns: table => new
+                {
+                    PackagesPackageId = table.Column<int>(type: "int", nullable: false),
+                    ProductsProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PackageProduct", x => new { x.PackagesPackageId, x.ProductsProductId });
+                    table.ForeignKey(
+                        name: "FK_PackageProduct_Packages_PackagesPackageId",
+                        column: x => x.PackagesPackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageId");
+                        principalColumn: "PackageId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PackageProduct_Products_ProductsProductId",
+                        column: x => x.ProductsProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -170,12 +177,12 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ProductId", "Name", "PackageId", "Photo" },
+                columns: new[] { "ProductId", "Name", "Photo" },
                 values: new object[,]
                 {
-                    { 1, "Cheese slice", null, "Image of cheese" },
-                    { 2, "Bread", null, "Image of Bread" },
-                    { 3, "Ham", null, "Image of ham" }
+                    { 1, "Cheese slice", "Image of cheese" },
+                    { 2, "Bread", "Image of Bread" },
+                    { 3, "Ham", "Image of ham" }
                 });
 
             migrationBuilder.InsertData(
@@ -209,12 +216,20 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "EmployeeId", "LocationId", "Name" },
-                values: new object[] { 1, 2, "Harry de Strijder" });
+                values: new object[,]
+                {
+                    { 1, 2, "Harry de Strijder" },
+                    { 2, 1, "Ankie Bloempot" }
+                });
 
             migrationBuilder.InsertData(
-                table: "Employees",
-                columns: new[] { "EmployeeId", "LocationId", "Name" },
-                values: new object[] { 2, 1, "Ankie Bloempot" });
+                table: "Packages",
+                columns: new[] { "PackageId", "BestBeforeDate", "CafeteriaId", "Category", "CityId", "EighteenPlus", "Name", "PickupTime", "Price", "ReservedByStudentId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Local), 1, 0, 1, false, "Broodpakket", new DateTime(2022, 10, 9, 0, 0, 0, 0, DateTimeKind.Local), 1.99m, 1 },
+                    { 2, new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Local), 1, 0, 1, true, "Pretpakket", new DateTime(2022, 10, 9, 0, 0, 0, 0, DateTimeKind.Local), 20.99m, null }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cafeterias_CityId",
@@ -232,24 +247,14 @@ namespace Infrastructure.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PackageProduct_ProductsProductId",
+                table: "PackageProduct",
+                column: "ProductsProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Packages_CafeteriaId",
                 table: "Packages",
                 column: "CafeteriaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Packages_CityId",
-                table: "Packages",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Packages_ReservedByStudentId",
-                table: "Packages",
-                column: "ReservedByStudentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_PackageId",
-                table: "Products",
-                column: "PackageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_CityId",
@@ -263,7 +268,10 @@ namespace Infrastructure.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "PackageProduct");
+
+            migrationBuilder.DropTable(
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Locations");
@@ -272,10 +280,10 @@ namespace Infrastructure.Migrations
                 name: "Packages");
 
             migrationBuilder.DropTable(
-                name: "Cafeterias");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Students");
+                name: "Cafeterias");
 
             migrationBuilder.DropTable(
                 name: "Cities");
