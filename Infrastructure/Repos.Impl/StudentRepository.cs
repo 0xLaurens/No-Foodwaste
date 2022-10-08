@@ -3,9 +3,26 @@ using DomainServices.Repos.Inf;
 
 namespace Infrastructure.Repos.Impl;
 
-public interface StudentRepository: IStudentRepository
+public class StudentRepository: IStudentRepository
 {
-    public Student GetStudentById(int id);
-    public Student GetStudentByEmail(string Email);
-    public List<Student> GetStudents();
+    private readonly FoodDbContext _context;
+
+    public StudentRepository(FoodDbContext context)
+    {
+        _context = context;
+    }
+    public Student GetStudentById(int id)
+    {
+        return _context.Students.SingleOrDefault(s => s.StudentId == id);
+    }
+
+    public Student GetStudentByEmail(string Email)
+    {
+        return _context.Students.SingleOrDefault(s => s.EmailAddress == Email);
+    }
+
+    public List<Student> GetStudents()
+    {
+        return _context.Students.ToList();
+    }
 }

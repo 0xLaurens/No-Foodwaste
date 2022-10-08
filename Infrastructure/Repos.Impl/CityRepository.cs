@@ -3,8 +3,22 @@ using DomainServices.Repos.Inf;
 
 namespace Infrastructure.Repos.Impl;
 
-public interface CityRepository : ICityRepository
+public class CityRepository : ICityRepository
 {
-    public City GetCityById(int id);
-    public List<City> GetCities();
+    private readonly FoodDbContext _context;
+
+    public CityRepository(FoodDbContext context)
+    {
+        _context = context;
+    }
+    
+    public City GetCityById(int id)
+    {
+        return _context.Cities.SingleOrDefault(c => c.CityId== id);
+    }
+
+    public List<City> GetCities()
+    {
+        return _context.Cities.ToList();
+    }
 }

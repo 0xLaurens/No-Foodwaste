@@ -3,8 +3,22 @@ using DomainServices.Repos.Inf;
 
 namespace Infrastructure.Repos.Impl;
 
-public interface EmployeeRepository : IEmployeeRepository
+public class EmployeeRepository : IEmployeeRepository
 {
-    public List<Employee> GetEmployees();
-    public Employee GetEmployeeById(int id);
+    private readonly FoodDbContext _context;
+
+    public EmployeeRepository(FoodDbContext context)
+    {
+        _context = context;
+    }
+
+    public List<Employee> GetEmployees()
+    {
+        return _context.Employees.ToList();
+    }
+
+    public Employee GetEmployeeById(int id)
+    {
+        return _context.Employees.SingleOrDefault(e => e.EmployeeId == id);
+    }
 }
