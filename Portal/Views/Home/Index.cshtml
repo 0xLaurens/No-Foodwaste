@@ -1,8 +1,31 @@
-﻿@{
+﻿@model ICollection<Domain.Package>
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="pt-5 pb-2">
+    <div class="container py-5">
+        <div class="row mb-4 mb-lg-5">
+            <div class="col mx-auto">
+                <h2 class="fw-bold">Featured</h2>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
+             @foreach (var p in Model)
+            {
+                <div class="col">
+                    <div class="card rounded-2">
+                        <div class="card-body">
+                            <ul>
+                                <li>@p.Name</li>
+                                <li>@p.CityId</li>
+                                <li>@p.Category</li>
+                                <li>@p.EighteenPlus</li>
+                                <li>@p.Price</li>
+                            </ul> 
+                        </div>
+                    </div>
+                </div> 
+            }       
+        </div>
+    </div>
+</section>

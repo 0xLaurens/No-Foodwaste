@@ -19,13 +19,13 @@ builder.Services.AddDbContext<FoodDbContext>(options =>
 
 
 // Injection (Needs knowledge of Infrastructure)
-// builder.Services.AddScoped<ICafeteriaRepository, CafeteriaRepository>();
-// builder.Services.AddScoped<ICityRepository, CityRepository>();
-// builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-// builder.Services.AddScoped<ILocationRepository, LocationRepository>();
-// builder.Services.AddScoped<IPackageRepository, PackageRepository>();
-// builder.Services.AddScoped<IProductRepository, ProductRepository>();
-// builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<ICafeteriaRepository, CafeteriaRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IPackageRepository, PackageRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 
 var app = builder.Build();
 
