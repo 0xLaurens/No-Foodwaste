@@ -206,26 +206,26 @@ namespace Infrastructure.Migrations
                         new
                         {
                             PackageId = 1,
-                            BestBeforeDate = new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
                             Name = "Broodpakket",
-                            PickupTime = new DateTime(2022, 10, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
                             ReservedByStudentId = 1
                         },
                         new
                         {
                             PackageId = 2,
-                            BestBeforeDate = new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = true,
                             Name = "Pretpakket",
-                            PickupTime = new DateTime(2022, 10, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 20.99m
                         });
                 });
@@ -302,7 +302,7 @@ namespace Infrastructure.Migrations
                             StudentId = 1,
                             CityId = 1,
                             DateOfBirth = new DateTime(2003, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EmailAddress = "Lhh.weterings@student.avans.nl",
+                            EmailAddress = "student@student.avans.nl",
                             PhoneNumber = "06 58912302"
                         },
                         new

@@ -41,7 +41,7 @@ public class FoodDbContext : DbContext
       
       var students = new List<Student>()
       {
-         new Student { StudentId = 1, EmailAddress = "Lhh.weterings@student.avans.nl", CityId = 1, PhoneNumber = "06 58912302", DateOfBirth = new DateTime(2003, 01, 19) },
+         new Student { StudentId = 1, EmailAddress = "student@student.avans.nl", CityId = 1, PhoneNumber = "06 58912302", DateOfBirth = new DateTime(2003, 01, 19) },
          new Student { StudentId = 2, EmailAddress = "L.pieters@student.avans.nl", CityId = 1, PhoneNumber = "06 38912302", DateOfBirth = new DateTime(2001, 11, 30) },
       };
 

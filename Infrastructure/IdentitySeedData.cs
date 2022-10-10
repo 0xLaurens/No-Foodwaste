@@ -16,7 +16,10 @@ public class IdentitySeedData
       var employee = await userManager.FindByEmailAsync(employeeEmail);
       if (employee == null)
       {
-         employee = new IdentityUser("Employee");
+         employee = new IdentityUser("Employee")
+         {
+            Email = employeeEmail 
+         };
          await userManager.CreateAsync(employee, employeePassword);
          await userManager.AddClaimAsync(employee, new Claim("Employee", "true"));
       }
@@ -24,7 +27,10 @@ public class IdentitySeedData
       var student = await userManager.FindByEmailAsync(studentEmail);
       if (student == null)
       {
-         student = new IdentityUser("Student");
+         student = new IdentityUser("Student")
+         {
+            Email = studentEmail
+         };
          await userManager.CreateAsync(student, studentPassword);
          await userManager.AddClaimAsync(student, new Claim("Student", "true"));
       }

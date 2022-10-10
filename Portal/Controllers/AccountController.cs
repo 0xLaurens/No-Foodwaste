@@ -41,7 +41,7 @@ public class AccountController: Controller
                 await _signInManager.SignOutAsync();
                 if ((await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false)).Succeeded)
                 {
-                    return Redirect(loginViewModel?.ReturnUrl ?? "/Home/Index");
+                    return Redirect("/");
                 }
                 
             }
