@@ -5,7 +5,7 @@ namespace Infrastructure;
 
 public class FoodDbContext : DbContext
 {
-   public FoodDbContext(DbContextOptions options) : base(options)
+   public FoodDbContext(DbContextOptions<FoodDbContext> options) : base(options)
    {
    }
 

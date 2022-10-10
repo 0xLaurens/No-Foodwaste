@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
-public class SecurityDbContext: IdentityDbContext
+public class AccountDbContext: IdentityDbContext
 {
-    public SecurityDbContext(DbContextOptions<SecurityDbContext> options) : base(options)
+    public AccountDbContext(DbContextOptions<AccountDbContext> options) : base(options)
     {
         
     }

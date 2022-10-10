@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Avans_NoWaste.Models;
 using DomainServices.Repos.Inf;
-using Infrastructure.Repos.Impl;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Avans_NoWaste.Controllers;
 
@@ -17,12 +17,14 @@ public class HomeController : Controller
         _packageRepository = packageRepository;
     }
 
+    [Authorize]
     public IActionResult Index()
     {
         
         return View(_packageRepository.GetNonReservedPackages());
     }
 
+    [Authorize]
     public IActionResult Privacy()
     {
         return View();

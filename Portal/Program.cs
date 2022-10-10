@@ -1,6 +1,7 @@
 using DomainServices.Repos.Inf;
 using Infrastructure;
 using Infrastructure.Repos.Impl;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -17,6 +18,25 @@ builder.Services.AddDbContext<FoodDbContext>(options =>
     );
 });
 
+
+// IdentityDb
+builder.Services.AddDbContext<AccountDbContext>(options =>
+{
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("IdentityDb")
+    );
+});
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<AccountDbContext>();
+
+builder.Services.AddAuthorization(options => 
+    options.AddPolicy("Employee", policy => 
+        policy.RequireClaim("Employee")));
+
+builder.Services.AddAuthorization(options => 
+    options.AddPolicy("Student", policy => 
+        policy.RequireClaim("Student")));
 
 // Injection (Needs knowledge of Infrastructure)
 builder.Services.AddScoped<ICafeteriaRepository, CafeteriaRepository>();
@@ -42,6 +62,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

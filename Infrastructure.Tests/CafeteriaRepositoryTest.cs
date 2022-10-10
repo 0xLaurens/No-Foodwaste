@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Infrastructure.Test;
+namespace Infrastructe.Test;
 
 public class CafeteriaRepositoryTest 
 {
