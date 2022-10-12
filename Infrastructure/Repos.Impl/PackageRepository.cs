@@ -13,32 +13,34 @@ public class PackageRepository : IPackageRepository
     }
     public Package GetPackageById(int id)
     {
-        return _context.Packages.SingleOrDefault(p => p.PackageId == id);
+        return _context.Packages!.SingleOrDefault(p => p.PackageId == id)!;
     }
 
     public List<Package> GetPackages()
     {
-        return _context.Packages.ToList();
+        return _context.Packages!
+            .OrderBy(p => p.BestBeforeDate)
+            .ToList();
     }
 
     public List<Package> GetNonReservedPackages()
     {
-        return _context.Packages
+        return GetPackages() 
             .Where(p => p.ReservedByStudentId == null)
-            .OrderBy(p => p.BestBeforeDate)
             .ToList();
     }
     
     public List<Package> GetNonReservedPackagesPerCafeteria(int id)
     {
-        return _context.Packages
-            .Where(p => p.ReservedByStudentId == null && p.CafeteriaId == id)
-            .OrderBy(p => p.BestBeforeDate)
+        return GetNonReservedPackages()
+            .Where(p => p.CafeteriaId == id)
             .ToList();
     }
 
-    public List<Package> GetPackagesByStudent(int StudentId)
+    public List<Package> GetPackagesByStudent(int studentId)
     {
-        return _context.Packages.Where(p => p.ReservedByStudentId == StudentId).ToList();
+        return GetPackages()
+            .Where(p => p.ReservedByStudentId == studentId)
+            .ToList();
     }
 }
