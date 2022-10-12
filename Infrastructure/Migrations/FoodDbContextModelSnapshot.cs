@@ -33,9 +33,14 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
                     b.HasKey("CafeteriaId");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Cafeterias");
 
@@ -43,12 +48,20 @@ namespace Infrastructure.Migrations
                         new
                         {
                             CafeteriaId = 1,
-                            CityId = 1
+                            CityId = 1,
+                            LocationId = 1
                         },
                         new
                         {
                             CafeteriaId = 2,
-                            CityId = 1
+                            CityId = 1,
+                            LocationId = 2
+                        },
+                        new
+                        {
+                            CafeteriaId = 3,
+                            CityId = 1,
+                            LocationId = 3
                         });
                 });
 
@@ -93,6 +106,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("LocationId")
                         .HasColumnType("int");
 
@@ -109,13 +125,22 @@ namespace Infrastructure.Migrations
                         new
                         {
                             EmployeeId = 1,
+                            Email = "admin@avans.nl",
+                            LocationId = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            EmployeeId = 2,
+                            Email = "h.strijder@avans.nl",
                             LocationId = 2,
                             Name = "Harry de Strijder"
                         },
                         new
                         {
-                            EmployeeId = 2,
-                            LocationId = 1,
+                            EmployeeId = 3,
+                            Email = "a.Bloempot",
+                            LocationId = 3,
                             Name = "Ankie Bloempot"
                         });
                 });
@@ -200,33 +225,60 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CafeteriaId");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("Packages");
 
                     b.HasData(
                         new
                         {
                             PackageId = 1,
-                            BestBeforeDate = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
-                            Category = 0,
+                            Category = 2,
                             CityId = 1,
                             EighteenPlus = false,
                             Name = "Broodpakket",
-                            PickupTime = new DateTime(2022, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
                             ReservedByStudentId = 1
                         },
                         new
                         {
                             PackageId = 2,
-                            BestBeforeDate = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
-                            Category = 0,
+                            Category = 2,
                             CityId = 1,
                             EighteenPlus = true,
                             Name = "Pretpakket",
-                            PickupTime = new DateTime(2022, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 20.99m
+                        },
+                        new
+                        {
+                            PackageId = 3,
+                            BestBeforeDate = new DateTime(2022, 10, 14, 19, 5, 58, 795, DateTimeKind.Local).AddTicks(4982),
+                            CafeteriaId = 3,
+                            Category = 0,
+                            CityId = 1,
+                            EighteenPlus = false,
+                            Name = "Fruit bowl",
+                            PickupTime = new DateTime(2022, 10, 13, 19, 5, 58, 795, DateTimeKind.Local).AddTicks(4963),
+                            Price = 3.44m
+                        },
+                        new
+                        {
+                            PackageId = 4,
+                            BestBeforeDate = new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            CafeteriaId = 2,
+                            Category = 7,
+                            CityId = 1,
+                            EighteenPlus = false,
+                            Name = "Vega delight",
+                            PickupTime = new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Price = 1.99m,
+                            ReservedByStudentId = 1
                         });
                 });
 
@@ -266,6 +318,66 @@ namespace Infrastructure.Migrations
                             ProductId = 3,
                             Name = "Ham",
                             Photo = "Image of ham"
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            Name = "Banana",
+                            Photo = "Image of banana"
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            Name = "Orange",
+                            Photo = "Image of Orange"
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            Name = "Chicken",
+                            Photo = "Image of chicken"
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            Name = "Heineken beer",
+                            Photo = "Image of Heineken"
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            Name = "Pasta Bolognese",
+                            Photo = "Image of Pasta Bolognese"
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            Name = "Bruin brood",
+                            Photo = "Image of brood"
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            Name = "Wit brood",
+                            Photo = "Image of brood"
+                        },
+                        new
+                        {
+                            ProductId = 11,
+                            Name = "Paprika",
+                            Photo = "Image of Paprika"
+                        },
+                        new
+                        {
+                            ProductId = 12,
+                            Name = "Mayonaise",
+                            Photo = "Image of Mayonaise"
+                        },
+                        new
+                        {
+                            ProductId = 13,
+                            Name = "Ketchup",
+                            Photo = "Image of Ketchup"
                         });
                 });
 
@@ -335,6 +447,12 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.City", null)
                         .WithMany("Cafeterias")
                         .HasForeignKey("CityId");
+
+                    b.HasOne("Domain.Location", "Location")
+                        .WithMany("Cafeterias")
+                        .HasForeignKey("LocationId");
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("Domain.Employee", b =>
@@ -353,9 +471,17 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Package", b =>
                 {
-                    b.HasOne("Domain.Cafeteria", null)
+                    b.HasOne("Domain.Cafeteria", "Cafeteria")
                         .WithMany("Packages")
                         .HasForeignKey("CafeteriaId");
+
+                    b.HasOne("Domain.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.Navigation("Cafeteria");
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("Domain.Student", b =>
@@ -396,6 +522,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Location", b =>
                 {
+                    b.Navigation("Cafeterias");
+
                     b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618

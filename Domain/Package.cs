@@ -10,6 +10,8 @@ public class Package
     public string? Name { get; set; }
     public int? CityId { get; set; }
     public int? CafeteriaId { get; set; }
+    
+    public Cafeteria? Cafeteria { get; set; }
     public DateTime? PickupTime { get; set; }
     public DateTime? BestBeforeDate { get; set; }
     public bool? EighteenPlus { get; set; }
@@ -18,11 +20,18 @@ public class Package
     public int? ReservedByStudentId { get; set; }
     
     public ICollection<Product>? Products { get; set; }
+    public City? City { get; set; }
 }
 
 public enum Category
 {
+    Fruit,
+    Vegetable,
     Bread,
+    Diner,
+    Lunch,
     Beveridge,
-    HotMeal, 
+    HotMeal,
+    Vega,
+    Gluten,
 }

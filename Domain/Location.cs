@@ -8,5 +8,7 @@ public class Location
    public string? Name { get; set; }
    
    public int? CityId { get; set; }
+   
+   public ICollection<Cafeteria> Cafeterias { get; set; }
    public ICollection<Employee>? Employees { get; set; }
 }
