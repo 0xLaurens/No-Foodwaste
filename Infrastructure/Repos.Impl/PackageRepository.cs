@@ -23,7 +23,18 @@ public class PackageRepository : IPackageRepository
 
     public List<Package> GetNonReservedPackages()
     {
-        return _context.Packages.Where(p => p.ReservedByStudentId == null).ToList();
+        return _context.Packages
+            .Where(p => p.ReservedByStudentId == null)
+            .OrderBy(p => p.BestBeforeDate)
+            .ToList();
+    }
+    
+    public List<Package> GetNonReservedPackagesPerCafeteria(int id)
+    {
+        return _context.Packages
+            .Where(p => p.ReservedByStudentId == null && p.CafeteriaId == id)
+            .OrderBy(p => p.BestBeforeDate)
+            .ToList();
     }
 
     public List<Package> GetPackagesByStudent(int StudentId)

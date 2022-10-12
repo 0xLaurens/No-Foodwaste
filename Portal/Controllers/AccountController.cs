@@ -41,6 +41,11 @@ public class AccountController: Controller
                 await _signInManager.SignOutAsync();
                 if ((await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false)).Succeeded)
                 {
+                    if (User.HasClaim("Employee", "true"))
+                    {
+                        return Redirect("/Employee");
+                    }
+
                     return Redirect("/");
                 }
                 
@@ -48,5 +53,12 @@ public class AccountController: Controller
         }
         ModelState.AddModelError("", "Invalid name or password");
         return View(loginViewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async void SignOut()
+    {
+        await _signInManager.SignOutAsync();
     }
 }

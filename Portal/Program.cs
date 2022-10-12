@@ -31,11 +31,11 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
     .AddEntityFrameworkStores<AccountDbContext>();
 
 builder.Services.AddAuthorization(options => 
-    options.AddPolicy("Employee", policy => 
+    options.AddPolicy("EmployeeOnly", policy => 
         policy.RequireClaim("Employee")));
 
 builder.Services.AddAuthorization(options => 
-    options.AddPolicy("Student", policy => 
+    options.AddPolicy("StudentOnly", policy => 
         policy.RequireClaim("Student")));
 
 // Injection (Needs knowledge of Infrastructure)
