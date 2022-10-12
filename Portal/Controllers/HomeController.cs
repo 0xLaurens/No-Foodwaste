@@ -33,7 +33,7 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult Orders()
     {
-        var email = this.User.FindFirstValue(ClaimTypes.Email);
+        var email = User.FindFirstValue(ClaimTypes.Email);
         var student = _studentRepository.GetStudentByEmail(email);
         return View(_packageRepository.GetPackagesByStudent(student.StudentId));
     }

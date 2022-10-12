@@ -21,4 +21,9 @@ public class EmployeeRepository : IEmployeeRepository
     {
         return _context.Employees.SingleOrDefault(e => e.EmployeeId == id);
     }
+    
+    public Employee GetEmployeeByEmail(string email)
+    {
+        return _context.Employees.SingleOrDefault(e => e.Email == email);
+    }
 }
