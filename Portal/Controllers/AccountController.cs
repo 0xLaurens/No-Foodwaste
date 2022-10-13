@@ -55,10 +55,9 @@ public class AccountController: Controller
         return View(loginViewModel);
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async void SignOut()
+    public async Task<IActionResult> SignOut()
     {
         await _signInManager.SignOutAsync();
+        return Redirect("/Account/Login");
     }
 }
