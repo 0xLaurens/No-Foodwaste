@@ -1,5 +1,6 @@
 using Domain;
 using DomainServices.Repos.Inf;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -13,13 +14,16 @@ public class PackageRepository : IPackageRepository
     }
     public Package GetPackageById(int id)
     {
-        return _context.Packages!.SingleOrDefault(p => p.PackageId == id)!;
+        return _context.Packages.SingleOrDefault(p => p.PackageId == id);
     }
 
     public List<Package> GetPackages()
     {
-        return _context.Packages!
+        return _context.Packages
             .OrderBy(p => p.BestBeforeDate)
+            .Include(p => p.City)
+            .Include(p => p.Cafeteria)
+            .ThenInclude(l => l.Location)
             .ToList();
     }
 

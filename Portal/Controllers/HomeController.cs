@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Avans_NoWaste.Models;
+using Domain;
 using DomainServices.Repos.Inf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -35,7 +36,7 @@ public class HomeController : Controller
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var student = _studentRepository.GetStudentByEmail(email);
-        return View(_packageRepository.GetPackagesByStudent(student.StudentId));
+        return View(student == null ? new List<Package>() : _packageRepository.GetPackagesByStudent(student.StudentId));
     }
 
 

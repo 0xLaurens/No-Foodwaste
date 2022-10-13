@@ -10,17 +10,15 @@ public class Package
     public string? Name { get; set; }
     public int? CityId { get; set; }
     public int? CafeteriaId { get; set; }
-    
-    public Cafeteria? Cafeteria { get; set; }
+    public virtual Cafeteria? Cafeteria { get; set; }
     public DateTime? PickupTime { get; set; }
     public DateTime? BestBeforeDate { get; set; }
     public bool? EighteenPlus { get; set; }
     public decimal? Price { get; set; }
     public Category? Category { get; set; }
     public int? ReservedByStudentId { get; set; }
-    
-    public ICollection<Product>? Products { get; set; }
-    public City? City { get; set; }
+    public virtual ICollection<Product>? Products { get; set; }
+    public virtual City? City { get; set; }
 }
 
 public enum Category
