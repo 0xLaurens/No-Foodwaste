@@ -47,4 +47,26 @@ public class PackageRepository : IPackageRepository
             .Where(p => p.ReservedByStudentId == studentId)
             .ToList();
     }
+
+    public void CreatePackage(Package package)
+    {
+        _context.Packages.Add(package);
+        _context.SaveChanges();
+    }
+
+    public void UpdatePackage(Package package)
+    {
+        var entry = _context.Packages.Find(package.PackageId);
+        if (entry == null) throw new NullReferenceException();
+        
+        _context.Entry(entry).CurrentValues.SetValues(package);
+        _context.SaveChanges();
+    }
+
+    public void RemovePackage(int id)
+    {
+        var entry = _context.Packages.SingleOrDefault(p => p.PackageId == id);
+        if (entry == null) throw new NullReferenceException();
+        _context.SaveChanges();
+    }
 }

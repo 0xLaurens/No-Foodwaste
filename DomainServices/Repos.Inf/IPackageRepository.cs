@@ -9,4 +9,7 @@ public interface IPackageRepository
     public List<Package> GetNonReservedPackages();
     public List<Package> GetNonReservedPackagesPerCafeteria(int id);
     public List<Package> GetPackagesByStudent(int StudentId);
+    public void CreatePackage(Package package);
+    public void UpdatePackage(Package package);
+    public void RemovePackage(int id);
 }
