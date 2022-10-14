@@ -15,49 +15,16 @@
                 <h4>You don't have any orders yet!</h4> 
                 <a asp-action="Index"><h6>Look through the available products</h6></a>
             }
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
-            @foreach (var p in Model)
-            {
-                <div class="col">
-                    <div class="card rounded-2">
-                        <div class="card-body">
-                            <ul>
-                                <li>@p.Name</li>
-                                <li>@p.CityId</li>
-                                <li>@p.Category</li>
-                                <li>@p.EighteenPlus</li>
-                                <li>@p.Price</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card rounded-2">
-                        <div class="card-body">
-                            <ul>
-                                <li>@p.Name</li>
-                                <li>@p.CityId</li>
-                                <li>@p.Category</li>
-                                <li>@p.EighteenPlus</li>
-                                <li>@p.Price</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card rounded-2">
-                        <div class="card-body">
-                            <ul>
-                                <li>@p.Name</li>
-                                <li>@p.CityId</li>
-                                <li>@p.Category</li>
-                                <li>@p.EighteenPlus</li>
-                                <li>@p.Price</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+        @foreach (var packages in Model.GroupBy(p => p.Cafeteria.Location.Name))
+        {
+            
+            <h2>Cafeteria: @packages.Key</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
+                @foreach (var p in packages)
+                {
+                    @await Html.PartialAsync("Partials/_packCard", p)
+                }
+            </div>
+        }    
     </div>
 </section>
