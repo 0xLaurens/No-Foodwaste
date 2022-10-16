@@ -1,6 +1,5 @@
 using Domain;
 using DomainServices.Repos.Inf;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -19,7 +18,7 @@ public class PackageRepository : IPackageRepository
 
     public List<Package> GetPackages()
     {
-        return _context.Packages
+        return _context.Packages!
             .OrderBy(p => p.BestBeforeDate)
             .ToList();
     }
@@ -54,17 +53,15 @@ public class PackageRepository : IPackageRepository
     public void UpdatePackage(Package package)
     {
         var entry = GetPackageById(package.PackageId);
-        if (entry == null) throw new NullReferenceException();
-        
         _context.Entry(entry).CurrentValues.SetValues(package);
         _context.SaveChanges();
     }
 
     public void RemovePackage(int id)
     {
-        
         var entry = GetPackageById(id);
         if (entry == null) throw new NullReferenceException();
+        _context.Packages?.Remove(entry);
         _context.SaveChanges();
     }
 }
