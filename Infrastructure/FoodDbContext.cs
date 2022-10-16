@@ -19,12 +19,7 @@ public class FoodDbContext : DbContext
 
    protected override void OnModelCreating(ModelBuilder modelBuilder)
    {
-      var workers = new List<Employee>()
-      {
-         new Employee { EmployeeId = 1, Name = "Admin", Email = "admin@avans.nl", LocationId = 1,},
-         new Employee { EmployeeId = 2, Name = "Harry de Strijder", Email  = "h.strijder@avans.nl", LocationId = 2,},
-         new Employee { EmployeeId = 3, Name = "Ankie Bloempot", Email  = "a.Bloempot", LocationId = 3, }
-      };
+      
       
       var avansCities = new List<City>()
       {
@@ -38,6 +33,13 @@ public class FoodDbContext : DbContext
          new Location { LocationId = 1, Name = "La", CityId = 1, Employees = new List<Employee>(), Cafeterias = new List<Cafeteria>()},
          new Location { LocationId = 2, Name = "Ld", CityId = 2, Employees = new List<Employee>() , Cafeterias = new List<Cafeteria>()},
          new Location { LocationId = 3, Name = "Hl", CityId = 3, Employees = new List<Employee>() , Cafeterias = new List<Cafeteria>()}
+      };
+      
+      var workers = new List<Employee>()
+      {
+         new Employee { EmployeeId = 1, Name = "Admin", Email = "admin@avans.nl", LocationId = 1, CafeteriaId = 1, CityId = locations[0].CityId},
+         new Employee { EmployeeId = 2, Name = "Harry de Strijder", Email  = "h.strijder@avans.nl", LocationId = 2, CafeteriaId = 2, CityId = locations[1].CityId},
+         new Employee { EmployeeId = 3, Name = "Ankie Bloempot", Email  = "a.Bloempot", LocationId = 3, CafeteriaId = 3, CityId = locations[2].CityId }
       };
       
       var students = new List<Student>()
@@ -100,7 +102,7 @@ public class FoodDbContext : DbContext
             PickupTime = DateTime.Today.AddDays(1),
             BestBeforeDate = DateTime.Today.AddDays(2),
             EighteenPlus = true,
-            Price = 20.99m,
+            Price = 2.99m,
             Category = Category.Bread,
             ReservedByStudentId = null, 
          },

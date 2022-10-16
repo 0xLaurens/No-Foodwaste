@@ -13,7 +13,9 @@ builder.Services.AddControllersWithViews();
 // FoodDb
 builder.Services.AddDbContext<FoodDbContext>(options =>
 {
-    options.UseSqlServer(
+    options
+        .UseLazyLoadingProxies()
+        .UseSqlServer(
         builder.Configuration.GetConnectionString("FoodDb")
     );
 });

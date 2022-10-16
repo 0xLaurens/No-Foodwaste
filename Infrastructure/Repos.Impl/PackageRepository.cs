@@ -21,15 +21,12 @@ public class PackageRepository : IPackageRepository
     {
         return _context.Packages
             .OrderBy(p => p.BestBeforeDate)
-            .Include(p => p.City)
-            .Include(p => p.Cafeteria)
-            .ThenInclude(l => l.Location)
             .ToList();
     }
 
     public List<Package> GetNonReservedPackages()
     {
-        return GetPackages() 
+        return GetPackages()
             .Where(p => p.ReservedByStudentId == null)
             .ToList();
     }
@@ -56,7 +53,7 @@ public class PackageRepository : IPackageRepository
 
     public void UpdatePackage(Package package)
     {
-        var entry = _context.Packages.Find(package.PackageId);
+        var entry = GetPackageById(package.PackageId);
         if (entry == null) throw new NullReferenceException();
         
         _context.Entry(entry).CurrentValues.SetValues(package);
@@ -65,7 +62,8 @@ public class PackageRepository : IPackageRepository
 
     public void RemovePackage(int id)
     {
-        var entry = _context.Packages.SingleOrDefault(p => p.PackageId == id);
+        
+        var entry = GetPackageById(id);
         if (entry == null) throw new NullReferenceException();
         _context.SaveChanges();
     }

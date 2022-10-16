@@ -9,6 +9,6 @@ public class Location
    
    public int? CityId { get; set; }
    
-   public ICollection<Cafeteria> Cafeterias { get; set; }
-   public ICollection<Employee>? Employees { get; set; }
+   public virtual ICollection<Cafeteria> Cafeterias { get; set; }
+   public virtual ICollection<Employee>? Employees { get; set; }
 }

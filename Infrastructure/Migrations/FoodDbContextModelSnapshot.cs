@@ -106,6 +106,12 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
 
+                    b.Property<int>("CafeteriaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -125,6 +131,8 @@ namespace Infrastructure.Migrations
                         new
                         {
                             EmployeeId = 1,
+                            CafeteriaId = 1,
+                            CityId = 1,
                             Email = "admin@avans.nl",
                             LocationId = 1,
                             Name = "Admin"
@@ -132,6 +140,8 @@ namespace Infrastructure.Migrations
                         new
                         {
                             EmployeeId = 2,
+                            CafeteriaId = 2,
+                            CityId = 2,
                             Email = "h.strijder@avans.nl",
                             LocationId = 2,
                             Name = "Harry de Strijder"
@@ -139,6 +149,8 @@ namespace Infrastructure.Migrations
                         new
                         {
                             EmployeeId = 3,
+                            CafeteriaId = 3,
+                            CityId = 3,
                             Email = "a.Bloempot",
                             LocationId = 3,
                             Name = "Ankie Bloempot"
@@ -195,27 +207,33 @@ namespace Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageId"), 1L, 1);
 
                     b.Property<DateTime?>("BestBeforeDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("CafeteriaId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("Category")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<int?>("CityId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<bool?>("EighteenPlus")
+                    b.Property<bool>("EighteenPlus")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("PickupTime")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<decimal?>("Price")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ReservedByStudentId")
@@ -233,50 +251,50 @@ namespace Infrastructure.Migrations
                         new
                         {
                             PackageId = 1,
-                            BestBeforeDate = new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = false,
                             Name = "Broodpakket",
-                            PickupTime = new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
                             ReservedByStudentId = 1
                         },
                         new
                         {
                             PackageId = 2,
-                            BestBeforeDate = new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = true,
                             Name = "Pretpakket",
-                            PickupTime = new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 20.99m
                         },
                         new
                         {
                             PackageId = 3,
-                            BestBeforeDate = new DateTime(2022, 10, 14, 19, 5, 58, 795, DateTimeKind.Local).AddTicks(4982),
+                            BestBeforeDate = new DateTime(2022, 10, 17, 10, 3, 27, 400, DateTimeKind.Local).AddTicks(5431),
                             CafeteriaId = 3,
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
                             Name = "Fruit bowl",
-                            PickupTime = new DateTime(2022, 10, 13, 19, 5, 58, 795, DateTimeKind.Local).AddTicks(4963),
+                            PickupTime = new DateTime(2022, 10, 16, 10, 3, 27, 400, DateTimeKind.Local).AddTicks(5427),
                             Price = 3.44m
                         },
                         new
                         {
                             PackageId = 4,
-                            BestBeforeDate = new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 2,
                             Category = 7,
                             CityId = 1,
                             EighteenPlus = false,
                             Name = "Vega delight",
-                            PickupTime = new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
                             ReservedByStudentId = 1
                         });
@@ -473,11 +491,15 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Cafeteria", "Cafeteria")
                         .WithMany("Packages")
-                        .HasForeignKey("CafeteriaId");
+                        .HasForeignKey("CafeteriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cafeteria");
 

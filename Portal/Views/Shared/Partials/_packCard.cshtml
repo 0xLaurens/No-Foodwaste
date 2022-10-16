@@ -4,7 +4,7 @@
        <div class="card-body">
            <ul>
                <li>@Model.Name</li>
-               <li>@Model.City.Name: @Model.Cafeteria.Location.Name</li>
+               <li>@Model.City?.Name: @Model.Cafeteria?.Location.Name</li>
                <li>@Model.Category</li>
                <li>@Model.BestBeforeDate</li>
                @if (Model.EighteenPlus == true)
