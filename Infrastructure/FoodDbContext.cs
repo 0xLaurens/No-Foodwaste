@@ -50,19 +50,19 @@ public class FoodDbContext : DbContext
 
       var products = new List<Product>()
       {
-         new Product { ProductId = 1, Name = "Cheese slice", Photo = "Image of cheese", Packages = new List<Package>()},
-         new Product { ProductId = 2, Name = "Bread", Photo = "Image of Bread", Packages = new List<Package>()},
-         new Product { ProductId = 3, Name = "Ham", Photo = "Image of ham", Packages = new List<Package>()},
-         new Product { ProductId = 4, Name = "Banana", Photo = "Image of banana", Packages = new List<Package>()},
-         new Product { ProductId = 5, Name = "Orange", Photo = "Image of Orange", Packages = new List<Package>()},
-         new Product { ProductId = 6, Name = "Chicken", Photo = "Image of chicken", Packages = new List<Package>()},
-         new Product { ProductId = 7, Name = "Heineken beer", Photo = "Image of Heineken", Packages = new List<Package>()},
-         new Product { ProductId = 8, Name = "Pasta Bolognese", Photo = "Image of Pasta Bolognese", Packages = new List<Package>()},
-         new Product { ProductId = 9, Name = "Bruin brood", Photo = "Image of brood", Packages = new List<Package>()},
-         new Product { ProductId = 10, Name = "Wit brood", Photo = "Image of brood", Packages = new List<Package>()},
-         new Product { ProductId = 11, Name = "Paprika", Photo = "Image of Paprika", Packages = new List<Package>()},
-         new Product { ProductId = 12, Name = "Mayonaise", Photo = "Image of Mayonaise", Packages = new List<Package>()},
-         new Product { ProductId = 13, Name = "Ketchup", Photo = "Image of Ketchup", Packages = new List<Package>()},
+         new Product { ProductId = 1, Name = "Cheese slice", Photo = "Image of cheese", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 2, Name = "Bread", Photo = "Image of Bread", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 3, Name = "Ham", Photo = "Image of ham", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 4, Name = "Banana", Photo = "Image of banana", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 5, Name = "Orange", Photo = "Image of Orange", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 6, Name = "Chicken", Photo = "Image of chicken", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 7, Name = "Heineken beer", Photo = "Image of Heineken", Packages = new List<Package>(), ContainsAlcohol = true},
+         new Product { ProductId = 8, Name = "Pasta Bolognese", Photo = "Image of Pasta Bolognese", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 9, Name = "Bruin brood", Photo = "Image of brood", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 10, Name = "Wit brood", Photo = "Image of brood", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 11, Name = "Paprika", Photo = "Image of Paprika", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 12, Name = "Mayonaise", Photo = "Image of Mayonaise", Packages = new List<Package>(), ContainsAlcohol = false},
+         new Product { ProductId = 13, Name = "Ketchup", Photo = "Image of Ketchup", Packages = new List<Package>(), ContainsAlcohol = false},
       };
       
        var cafeterias = new List<Cafeteria>()
