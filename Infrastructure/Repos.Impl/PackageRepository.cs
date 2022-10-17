@@ -53,6 +53,7 @@ public class PackageRepository : IPackageRepository
     public void UpdatePackage(Package package)
     {
         var entry = GetPackageById(package.PackageId);
+        if (entry.ReservedByStudentId == null) throw new InvalidOperationException();
         _context.Entry(entry).CurrentValues.SetValues(package);
         _context.SaveChanges();
     }
@@ -60,7 +61,7 @@ public class PackageRepository : IPackageRepository
     public void RemovePackage(int id)
     {
         var entry = GetPackageById(id);
-        if (entry == null) throw new NullReferenceException();
+        if (entry.ReservedByStudentId == null) throw new InvalidOperationException();
         _context.Packages?.Remove(entry);
         _context.SaveChanges();
     }
