@@ -1,27 +1,44 @@
 ﻿using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Avans_NoWaste.Models;
+using Domain;
+using DomainServices.Repos.Inf;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Avans_NoWaste.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IPackageRepository _packageRepository;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly IStudentRepository _studentRepository;
 
-    public HomeController(ILogger<HomeController> logger)
+
+    public HomeController(ILogger<HomeController> logger, IPackageRepository packageRepository, UserManager<IdentityUser> userManager, IStudentRepository studentRepository)
     {
+        _studentRepository = studentRepository;
         _logger = logger;
+        _packageRepository = packageRepository;
+        _userManager = userManager;
     }
 
+    [Authorize]
     public IActionResult Index()
     {
-        return View();
+        return View(_packageRepository.GetNonReservedPackages());
+    }
+    
+    [Authorize]
+    public IActionResult Orders()
+    {
+        var email = User.FindFirstValue(ClaimTypes.Email);
+        var student = _studentRepository.GetStudentByEmail(email);
+        return View(student == null ? new List<Package>() : _packageRepository.GetPackagesByStudent(student.StudentId));
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

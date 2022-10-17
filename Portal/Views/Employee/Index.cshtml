@@ -1,13 +1,11 @@
-﻿@model List<Domain.Package>
+﻿@model ICollection<Domain.Package>
 
-@{
-    ViewData["Title"] = "Home";
-}
 <section class="pt-5 pb-2">
     <div class="container py-5">
         <div class="row mb-4 mb-lg-5">
+            <a asp-action="Create">Package aanmaken</a>
             <div class="col mx-auto">
-                <h2 class="fw-bold">Featured</h2>
+                <h2 class="fw-bold">Aangeboden pakketen bij mijn locatie</h2>
             </div>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
@@ -15,6 +13,7 @@
             {
                 @await Html.PartialAsync("Partials/_packCard", p)
             }
-        </div>
+        </div>   
     </div>
+    <a asp-action="Overview">Alle bestellingen zien</a>
 </section>
