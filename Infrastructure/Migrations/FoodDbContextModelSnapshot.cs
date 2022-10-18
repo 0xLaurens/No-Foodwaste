@@ -206,12 +206,10 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageId"), 1L, 1);
 
-                    b.Property<DateTime?>("BestBeforeDate")
-                        .IsRequired()
+                    b.Property<DateTime>("BestBeforeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CafeteriaId")
-                        .IsRequired()
+                    b.Property<int>("CafeteriaId")
                         .HasColumnType("int");
 
                     b.Property<int>("Category")
@@ -228,12 +226,10 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("PickupTime")
-                        .IsRequired()
+                    b.Property<DateTime>("PickupTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("Price")
-                        .IsRequired()
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ReservedByStudentId")
@@ -251,50 +247,50 @@ namespace Infrastructure.Migrations
                         new
                         {
                             PackageId = 1,
-                            BestBeforeDate = new DateTime(2022, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = false,
                             Name = "Broodpakket",
-                            PickupTime = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
                             ReservedByStudentId = 1
                         },
                         new
                         {
                             PackageId = 2,
-                            BestBeforeDate = new DateTime(2022, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = true,
                             Name = "Pretpakket",
-                            PickupTime = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
-                            Price = 20.99m
+                            PickupTime = new DateTime(2022, 10, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            Price = 2.99m
                         },
                         new
                         {
                             PackageId = 3,
-                            BestBeforeDate = new DateTime(2022, 10, 17, 10, 3, 27, 400, DateTimeKind.Local).AddTicks(5431),
+                            BestBeforeDate = new DateTime(2022, 10, 19, 14, 5, 41, 19, DateTimeKind.Local).AddTicks(9612),
                             CafeteriaId = 3,
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
                             Name = "Fruit bowl",
-                            PickupTime = new DateTime(2022, 10, 16, 10, 3, 27, 400, DateTimeKind.Local).AddTicks(5427),
+                            PickupTime = new DateTime(2022, 10, 18, 14, 5, 41, 19, DateTimeKind.Local).AddTicks(9609),
                             Price = 3.44m
                         },
                         new
                         {
                             PackageId = 4,
-                            BestBeforeDate = new DateTime(2022, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            BestBeforeDate = new DateTime(2022, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 2,
                             Category = 7,
                             CityId = 1,
                             EighteenPlus = false,
                             Name = "Vega delight",
-                            PickupTime = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            PickupTime = new DateTime(2022, 10, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
                             ReservedByStudentId = 1
                         });
@@ -307,6 +303,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
+
+                    b.Property<bool?>("ContainsAlcohol")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -322,78 +321,91 @@ namespace Infrastructure.Migrations
                         new
                         {
                             ProductId = 1,
+                            ContainsAlcohol = false,
                             Name = "Cheese slice",
                             Photo = "Image of cheese"
                         },
                         new
                         {
                             ProductId = 2,
+                            ContainsAlcohol = false,
                             Name = "Bread",
                             Photo = "Image of Bread"
                         },
                         new
                         {
                             ProductId = 3,
+                            ContainsAlcohol = false,
                             Name = "Ham",
                             Photo = "Image of ham"
                         },
                         new
                         {
                             ProductId = 4,
+                            ContainsAlcohol = false,
                             Name = "Banana",
                             Photo = "Image of banana"
                         },
                         new
                         {
                             ProductId = 5,
+                            ContainsAlcohol = false,
                             Name = "Orange",
                             Photo = "Image of Orange"
                         },
                         new
                         {
                             ProductId = 6,
+                            ContainsAlcohol = false,
                             Name = "Chicken",
                             Photo = "Image of chicken"
                         },
                         new
                         {
                             ProductId = 7,
+                            ContainsAlcohol = true,
                             Name = "Heineken beer",
                             Photo = "Image of Heineken"
                         },
                         new
                         {
                             ProductId = 8,
+                            ContainsAlcohol = false,
                             Name = "Pasta Bolognese",
                             Photo = "Image of Pasta Bolognese"
                         },
                         new
                         {
                             ProductId = 9,
+                            ContainsAlcohol = false,
                             Name = "Bruin brood",
                             Photo = "Image of brood"
                         },
                         new
                         {
                             ProductId = 10,
+                            ContainsAlcohol = false,
                             Name = "Wit brood",
                             Photo = "Image of brood"
                         },
                         new
                         {
                             ProductId = 11,
+                            ContainsAlcohol = false,
                             Name = "Paprika",
                             Photo = "Image of Paprika"
                         },
                         new
                         {
                             ProductId = 12,
+                            ContainsAlcohol = false,
                             Name = "Mayonaise",
                             Photo = "Image of Mayonaise"
                         },
                         new
                         {
                             ProductId = 13,
+                            ContainsAlcohol = false,
                             Name = "Ketchup",
                             Photo = "Image of Ketchup"
                         });

@@ -1,15 +1,20 @@
 using Domain;
 using DomainServices.Repos.Inf;
+using DomainServices.Services.Inf;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Infrastructure.Repos.Impl;
 
 public class PackageRepository : IPackageRepository
 {
     private readonly FoodDbContext _context;
+    private readonly IPackageService _packageService;
 
-    public PackageRepository(FoodDbContext context)
+    public PackageRepository(FoodDbContext context, IPackageService packageService)
     {
         _context = context;
+        _packageService = packageService;
     }
     public Package GetPackageById(int id)
     {
@@ -46,14 +51,24 @@ public class PackageRepository : IPackageRepository
 
     public void CreatePackage(Package package)
     {
-        _context.Packages.Add(package);
+        if (!_packageService.PackageHasCorrectDate(package)) throw new InvalidOperationException();
+        _context.Packages?.Add(package);
         _context.SaveChanges();
     }
 
     public void UpdatePackage(Package package)
     {
         var entry = GetPackageById(package.PackageId);
-        if (entry.ReservedByStudentId == null) throw new InvalidOperationException();
+        if (!_packageService.CanPackageBeAltered(package)) 
+            throw new InvalidOperationException("Cannot be altered");
+        if (!_packageService.PackageHasCorrectDate(package))
+            throw new InvalidOperationException("Wrong date");
+
+        // Explicit deletion of all foreign keys
+        entry.Products!.Any(p => entry.Products!.Remove(p));
+        
+        
+        entry.Products = package.Products; 
         _context.Entry(entry).CurrentValues.SetValues(package);
         _context.SaveChanges();
     }
@@ -61,7 +76,8 @@ public class PackageRepository : IPackageRepository
     public void RemovePackage(int id)
     {
         var entry = GetPackageById(id);
-        if (entry.ReservedByStudentId == null) throw new InvalidOperationException();
+        if (!_packageService.CanPackageBeAltered(entry)) 
+            throw new InvalidOperationException();
         _context.Packages?.Remove(entry);
         _context.SaveChanges();
     }
