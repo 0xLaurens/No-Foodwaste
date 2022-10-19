@@ -1,13 +1,10 @@
 using System.Security.Claims;
 using Avans_NoWaste.Models;
-using Domain;
 using DomainServices.Repos.Inf;
 using DomainServices.Services.Inf;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Avans_NoWaste.Controllers;
 

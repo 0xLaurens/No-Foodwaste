@@ -12,5 +12,5 @@ public class Student
     public string? PhoneNumber { get; set; }
     [Required(ErrorMessage = "Enter your Date of Birth")]
     public DateTime? DateOfBirth { get; set; }
-
+    public virtual List<Package>? Packages { get; set; }
 }

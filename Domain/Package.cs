@@ -25,7 +25,7 @@ public class Package
     public decimal Price { get; set; }
     [Required]
     public virtual Category Category { get; set; }
-    public int? ReservedByStudentId { get; set; }
+    public int? StudentId { get; set; }
 }
 
 public enum Category
