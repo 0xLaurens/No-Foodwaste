@@ -246,7 +246,7 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Packages",
-                columns: new[] { "PackageId", "BestBeforeDate", "CafeteriaId", "Category", "CityId", "EighteenPlus", "Name", "PickupTime", "Price", "ReservedByStudentId" },
+                columns: new[] { "PackageId", "BestBeforeDate", "CafeteriaId", "Category", "CityId", "EighteenPlus", "Name", "PickupTime", "Price", "StudentId" },
                 values: new object[,]
                 {
                     { 1, new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, 2, 1, false, "Broodpakket", new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local), 1.99m, 1 },

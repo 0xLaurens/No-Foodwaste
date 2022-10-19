@@ -16,6 +16,7 @@ public class PackageRepository : IPackageRepository
         _context = context;
         _packageService = packageService;
     }
+
     public Package GetPackageById(int id)
     {
         return _context.Packages.SingleOrDefault(p => p.PackageId == id);
@@ -31,10 +32,10 @@ public class PackageRepository : IPackageRepository
     public List<Package> GetNonReservedPackages()
     {
         return GetPackages()
-            .Where(p => p.ReservedByStudentId == null)
+            .Where(p => p.StudentId == null)
             .ToList();
     }
-    
+
     public List<Package> GetNonReservedPackagesPerCafeteria(int id)
     {
         return GetNonReservedPackages()
@@ -45,7 +46,7 @@ public class PackageRepository : IPackageRepository
     public List<Package> GetPackagesByStudent(int studentId)
     {
         return GetPackages()
-            .Where(p => p.ReservedByStudentId == studentId)
+            .Where(p => p.StudentId == studentId)
             .ToList();
     }
 
@@ -59,35 +60,36 @@ public class PackageRepository : IPackageRepository
     public void UpdatePackage(Package package)
     {
         var entry = GetPackageById(package.PackageId);
-        if (!_packageService.CanPackageBeAltered(entry)) 
+        if (!_packageService.CanPackageBeAltered(entry))
             throw new InvalidOperationException("Cannot be altered");
         if (!_packageService.PackageHasCorrectDate(package))
             throw new InvalidOperationException("Wrong date");
 
         // Explicit deletion of all foreign keys
         entry.Products!.Any(p => entry.Products!.Remove(p));
-        
-        
-        entry.Products = package.Products; 
+
+
+        entry.Products = package.Products;
         _context.Entry(entry).CurrentValues.SetValues(package);
+
         _context.SaveChanges();
     }
 
     public void ReservePackageForStudent(Package package, Student student)
     {
-        if (!_packageService.CanPackageBeAltered(package)) 
+        if (!_packageService.CanPackageBeAltered(package))
             throw new InvalidOperationException("Cannot be altered");
         if (!_packageService.PackageHasCorrectDate(package))
             throw new InvalidOperationException("Wrong date");
-        
-        package.ReservedByStudentId = student.StudentId;
+
+        package.StudentId = student.StudentId;
         _context.SaveChanges();
     }
 
     public void RemovePackage(int id)
     {
         var entry = GetPackageById(id);
-        if (!_packageService.CanPackageBeAltered(entry)) 
+        if (!_packageService.CanPackageBeAltered(entry))
             throw new InvalidOperationException();
         _context.Packages?.Remove(entry);
         _context.SaveChanges();

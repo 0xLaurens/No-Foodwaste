@@ -18,7 +18,7 @@
     }
 </ul>
 
-@if (Model.ReservedByStudentId == null)
+@if (Model.StudentId == null)
 {
     <form method="post">
         <button type="submit" class="btn btn-primary" asp-action="ReservePackage" asp-controller="Package" asp-route-id="@Model.PackageId">Reserve</button>

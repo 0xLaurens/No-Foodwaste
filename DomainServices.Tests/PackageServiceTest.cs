@@ -33,7 +33,7 @@ public class PackageServiceTest
            EighteenPlus = false,
            Price = 1.99m,
            Category = Category.Fruit,
-           ReservedByStudentId = 1 
+           StudentId = 1 
        };
        //Act
        var act =_packageService.CanPackageBeAltered(package);
@@ -60,7 +60,7 @@ public class PackageServiceTest
            EighteenPlus = false,
            Price = 1.99m,
            Category = Category.Fruit,
-           ReservedByStudentId = null 
+           StudentId = null 
        };
        //Act
        var act =_packageService.CanPackageBeAltered(package);
@@ -87,7 +87,7 @@ public class PackageServiceTest
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
-           ReservedByStudentId = null 
+           StudentId = null 
        };
        var student = new Student
            { StudentId = 1, EmailAddress = "Underage@gmail.com", CityId = 1, PhoneNumber = "06 58123456", DateOfBirth = DateTime.Now.AddYears(-17) };
@@ -116,7 +116,7 @@ public class PackageServiceTest
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
-           ReservedByStudentId = null 
+           StudentId = null 
        };
        var student = new Student
            { StudentId = 1, EmailAddress = "Underage@gmail.com", CityId = 1, PhoneNumber = "06 58123456", DateOfBirth = DateTime.Now.AddYears(-18) };
@@ -144,7 +144,7 @@ public class PackageServiceTest
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
-           ReservedByStudentId = null 
+           StudentId = null 
        };
        var student = new Student
            { StudentId = 1, EmailAddress = "Underage@gmail.com", CityId = 1, PhoneNumber = "06 58123456", DateOfBirth = DateTime.Now.AddYears(-18).AddDays(1) };
@@ -172,7 +172,7 @@ public class PackageServiceTest
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
-           ReservedByStudentId = 1 
+           StudentId = 1 
        };
        var student = new Student
            { StudentId = 1, EmailAddress = "Underage@gmail.com", CityId = 1, PhoneNumber = "06 58123456", DateOfBirth = DateTime.Now.AddYears(-19) };
@@ -181,7 +181,104 @@ public class PackageServiceTest
        // Assert
        Assert.False(act);
     }
-
+    
+    [Fact]
+    public void CanPackageBeReservedByStudent_StudentAlreadyReservedAPackageToday()
+    {
+         // Arrange
+       var package = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(),
+           PickupTime = DateTime.Now,
+           BestBeforeDate = DateTime.Now,
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = 1 
+       };
+       
+       var package2 = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(),
+           PickupTime = DateTime.Now,
+           BestBeforeDate = DateTime.Now,
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = null 
+       };
+       
+       var student = new Student
+           { StudentId = 1, EmailAddress = "Underage@gmail.com", CityId = 1, PhoneNumber = "06 58123456", DateOfBirth = DateTime.Now.AddYears(-19), Packages = new List<Package>()
+           {
+               package
+           }};
+       // Act
+       var act = _packageService.CanPackageBeReservedByStudent(package2, student);
+       // Assert
+       Assert.False(act);
+    }
+    
+    [Fact]
+    public void CanPackageBeReservedByStudent_StudentReservedYesterday()
+    {
+         // Arrange
+       var package = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(),
+           PickupTime = DateTime.Now.AddDays(-1),
+           BestBeforeDate = DateTime.Now,
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = 1 
+       };
+       
+       var package2 = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(),
+           PickupTime = DateTime.Now,
+           BestBeforeDate = DateTime.Now,
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = null 
+       };
+       
+       var student = new Student
+           { StudentId = 1, EmailAddress = "Underage@gmail.com", CityId = 1, PhoneNumber = "06 58123456", DateOfBirth = DateTime.Now.AddYears(-19), Packages = new List<Package>()
+           {
+               package
+           }};
+       // Act
+       var act = _packageService.CanPackageBeReservedByStudent(package2, student);
+       // Assert
+       Assert.True(act);
+    }
 
     [Fact]
     public void PackageHasProductsThatContainsAlcohol_NoProductsThatContainAlcohol()
@@ -208,7 +305,7 @@ public class PackageServiceTest
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
-           ReservedByStudentId = 1 
+           StudentId = 1 
        };
         // Act
         var act = _packageService.PackagesHasProductThatContainsAlcohol(package);
@@ -240,7 +337,7 @@ public class PackageServiceTest
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
-           ReservedByStudentId = 1 
+           StudentId = 1 
        };
         // Act
         var act = _packageService.PackagesHasProductThatContainsAlcohol(package);
