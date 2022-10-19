@@ -17,7 +17,7 @@ public class PackageService : IPackageService
 
     public bool CanPackageBeReservedByStudent(Package package, Student student)
     {
-        return student.DateOfBirth!.Value.Subtract(package.PickupTime) >= TimeSpan.Zero 
+        return package.PickupTime.Date.Subtract(student.DateOfBirth.Value.Date) >= new TimeSpan(6574, 0, 0, 0) 
                && CanPackageBeAltered(package);
     }
 
