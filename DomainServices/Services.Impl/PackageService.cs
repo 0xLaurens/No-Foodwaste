@@ -15,7 +15,7 @@ public class PackageService : IPackageService
         return package.StudentId == null;
     }
 
-    private bool StudentCanOrderPackageOnDate(Package package, Student student)
+    public bool StudentCanOrderPackageOnDate(Package package, Student student)
     {
         if (student.Packages == null)
         {

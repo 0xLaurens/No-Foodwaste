@@ -32,6 +32,8 @@ public class PackageController: Controller
         var package = _packageRepository.GetPackageById(id);
         var email = User.FindFirstValue(ClaimTypes.Email);
         var student = _studentRepository.GetStudentByEmail(email);
+        if (!_packageService.StudentCanOrderPackageOnDate(package, student))
+            throw new Exception("Student heeft al een package voor die dag");
         
         if (!_packageService.CanPackageBeReservedByStudent(package, student))
             throw new Exception("Package cannot be reserved by student");

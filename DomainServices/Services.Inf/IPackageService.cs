@@ -8,4 +8,6 @@ public interface IPackageService
     public bool PackagesHasProductThatContainsAlcohol(Package package);
     public bool CanPackageBeReservedByStudent(Package package, Student student);
     public bool PackageHasCorrectDate(Package package);
+
+    public bool StudentCanOrderPackageOnDate(Package package, Student student);
 }
