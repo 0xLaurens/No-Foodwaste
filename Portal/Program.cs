@@ -1,9 +1,10 @@
 using DomainServices.Repos.Inf;
+using DomainServices.Services.Impl;
+using DomainServices.Services.Inf;
 using Infrastructure;
 using Infrastructure.Repos.Impl;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("StudentOnly", policy => 
         policy.RequireClaim("Student")));
 
+builder.Services.AddScoped<IPackageService, PackageService>();
 // Injection (Needs knowledge of Infrastructure)
 builder.Services.AddScoped<ICafeteriaRepository, CafeteriaRepository>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();

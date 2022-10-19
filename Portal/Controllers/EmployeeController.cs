@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Avans_NoWaste.Models;
 using Domain;
 using DomainServices.Repos.Inf;
+using DomainServices.Services.Inf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
@@ -17,17 +18,19 @@ public class EmployeeController : Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IProductRepository _productRepository;
+    private readonly IPackageService _packageService;
 
 
     public EmployeeController(ILogger<HomeController> logger, IPackageRepository packageRepository,
         UserManager<IdentityUser> userManager, IEmployeeRepository employeeRepository,
-        IProductRepository productRepository)
+        IProductRepository productRepository, IPackageService packageService)
     {
         _logger = logger;
         _userManager = userManager;
         _packageRepository = packageRepository;
         _employeeRepository = employeeRepository;
         _productRepository = productRepository;
+        _packageService = packageService;
     }
 
     [Authorize(Policy = "EmployeeOnly")]
@@ -64,10 +67,19 @@ public class EmployeeController : Controller
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var employee = _employeeRepository.GetEmployeeByEmail(email);
-        model.Package.CafeteriaId = employee.CafeteriaId;
-        model.Package.CityId = employee.CityId;
+
         var productIds = model.ProductsList;
         model.Package.Products = productIds.Select(p => _productRepository.GetProductById(p)).ToList();
+        
+        if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package))
+            model.Package.EighteenPlus = true;
+        
+        model.Package!.CafeteriaId = employee.CafeteriaId;
+        model.Package.CityId = employee.CityId;
+        
+        model.OptionsList = model.Package.Products.Select(p => new PackageViewModel.CheckboxOptions { IsChecked = false, Value = p }).ToList();
+        if (!_packageService.PackageHasCorrectDate(model.Package)) return View(model);
+        
         _packageRepository.CreatePackage(model.Package);
         return Redirect("/");
     }
@@ -78,7 +90,7 @@ public class EmployeeController : Controller
     {
         var list = _productRepository.GetProducts();
         var package = _packageRepository.GetPackageById(id);
-        var check = list.Select(l => package.Products.Contains(l)
+        var check = list.Select(l => package.Products!.Contains(l)
                 ? new PackageViewModel.CheckboxOptions() { IsChecked = true, Value = l }
                 : new PackageViewModel.CheckboxOptions() { IsChecked = false, Value = l })
             .ToList();
@@ -87,6 +99,10 @@ public class EmployeeController : Controller
             Package = package,
             OptionsList = check,
         };
+        
+        if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package!))
+            model.Package.EighteenPlus = true;
+        
         return View(model);
     }
 
@@ -94,8 +110,18 @@ public class EmployeeController : Controller
     [Authorize(Policy = "EmployeeOnly")]
     public IActionResult Update(PackageViewModel model)
     {
+        
+        if (!_packageService.CanPackageBeAltered(model.Package!))
+            throw new InvalidOperationException();
+        if (!_packageService.PackageHasCorrectDate(model.Package!))
+            throw new InvalidOperationException("Wrong date");
+       
+        
         var productIds = model.ProductsList;
-        model.Package.Products = productIds.Select(p => _productRepository.GetProductById(p)).ToList();
+        model.Package!.Products = productIds.Select(p => _productRepository.GetProductById(p)).ToList();
+        
+        if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package!))
+            model.Package!.EighteenPlus = true;
         _packageRepository.UpdatePackage(model.Package);
         return Redirect("/");
     }
@@ -103,10 +129,10 @@ public class EmployeeController : Controller
     [Authorize(Policy = "EmployeeOnly")]
     public IActionResult Delete(int id)
     {
+        if (!_packageService.CanPackageBeAltered(_packageRepository.GetPackageById(id)))
+            throw new InvalidOperationException();
+        
         _packageRepository.RemovePackage(id);
         return Redirect("/Employee");
     }
-
-
-
 }
