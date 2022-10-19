@@ -104,7 +104,7 @@ public class FoodDbContext : DbContext
             EighteenPlus = true,
             Price = 2.99m,
             Category = Category.Bread,
-            ReservedByStudentId = null, 
+            
          },
          new Package
          {

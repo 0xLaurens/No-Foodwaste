@@ -1,24 +1,30 @@
 @model Domain.Package
 <div class="col">
     <div class="card rounded-2">
-       <div class="card-body">
-           <ul>
-               <li>@Model.Name</li>
-               <li>@Model.City?.Name: @Model.Cafeteria?.Location.Name</li>
-               <li>@Model.Category</li>
-               <li>@Model.BestBeforeDate</li>
-               @if (Model.EighteenPlus)
-               {
-               <li>18+</li>
-               }
-               <li>€ @Model.Price</li>
-               
-               @if (Context.Request.Path.Value.Contains("Employee") && @Model.ReservedByStudentId == null)
-               {
-                    <li><a asp-controller="Employee" asp-action="Update" asp-route-id="@Model.PackageId">Edit</a></li>
-                    <li><a asp-controller="Employee" asp-action="Delete" asp-route-id="@Model.PackageId">Delete</a></li>
-               }
-           </ul> 
-       </div>
+        <a  asp-action="Package" asp-controller="Package" asp-route-id="@Model.PackageId">
+            <div class="card-body">
+                <ul>
+                    <li>@Model.Name</li>
+                    <li>@Model.City?.Name: @Model.Cafeteria?.Location.Name</li>
+                    <li>@Model.Category</li>
+                    <li>@Model.BestBeforeDate</li>
+                    @if (Model.EighteenPlus)
+                    {
+                        <li>18+</li>
+                    }
+                    <li>€ @Model.Price</li>
+
+                    @if (Context.Request.Path.Value.Contains("Employee") && @Model.ReservedByStudentId == null)
+                    {
+                        <li>
+                            <a asp-controller="Employee" asp-action="Update" asp-route-id="@Model.PackageId">Edit</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Employee" asp-action="Delete" asp-route-id="@Model.PackageId">Delete</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </a>
     </div>
-</div> 
+</div>

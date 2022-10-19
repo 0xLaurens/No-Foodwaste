@@ -59,7 +59,7 @@ public class PackageRepository : IPackageRepository
     public void UpdatePackage(Package package)
     {
         var entry = GetPackageById(package.PackageId);
-        if (!_packageService.CanPackageBeAltered(package)) 
+        if (!_packageService.CanPackageBeAltered(entry)) 
             throw new InvalidOperationException("Cannot be altered");
         if (!_packageService.PackageHasCorrectDate(package))
             throw new InvalidOperationException("Wrong date");
@@ -70,6 +70,17 @@ public class PackageRepository : IPackageRepository
         
         entry.Products = package.Products; 
         _context.Entry(entry).CurrentValues.SetValues(package);
+        _context.SaveChanges();
+    }
+
+    public void ReservePackageForStudent(Package package, Student student)
+    {
+        if (!_packageService.CanPackageBeAltered(package)) 
+            throw new InvalidOperationException("Cannot be altered");
+        if (!_packageService.PackageHasCorrectDate(package))
+            throw new InvalidOperationException("Wrong date");
+        
+        package.ReservedByStudentId = student.StudentId;
         _context.SaveChanges();
     }
 

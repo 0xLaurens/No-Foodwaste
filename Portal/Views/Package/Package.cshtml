@@ -1,0 +1,26 @@
+@model Domain.Package 
+
+@{
+    ViewBag.Title = "Package overview";
+    Layout = "_Layout";
+}
+
+<h2>@Model.Name</h2>
+
+<p>Categorie: @Model.Category</p>
+<p>Price: @Model.Price</p>
+<p>City: @Model.City.Name</p>
+<p>Location: @Model.Cafeteria?.Location?.Name</p>
+<ul>
+    @foreach (var p in Model.Products!)
+    {
+        <li>@p.Name</li>
+    }
+</ul>
+
+@if (Model.ReservedByStudentId == null)
+{
+    <form method="post">
+        <button type="submit" class="btn btn-primary" asp-action="ReservePackage" asp-controller="Package" asp-route-id="@Model.PackageId">Reserve</button>
+    </form>
+}
