@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/Avans_NoWaste.styles.css" asp-append-version="true"/>
 </head>
 <body>
-@if (ViewData["Title"] != "Login")
+@if (!ReferenceEquals(ViewData["Title"], "Login"))
 {
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -32,7 +32,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignOutUser">Sign Out</a>
                         </li>
                     </ul>
                 </div>

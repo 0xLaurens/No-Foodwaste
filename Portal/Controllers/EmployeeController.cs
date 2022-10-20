@@ -65,19 +65,21 @@ public class EmployeeController : Controller
         var email = User.FindFirstValue(ClaimTypes.Email);
         var employee = _employeeRepository.GetEmployeeByEmail(email);
 
+        if (model.Package == null) throw new Exception(); 
+        
         var productIds = model.ProductsList;
-        model.Package.Products = productIds.Select(p => _productRepository.GetProductById(p)).ToList();
+        model.Package.Products = productIds?.Select(p => _productRepository.GetProductById(p)).ToList();
         
         if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package))
             model.Package.EighteenPlus = true;
         
-        model.Package!.CafeteriaId = employee.CafeteriaId;
+        model.Package.CafeteriaId = employee.CafeteriaId;
         model.Package.CityId = employee.CityId;
         
-        model.OptionsList = model.Package.Products.Select(p => new PackageViewModel.CheckboxOptions { IsChecked = false, Value = p }).ToList();
-        if (!_packageService.PackageHasCorrectDate(model.Package)) return View(model);
+        model.OptionsList = model.Package?.Products?.Select(p => new PackageViewModel.CheckboxOptions { IsChecked = false, Value = p }).ToList();
+        if (!_packageService.PackageHasCorrectDate(model.Package!)) return View(model);
         
-        _packageRepository.CreatePackage(model.Package);
+        _packageRepository.CreatePackage(model.Package!);
         return Redirect("/");
     }
 
@@ -115,7 +117,7 @@ public class EmployeeController : Controller
        
         
         var productIds = model.ProductsList;
-        model.Package!.Products = productIds.Select(p => _productRepository.GetProductById(p)).ToList();
+        model.Package!.Products = productIds?.Select(p => _productRepository.GetProductById(p)).ToList();
         
         if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package!))
             model.Package!.EighteenPlus = true;

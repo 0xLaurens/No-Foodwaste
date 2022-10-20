@@ -1,4 +1,5 @@
 @using Domain
+@using Xunit
 @model PackageViewModel 
 
 @{
@@ -6,30 +7,31 @@
     Layout = "_Layout";
 }
 
+
 <h2>Pakket bewerken</h2>
 <form asp-action="Update" method="post">
     <div class="form-outline required mb-4">
-        <label asp-for="Package.Name">Naam van het pakket</label>
+        <label asp-for="Package!.Name">Naam van het pakket</label>
         <div>
-            <span asp-validation-for="Package.Name" class="text-danger"></span>
+            <span asp-validation-for="Package!.Name" class="text-danger"></span>
         </div>
-        <input asp-for="Package.Name" class="form-control"/>
+        <input asp-for="Package!.Name" class="form-control"/>
     </div>
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package.Price">Prijs</label>
+        <label asp-for="Package!.Price">Prijs</label>
         <div>
-            <span asp-validation-for="Package.Price" class="text-danger"></span>
+            <span asp-validation-for="Package!.Price" class="text-danger"></span>
         </div>
-        <input asp-for="Package.Price" class="form-control"/>
+        <input asp-for="Package!.Price" class="form-control"/>
     </div>
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package.Category">Categorie</label>
+        <label asp-for="Package!.Category">Categorie</label>
         <div>
-            <span asp-validation-for="Package.Category" class="text-danger"></span>
+            <span asp-validation-for="Package!.Category" class="text-danger"></span>
         </div>
-        <select asp-for="Package.Category" asp-items="Html.GetEnumSelectList<Category>()">
+        <select asp-for="Package!.Category" asp-items="Html.GetEnumSelectList<Category>()">
             <option selected="selected">Kies een categorie</option>
         </select>
     </div>
@@ -38,10 +40,10 @@
     <div class="form-checkform-outline required mb-4">
         <label asp-for="OptionsList">Producten:</label>
         
-        @foreach (var p in Model.OptionsList)
+        @foreach (var p in Model.OptionsList!)
         {
             <div class="form-check">
-                <input class="form-check-input" name="ProductsList" type="checkbox" value="@p.Value.ProductId" id="@p.Value.ProductId" checked="@p.IsChecked" >
+                <input class="form-check-input" name="ProductsList" type="checkbox" value="@p.Value!.ProductId" id="@p.Value.ProductId" checked="@p.IsChecked" >
                 <label class="form-check-label" for="@p.Value.ProductId">
                     @p.Value.Name
                 </label>
@@ -51,33 +53,33 @@
 
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package.BestBeforeDate">Ten minste houdbaar tot</label>
+        <label asp-for="Package!.BestBeforeDate">Ten minste houdbaar tot</label>
         <div>
-            <span asp-validation-for="Package.BestBeforeDate" class="text-danger"></span>
+            <span asp-validation-for="Package!.BestBeforeDate" class="text-danger"></span>
         </div>
-        <input type="date" asp-for="Package.BestBeforeDate" tooltip="Best before date" class="form-control"/>
+        <input type="date" asp-for="Package!.BestBeforeDate" tooltip="Best before date" class="form-control"/>
     </div>
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package.PickupTime">Ophaaldatum</label>
+        <label asp-for="Package!.PickupTime">Ophaaldatum</label>
         <div>
-            <span asp-validation-for="Package.PickupTime" class="text-danger"></span>
+            <span asp-validation-for="Package!.PickupTime" class="text-danger"></span>
         </div>
-        <input type="date" asp-for="Package.PickupTime" tooltip="Pickup time for the package" class="form-control"/>
+        <input type="date" asp-for="Package!.PickupTime" tooltip="Pickup time for the package" class="form-control"/>
     </div>
 
     <div class="form-outline mb-4">
         <div>
-            <span asp-validation-for="Package.EighteenPlus" class="text-danger"></span>
+            <span asp-validation-for="Package!.EighteenPlus" class="text-danger"></span>
         </div>
         <div class="form-check form-switch">
-            <input asp-for="Package.EighteenPlus" class="form-check-input" type="checkbox">
-            <label asp-for="Package.EighteenPlus" class="form-check-label">18+</label>
+            <input asp-for="Package!.EighteenPlus" class="form-check-input" type="checkbox">
+            <label asp-for="Package!.EighteenPlus" class="form-check-label">18+</label>
         </div>
     </div>
-    @Html.HiddenFor(Model => Model.Package.PackageId) 
-    @Html.HiddenFor(Model => Model.Package.CafeteriaId) 
-    @Html.HiddenFor(Model => Model.Package.CityId) 
+    @Html.HiddenFor(model => model.Package!.PackageId)
+    @Html.HiddenFor(model => model.Package!.CafeteriaId)
+    @Html.HiddenFor(model => model.Package!.CityId)
 
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Bewerken</button>

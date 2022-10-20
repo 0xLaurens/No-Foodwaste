@@ -41,12 +41,7 @@ public class AccountController: Controller
                 await _signInManager.SignOutAsync();
                 if ((await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false)).Succeeded)
                 {
-                    if (User.HasClaim("Employee", "true"))
-                    {
-                        return Redirect("/Employee");
-                    }
-
-                    return Redirect("/");
+                    return Redirect(User.HasClaim("Employee", "true") ? "/Employee" : "/");
                 }
                 
             }
@@ -55,7 +50,7 @@ public class AccountController: Controller
         return View(loginViewModel);
     }
 
-    public async Task<IActionResult> SignOut()
+    public async Task<IActionResult> SignOutUser()
     {
         await _signInManager.SignOutAsync();
         return Redirect("/Account/Login");
