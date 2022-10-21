@@ -206,9 +206,6 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageId"), 1L, 1);
 
-                    b.Property<DateTime>("BestBeforeDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("CafeteriaId")
                         .HasColumnType("int");
 
@@ -222,18 +219,18 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("EighteenPlus")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("EndTimeSlot")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PickupTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(3,2)");
 
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("StartTimeSlot")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("StudentId")
                         .HasColumnType("int");
@@ -252,52 +249,52 @@ namespace Infrastructure.Migrations
                         new
                         {
                             PackageId = 1,
-                            BestBeforeDate = new DateTime(2022, 10, 21, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = false,
+                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8028),
                             Name = "Broodpakket",
-                            PickupTime = new DateTime(2022, 10, 20, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
-                            ReservedByStudentId = 1
+                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(7991),
+                            StudentId = 1
                         },
                         new
                         {
                             PackageId = 2,
-                            BestBeforeDate = new DateTime(2022, 10, 21, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = true,
+                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8064),
                             Name = "Pretpakket",
-                            PickupTime = new DateTime(2022, 10, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            Price = 2.99m
+                            Price = 2.99m,
+                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8060)
                         },
                         new
                         {
                             PackageId = 3,
-                            BestBeforeDate = new DateTime(2022, 10, 21, 14, 49, 19, 26, DateTimeKind.Local).AddTicks(5766),
                             CafeteriaId = 3,
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
+                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8073),
                             Name = "Fruit bowl",
-                            PickupTime = new DateTime(2022, 10, 20, 14, 49, 19, 26, DateTimeKind.Local).AddTicks(5763),
-                            Price = 3.44m
+                            Price = 3.44m,
+                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8070)
                         },
                         new
                         {
                             PackageId = 4,
-                            BestBeforeDate = new DateTime(2022, 10, 21, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 2,
                             Category = 7,
                             CityId = 1,
                             EighteenPlus = false,
+                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8083),
                             Name = "Vega delight",
-                            PickupTime = new DateTime(2022, 10, 20, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
-                            ReservedByStudentId = 1
+                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8080),
+                            StudentId = 1
                         });
                 });
 

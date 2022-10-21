@@ -25,7 +25,7 @@ public class PackageRepository : IPackageRepository
     public List<Package> GetPackages()
     {
         return _context.Packages!
-            .OrderBy(p => p.BestBeforeDate)
+            .OrderBy(p => p.EndTimeSlot)
             .ToList();
     }
 
