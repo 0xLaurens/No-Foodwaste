@@ -28,9 +28,14 @@ public class PackageService : IPackageService
     public bool CanPackageBeReservedByStudent(Package package, Student student)
     {
         // timespan of 6574 days is 18 year
-        return package.StartTimeSlot.Subtract(student.DateOfBirth!.Value.Date) >= new TimeSpan(6574, 0, 0, 0) 
+        return StudentOldEnoughForPackage(package, student) 
                && CanPackageBeAltered(package)
                && StudentCanOrderPackageOnDate(package, student);
+    }
+
+    public bool StudentOldEnoughForPackage(Package package, Student student)
+    {
+        return package.StartTimeSlot.Subtract(student.DateOfBirth!.Value.Date) >= new TimeSpan(6574, 0, 0, 0);
     }
 
     public bool PackageHasCorrectDate(Package package)
