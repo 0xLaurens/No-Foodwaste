@@ -5,9 +5,9 @@
             <div class="card-body">
                 <h4>@Model.Name</h4>
                 <ul class="list-unstyled">
-                    <li>@Model.City?.Name: @Model.Cafeteria?.Location.Name</li>
+                    <li>@Model.City?.Name: @Model.Cafeteria?.Location!.Name</li>
                     <li>@Model.Category</li>
-                    <li>@Model.BestBeforeDate</li>
+                    <li>@Model.EndTimeSlot</li>
                     @if (Model.EighteenPlus)
                     {
                         <li>18+</li>
@@ -16,7 +16,7 @@
                 </ul>
             </div>
         </a>
-        @if (Context.Request.Path.Value.Contains("Employee") && @Model.StudentId == null)
+        @if (Context.Request.Path.Value!.Contains("Employee") && @Model.StudentId == null)
         {
             <ul class="list-unstyled">
                 <li>

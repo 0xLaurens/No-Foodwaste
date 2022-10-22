@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    [Migration("20221017120541_alcohol")]
-    partial class alcohol
+    [Migration("20221021075919_PackageUpdate")]
+    partial class PackageUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -208,9 +208,6 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageId"), 1L, 1);
 
-                    b.Property<DateTime>("BestBeforeDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("CafeteriaId")
                         .HasColumnType("int");
 
@@ -224,15 +221,18 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("EighteenPlus")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("EndTimeSlot")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PickupTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(3,2)");
+
+                    b.Property<DateTime>("StartTimeSlot")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("StudentId")
                         .HasColumnType("int");
@@ -243,58 +243,60 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CityId");
 
+                    b.HasIndex("StudentId");
+
                     b.ToTable("Packages");
 
                     b.HasData(
                         new
                         {
                             PackageId = 1,
-                            BestBeforeDate = new DateTime(2022, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = false,
+                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8028),
                             Name = "Broodpakket",
-                            PickupTime = new DateTime(2022, 10, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
-                            ReservedByStudentId = 1
+                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(7991),
+                            StudentId = 1
                         },
                         new
                         {
                             PackageId = 2,
-                            BestBeforeDate = new DateTime(2022, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 1,
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = true,
+                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8064),
                             Name = "Pretpakket",
-                            PickupTime = new DateTime(2022, 10, 18, 0, 0, 0, 0, DateTimeKind.Local),
-                            Price = 2.99m
+                            Price = 2.99m,
+                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8060)
                         },
                         new
                         {
                             PackageId = 3,
-                            BestBeforeDate = new DateTime(2022, 10, 19, 14, 5, 41, 19, DateTimeKind.Local).AddTicks(9612),
                             CafeteriaId = 3,
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
+                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8073),
                             Name = "Fruit bowl",
-                            PickupTime = new DateTime(2022, 10, 18, 14, 5, 41, 19, DateTimeKind.Local).AddTicks(9609),
-                            Price = 3.44m
+                            Price = 3.44m,
+                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8070)
                         },
                         new
                         {
                             PackageId = 4,
-                            BestBeforeDate = new DateTime(2022, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             CafeteriaId = 2,
                             Category = 7,
                             CityId = 1,
                             EighteenPlus = false,
+                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8083),
                             Name = "Vega delight",
-                            PickupTime = new DateTime(2022, 10, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Price = 1.99m,
-                            ReservedByStudentId = 1
+                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8080),
+                            StudentId = 1
                         });
                 });
 
@@ -326,13 +328,6 @@ namespace Infrastructure.Migrations
                             ContainsAlcohol = false,
                             Name = "Cheese slice",
                             Photo = "Image of cheese"
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            ContainsAlcohol = false,
-                            Name = "Bread",
-                            Photo = "Image of Bread"
                         },
                         new
                         {
@@ -515,6 +510,10 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Student", null)
+                        .WithMany("Packages")
+                        .HasForeignKey("StudentId");
+
                     b.Navigation("Cafeteria");
 
                     b.Navigation("City");
@@ -561,6 +560,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("Cafeterias");
 
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("Domain.Student", b =>
+                {
+                    b.Navigation("Packages");
                 });
 #pragma warning restore 612, 618
         }

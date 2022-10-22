@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Avans_NoWaste.Controllers;
 
-public class AccountController: Controller
+public class AccountController : Controller
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
@@ -17,45 +17,40 @@ public class AccountController: Controller
 
         IdentitySeedData.EnsurePopulated(userMgr).Wait();
     }
-   
+
     [AllowAnonymous]
     public IActionResult Login(string returnUrl)
     {
         return View(new LoginViewModel
         {
-            ReturnUrl = returnUrl  
+            ReturnUrl = returnUrl
         });
     }
-   
+
     [HttpPost]
     [AllowAnonymous]
-    [ValidateAntiForgeryToken] 
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel loginViewModel)
     {
-        if (ModelState.IsValid)
-        {
-            var user =
-                await _userManager.FindByEmailAsync(loginViewModel.Email);
-            if (user != null)
-            {
-                await _signInManager.SignOutAsync();
-                if ((await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false)).Succeeded)
-                {
-                    if (User.HasClaim("Employee", "true"))
-                    {
-                        return Redirect("/Employee");
-                    }
+        if (!ModelState.IsValid) return View(loginViewModel);
 
-                    return Redirect("/");
-                }
-                
+        var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+
+        if (user != null)
+        {
+            await _signInManager.SignOutAsync();
+            if ((await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false)).Succeeded)
+            {
+                return Redirect(User.HasClaim("Employee", "true") ? "/Employee" : "/");
             }
         }
-        ModelState.AddModelError("", "Invalid name or password");
+
+        ModelState.AddModelError("LogInError", "The email or password provided is incorrect");
+
         return View(loginViewModel);
     }
 
-    public async Task<IActionResult> SignOut()
+    public async Task<IActionResult> SignOutUser()
     {
         await _signInManager.SignOutAsync();
         return Redirect("/Account/Login");

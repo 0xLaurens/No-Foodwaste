@@ -15,7 +15,7 @@
                 <h4>You don't have any orders yet!</h4> 
                 <a asp-action="Index"><h6>Look through the available products</h6></a>
             }
-        @foreach (var packages in Model.GroupBy(p => p.Cafeteria.Location.Name))
+        @foreach (var packages in Model.GroupBy(p => p.Cafeteria!.Location!.Name))
         {
             
             <h2>Cafeteria: @packages.Key</h2>

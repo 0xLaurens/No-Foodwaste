@@ -7,9 +7,20 @@
 
 <h2>@Model.Name</h2>
 
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger mb-2">
+            <h5 class="alert-heading">Error!</h5>
+            @ViewBag.Error
+            <a class="alert-link" asp-action="Index" asp-controller="Home">  return to home menu.
+            </a>
+
+    </div>
+}
+
 <p>Categorie: @Model.Category</p>
 <p>Price: @Model.Price</p>
-<p>City: @Model.City.Name</p>
+<p>City: @Model.City!.Name</p>
 <p>Location: @Model.Cafeteria?.Location?.Name</p>
 <ul>
     @foreach (var p in Model.Products!)
@@ -22,5 +33,12 @@
 {
     <form method="post">
         <button type="submit" class="btn btn-primary" asp-action="ReservePackage" asp-controller="Package" asp-route-id="@Model.PackageId">Reserve</button>
+    </form>
+}
+
+@if (Model.StudentId != null)
+{
+    <form method="post">
+        <button type="submit" class="btn btn-primary disabled" asp-action="ReservePackage" asp-controller="Package" asp-route-id="@Model.PackageId">Reserve</button>
     </form>
 }

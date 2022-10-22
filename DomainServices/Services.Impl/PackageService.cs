@@ -21,20 +21,39 @@ public class PackageService : IPackageService
         {
             return true;
         }
-        var count = student.Packages!.Count(p => p.PickupTime.Date == package.PickupTime.Date);
+        var count = student.Packages!.Count(p => p.StartTimeSlot.Date == package.StartTimeSlot.Date);
         return count + 1 <= 1;
     }
     
     public bool CanPackageBeReservedByStudent(Package package, Student student)
     {
-        return package.PickupTime.Date.Subtract(student.DateOfBirth!.Value.Date) >= new TimeSpan(6574, 0, 0, 0)
+        // timespan of 6574 days is 18 year
+        return StudentOldEnoughForPackage(package, student) 
                && CanPackageBeAltered(package)
                && StudentCanOrderPackageOnDate(package, student);
     }
 
+    public bool StudentOldEnoughForPackage(Package package, Student student)
+    {
+        return package.StartTimeSlot.Subtract(student.DateOfBirth!.Value.Date) >= new TimeSpan(6574, 0, 0, 0);
+    }
+
     public bool PackageHasCorrectDate(Package package)
     {
-        return (package.PickupTime - DateTime.Now.AddDays(2)).TotalDays <= 0 
-               && package.PickupTime <= package.BestBeforeDate;
+        return PackageDateNotTooFarInTheFutureOrPast(package) 
+               && PackageHasCorrectStartAndEnd(package);
     }
+
+    public bool PackageDateNotTooFarInTheFutureOrPast(Package package)
+    {
+        return package.StartTimeSlot.Date.Subtract(DateTime.Now.Date.AddDays(2)).TotalDays <= 0
+               && package.StartTimeSlot.Date.Subtract(DateTime.Now.Date).Days >= 0;
+    }
+
+    public bool PackageHasCorrectStartAndEnd(Package package)
+    {
+        return package.StartTimeSlot.Date == package.EndTimeSlot.Date
+               && DateTime.Compare(package.StartTimeSlot, package.EndTimeSlot) <= 0;
+    }
+    
 }

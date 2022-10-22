@@ -28,8 +28,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = false,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -55,8 +55,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = false,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -82,8 +82,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -111,8 +111,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -139,8 +139,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -167,8 +167,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -195,8 +195,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -212,8 +212,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -244,8 +244,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now.AddDays(-1),
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now.AddDays(-1), 
+           EndTimeSlot = DateTime.Now.AddDays(-1).AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -261,8 +261,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = new List<Product>(),
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -300,8 +300,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = products, 
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -332,8 +332,8 @@ public class PackageServiceTest
            CafeteriaId = 1,
            Cafeteria = new Cafeteria(),
            Products = products, 
-           PickupTime = DateTime.Now,
-           BestBeforeDate = DateTime.Now,
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
            EighteenPlus = true,
            Price = 1.99m,
            Category = Category.Fruit,
@@ -343,5 +343,180 @@ public class PackageServiceTest
         var act = _packageService.PackagesHasProductThatContainsAlcohol(package);
         // Assert
         Assert.True(act);
+    }
+    
+    [Fact]
+    public void PackageDateNotTooFarInTheFutureOrPast_PackageYesterday()
+    {
+        var package = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(), 
+           StartTimeSlot = DateTime.Now.AddDays(-1), 
+           EndTimeSlot = DateTime.Now.AddDays(-1).AddHours(3),
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = 1 
+       };
+        // Act
+        var act = _packageService.PackageDateNotTooFarInTheFutureOrPast(package);
+        // Assert
+        Assert.False(act);
+    }
+    
+    [Fact]
+    public void PackageDateNotTooFarInTheFutureOrPast_PackageToday()
+    {
+        var package = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(), 
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = 1 
+       };
+        // Act
+        var act = _packageService.PackageDateNotTooFarInTheFutureOrPast(package);
+        // Assert
+        Assert.True(act);
+    }
+    
+    [Fact]
+    public void PackageDateNotTooFarInTheFutureOrPast_PackageTheDayAfterTomorrow()
+    {
+        var package = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(), 
+           StartTimeSlot = DateTime.Now.AddDays(2), 
+           EndTimeSlot = DateTime.Now.AddDays(2).AddHours(3),
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = 1 
+       };
+        // Act
+        var act = _packageService.PackageDateNotTooFarInTheFutureOrPast(package);
+        // Assert
+        Assert.True(act);
+    }
+    
+    [Fact]
+    public void PackageDateNotTooFarInTheFutureOrPast_PackageDate3DaysIntoTheFuture()
+    {
+        var package = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(), 
+           StartTimeSlot = DateTime.Now.AddDays(3), 
+           EndTimeSlot = DateTime.Now.AddDays(3).AddHours(3),
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = 1 
+       };
+        // Act
+        var act = _packageService.PackageDateNotTooFarInTheFutureOrPast(package);
+        // Assert
+        Assert.False(act);
+    }
+    
+    [Fact]
+    public void PackageHasCorrectStartAndEnd_SameDayStartLessThanEnd()
+    {
+        var package = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(), 
+           StartTimeSlot = DateTime.Now, 
+           EndTimeSlot = DateTime.Now.AddHours(3),
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = 1 
+       };
+        // Act
+        var act = _packageService.PackageHasCorrectStartAndEnd(package);
+        // Assert
+        Assert.True(act);
+    }
+    
+    [Fact]
+    public void PackageHasCorrectStartAndEnd_SameDayStartLaterThanEnd()
+    {
+        var package = new Package
+       {
+           PackageId = 1,
+           Name = "Test package",
+           CityId = 1,
+           City = new City(),
+           CafeteriaId = 1,
+           Cafeteria = new Cafeteria(),
+           Products = new List<Product>(), 
+           StartTimeSlot = DateTime.Now.AddHours(4), 
+           EndTimeSlot = DateTime.Now.AddHours(3),
+           EighteenPlus = true,
+           Price = 1.99m,
+           Category = Category.Fruit,
+           StudentId = 1 
+       };
+        // Act
+        var act = _packageService.PackageHasCorrectStartAndEnd(package);
+        // Assert
+        Assert.False(act);
+    }
+
+    [Fact]
+    public void PackageHasCorrectStartAndEnd_DifferentDay()
+    {
+        var package = new Package
+        {
+            PackageId = 1,
+            Name = "Test package",
+            CityId = 1,
+            City = new City(),
+            CafeteriaId = 1,
+            Cafeteria = new Cafeteria(),
+            Products = new List<Product>(),
+            StartTimeSlot = DateTime.Now.AddDays(-1),
+            EndTimeSlot = DateTime.Now.AddHours(3),
+            EighteenPlus = true,
+            Price = 1.99m,
+            Category = Category.Fruit,
+            StudentId = 1
+        };
+        // Act
+        var act = _packageService.PackageHasCorrectStartAndEnd(package);
+        // Assert
+        Assert.False(act);
     }
 }

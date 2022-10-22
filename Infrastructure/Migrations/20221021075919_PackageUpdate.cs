@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class packageupdate : Migration
+    public partial class PackageUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,8 @@ namespace Infrastructure.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContainsAlcohol = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -108,7 +109,9 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LocationId = table.Column<int>(type: "int", nullable: true)
+                    LocationId = table.Column<int>(type: "int", nullable: true),
+                    CafeteriaId = table.Column<int>(type: "int", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,15 +129,15 @@ namespace Infrastructure.Migrations
                 {
                     PackageId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: true),
-                    CafeteriaId = table.Column<int>(type: "int", nullable: true),
-                    PickupTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    BestBeforeDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EighteenPlus = table.Column<bool>(type: "bit", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Category = table.Column<int>(type: "int", nullable: true),
-                    ReservedByStudentId = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    CafeteriaId = table.Column<int>(type: "int", nullable: false),
+                    StartTimeSlot = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTimeSlot = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EighteenPlus = table.Column<bool>(type: "bit", nullable: false),
+                    Price = table.Column<decimal>(type: "Decimal(3,2)", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -143,12 +146,19 @@ namespace Infrastructure.Migrations
                         name: "FK_Packages_Cafeterias_CafeteriaId",
                         column: x => x.CafeteriaId,
                         principalTable: "Cafeterias",
-                        principalColumn: "CafeteriaId");
+                        principalColumn: "CafeteriaId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Packages_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
-                        principalColumn: "CityId");
+                        principalColumn: "CityId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Packages_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "StudentId");
                 });
 
             migrationBuilder.CreateTable(
@@ -187,22 +197,21 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ProductId", "Name", "Photo" },
+                columns: new[] { "ProductId", "ContainsAlcohol", "Name", "Photo" },
                 values: new object[,]
                 {
-                    { 1, "Cheese slice", "Image of cheese" },
-                    { 2, "Bread", "Image of Bread" },
-                    { 3, "Ham", "Image of ham" },
-                    { 4, "Banana", "Image of banana" },
-                    { 5, "Orange", "Image of Orange" },
-                    { 6, "Chicken", "Image of chicken" },
-                    { 7, "Heineken beer", "Image of Heineken" },
-                    { 8, "Pasta Bolognese", "Image of Pasta Bolognese" },
-                    { 9, "Bruin brood", "Image of brood" },
-                    { 10, "Wit brood", "Image of brood" },
-                    { 11, "Paprika", "Image of Paprika" },
-                    { 12, "Mayonaise", "Image of Mayonaise" },
-                    { 13, "Ketchup", "Image of Ketchup" }
+                    { 1, false, "Cheese slice", "Image of cheese" },
+                    { 3, false, "Ham", "Image of ham" },
+                    { 4, false, "Banana", "Image of banana" },
+                    { 5, false, "Orange", "Image of Orange" },
+                    { 6, false, "Chicken", "Image of chicken" },
+                    { 7, true, "Heineken beer", "Image of Heineken" },
+                    { 8, false, "Pasta Bolognese", "Image of Pasta Bolognese" },
+                    { 9, false, "Bruin brood", "Image of brood" },
+                    { 10, false, "Wit brood", "Image of brood" },
+                    { 11, false, "Paprika", "Image of Paprika" },
+                    { 12, false, "Mayonaise", "Image of Mayonaise" },
+                    { 13, false, "Ketchup", "Image of Ketchup" }
                 });
 
             migrationBuilder.InsertData(
@@ -236,23 +245,23 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "EmployeeId", "Email", "LocationId", "Name" },
+                columns: new[] { "EmployeeId", "CafeteriaId", "CityId", "Email", "LocationId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "admin@avans.nl", 1, "Admin" },
-                    { 2, "h.strijder@avans.nl", 2, "Harry de Strijder" },
-                    { 3, "a.Bloempot", 3, "Ankie Bloempot" }
+                    { 1, 1, 1, "admin@avans.nl", 1, "Admin" },
+                    { 2, 2, 2, "h.strijder@avans.nl", 2, "Harry de Strijder" },
+                    { 3, 3, 3, "a.Bloempot", 3, "Ankie Bloempot" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Packages",
-                columns: new[] { "PackageId", "BestBeforeDate", "CafeteriaId", "Category", "CityId", "EighteenPlus", "Name", "PickupTime", "Price", "StudentId" },
+                columns: new[] { "PackageId", "CafeteriaId", "Category", "CityId", "EighteenPlus", "EndTimeSlot", "Name", "Price", "StartTimeSlot", "StudentId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, 2, 1, false, "Broodpakket", new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local), 1.99m, 1 },
-                    { 2, new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, 2, 1, true, "Pretpakket", new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local), 20.99m, null },
-                    { 3, new DateTime(2022, 10, 14, 19, 2, 33, 986, DateTimeKind.Local).AddTicks(7009), 3, 0, 1, false, "Fruit bowl", new DateTime(2022, 10, 13, 19, 2, 33, 986, DateTimeKind.Local).AddTicks(6994), 3.44m, null },
-                    { 4, new DateTime(2022, 10, 14, 0, 0, 0, 0, DateTimeKind.Local), 2, 7, 1, false, "Vega delight", new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local), 1.99m, 1 }
+                    { 1, 1, 2, 1, false, new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8028), "Broodpakket", 1.99m, new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(7991), 1 },
+                    { 2, 1, 2, 1, true, new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8064), "Pretpakket", 2.99m, new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8060), null },
+                    { 3, 3, 0, 1, false, new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8073), "Fruit bowl", 3.44m, new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8070), null },
+                    { 4, 2, 7, 1, false, new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8083), "Vega delight", 1.99m, new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8080), 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -291,6 +300,11 @@ namespace Infrastructure.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Packages_StudentId",
+                table: "Packages",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_CityId",
                 table: "Students",
                 column: "CityId");
@@ -305,9 +319,6 @@ namespace Infrastructure.Migrations
                 name: "PackageProduct");
 
             migrationBuilder.DropTable(
-                name: "Students");
-
-            migrationBuilder.DropTable(
                 name: "Packages");
 
             migrationBuilder.DropTable(
@@ -315,6 +326,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cafeterias");
+
+            migrationBuilder.DropTable(
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Locations");

@@ -3,82 +3,97 @@
 
 @{
     ViewBag.Title = "Update package";
-    Layout = "_Layout";
 }
 
-<h2>Pakket bewerken</h2>
-<form asp-action="Update" method="post">
-    <div class="form-outline required mb-4">
-        <label asp-for="Package.Name">Naam van het pakket</label>
-        <div>
-            <span asp-validation-for="Package.Name" class="text-danger"></span>
+<h2>Update package</h2>
+@if (ViewData.ModelState.ContainsKey("DateError"))
+    {
+        <div class="alert alert-danger d-flex text-center align-items-center mb-2">
+            @Html.ValidationMessage("DateError")
         </div>
-        <input asp-for="Package.Name" class="form-control"/>
+    }
+<form asp-action="Update" asp-controller="Employee" method="post">
+    <div class="form-outline required mb-4">
+        <label asp-for="Package!.Name">Naam van het pakket</label>
+        <div>
+            <span asp-validation-for="Package!.Name" class="text-danger"></span>
+        </div>
+        <input asp-for="Package!.Name" class="form-control"/>
     </div>
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package.Price">Prijs</label>
+        <label asp-for="Package!.Price">Prijs</label>
         <div>
-            <span asp-validation-for="Package.Price" class="text-danger"></span>
+            <span asp-validation-for="Package!.Price" class="text-danger"></span>
         </div>
-        <input asp-for="Package.Price" class="form-control"/>
+        <input asp-for="Package!.Price" class="form-control"/>
     </div>
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package.Category">Categorie</label>
+        <label asp-for="Package!.Category">Categorie</label>
         <div>
-            <span asp-validation-for="Package.Category" class="text-danger"></span>
+            <span asp-validation-for="Package!.Category" class="text-danger"></span>
         </div>
-        <select asp-for="Package.Category" asp-items="Html.GetEnumSelectList<Category>()">
+        <select asp-for="Package!.Category" asp-items="Html.GetEnumSelectList<Category>()">
             <option selected="selected">Kies een categorie</option>
         </select>
     </div>
 
 
-    <div class="form-checkform-outline required mb-4">
-        <label asp-for="OptionsList">Producten:</label>
-        
-        @foreach (var p in Model.OptionsList)
+    <div class="form-checkform-outline mb-4">
+        <div class="form-outline required">
+            <label asp-for="OptionsList">Producten</label>
+        </div>
+        <div>
+            <span asp-validation-for="ProductsList" class="text-danger"></span>
+        </div>
+        @if (Model.OptionsList != null)
         {
-            <div class="form-check">
-                <input class="form-check-input" name="ProductsList" type="checkbox" value="@p.Value.ProductId" id="@p.Value.ProductId" checked="@p.IsChecked" >
-                <label class="form-check-label" for="@p.Value.ProductId">
-                    @p.Value.Name
-                </label>
-            </div>
+            foreach (var p in Model.OptionsList)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="ProductsList" type="checkbox" value="@p.Value!.ProductId " id="@p.Value!.ProductId" checked="@p.IsChecked">
+                    <label class="form-check-label" for="@p.Value.ProductId">
+                        @p.Value.Name
+                    </label>
+                </div>
+            }
         }
     </div>
-
+    
+    @if (ViewData.ModelState.ContainsKey("DateError"))
+    {
+        <div class="alert alert-danger d-flex text-center align-items-center mb-2">
+            @Html.ValidationMessage("DateError")
+        </div>
+    }
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package.BestBeforeDate">Ten minste houdbaar tot</label>
-        <div>
-            <span asp-validation-for="Package.BestBeforeDate" class="text-danger"></span>
-        </div>
-        <input type="date" asp-for="Package.BestBeforeDate" tooltip="Best before date" class="form-control"/>
+        <label asp-for="Package!.StartTimeSlot">Beschikbaar vanaf</label>
+        <input type="datetime-local" asp-for="Package!.StartTimeSlot" tooltip="Start of the timeslot" class="form-control"/>
     </div>
 
+
     <div class="form-outline required mb-4">
-        <label asp-for="Package.PickupTime">Ophaaldatum</label>
-        <div>
-            <span asp-validation-for="Package.PickupTime" class="text-danger"></span>
-        </div>
-        <input type="date" asp-for="Package.PickupTime" tooltip="Pickup time for the package" class="form-control"/>
+        <label asp-for="Package!.EndTimeSlot">Beschikbaar tot</label>
+        <input type="datetime-local" asp-for="Package!.EndTimeSlot" tooltip="End of the timeslot" class="form-control"/>
     </div>
 
     <div class="form-outline mb-4">
-        <div>
-            <span asp-validation-for="Package.EighteenPlus" class="text-danger"></span>
-        </div>
         <div class="form-check form-switch">
-            <input asp-for="Package.EighteenPlus" class="form-check-input" type="checkbox">
-            <label asp-for="Package.EighteenPlus" class="form-check-label">18+</label>
+            <input asp-for="Package!.EighteenPlus" class="form-check-input" type="checkbox">
+            <label asp-for="Package!.EighteenPlus" class="form-check-label">18+</label>
         </div>
     </div>
-    @Html.HiddenFor(Model => Model.Package.PackageId) 
-    @Html.HiddenFor(Model => Model.Package.CafeteriaId) 
-    @Html.HiddenFor(Model => Model.Package.CityId) 
-
+    
+    @Html.HiddenFor(m => Model.OptionsList)
+    @Html.HiddenFor(m => Model.Package!.PackageId)
+    @Html.HiddenFor(m => Model.Package!.CafeteriaId)
+    @Html.HiddenFor(m => Model.Package!.Cafeteria)
+    @Html.HiddenFor(m => Model.Package!.CityId)
+    @Html.HiddenFor(m => Model.Package!.City)
+    
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Bewerken</button>
+    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Update</button>
 </form>
+
