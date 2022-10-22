@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
+using System.Runtime.InteropServices;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain;
 
@@ -9,12 +11,9 @@ public class Package
     public int PackageId { get; set; }
     
     [Required(ErrorMessage = "Enter a unique name")]
-    public string Name { get; set; }
-    
-    [Required]
+    public string? Name { get; set; }
     public int? CityId { get; set; }
-    
-    public virtual City City { get; set; }
+    public virtual City? City { get; set; }
     
     [Required]
     public int CafeteriaId { get; set; }

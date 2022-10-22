@@ -226,7 +226,8 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
+                        .IsRequired()
                         .HasColumnType("Decimal(3,2)");
 
                     b.Property<DateTime>("StartTimeSlot")
@@ -253,10 +254,10 @@ namespace Infrastructure.Migrations
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8028),
+                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6720),
                             Name = "Broodpakket",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(7991),
+                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6683),
                             StudentId = 1
                         },
                         new
@@ -266,10 +267,10 @@ namespace Infrastructure.Migrations
                             Category = 2,
                             CityId = 1,
                             EighteenPlus = true,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8064),
+                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6743),
                             Name = "Pretpakket",
                             Price = 2.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8060)
+                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6741)
                         },
                         new
                         {
@@ -278,10 +279,10 @@ namespace Infrastructure.Migrations
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8073),
+                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6749),
                             Name = "Fruit bowl",
                             Price = 3.44m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8070)
+                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6747)
                         },
                         new
                         {
@@ -290,10 +291,10 @@ namespace Infrastructure.Migrations
                             Category = 7,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 12, 59, 18, 975, DateTimeKind.Local).AddTicks(8083),
+                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6755),
                             Name = "Vega delight",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 9, 59, 18, 975, DateTimeKind.Local).AddTicks(8080),
+                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6753),
                             StudentId = 1
                         });
                 });

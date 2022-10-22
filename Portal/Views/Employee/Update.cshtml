@@ -1,15 +1,18 @@
 @using Domain
-@using Xunit
 @model PackageViewModel 
 
 @{
     ViewBag.Title = "Update package";
-    Layout = "_Layout";
 }
 
-
-<h2>Pakket bewerken</h2>
-<form asp-action="Update" method="post">
+<h2>Update package</h2>
+@if (ViewData.ModelState.ContainsKey("DateError"))
+    {
+        <div class="alert alert-danger d-flex text-center align-items-center mb-2">
+            @Html.ValidationMessage("DateError")
+        </div>
+    }
+<form asp-action="Update" asp-controller="Employee" method="post">
     <div class="form-outline required mb-4">
         <label asp-for="Package!.Name">Naam van het pakket</label>
         <div>
@@ -37,50 +40,60 @@
     </div>
 
 
-    <div class="form-checkform-outline required mb-4">
-        <label asp-for="OptionsList">Producten:</label>
-        
-        @foreach (var p in Model.OptionsList!)
+    <div class="form-checkform-outline mb-4">
+        <div class="form-outline required">
+            <label asp-for="OptionsList">Producten</label>
+        </div>
+        <div>
+            <span asp-validation-for="ProductsList" class="text-danger"></span>
+        </div>
+        @if (Model.OptionsList != null)
         {
-            <div class="form-check">
-                <input class="form-check-input" name="ProductsList" type="checkbox" value="@p.Value!.ProductId" id="@p.Value.ProductId" checked="@p.IsChecked" >
-                <label class="form-check-label" for="@p.Value.ProductId">
-                    @p.Value.Name
-                </label>
-            </div>
+            foreach (var p in Model.OptionsList)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="ProductsList" type="checkbox" value="@p.Value!.ProductId " id="@p.Value!.ProductId" checked="@p.IsChecked">
+                    <label class="form-check-label" for="@p.Value.ProductId">
+                        @p.Value.Name
+                    </label>
+                </div>
+            }
         }
     </div>
-
+    
+    @if (ViewData.ModelState.ContainsKey("DateError"))
+    {
+        <div class="alert alert-danger d-flex text-center align-items-center mb-2">
+            @Html.ValidationMessage("DateError")
+        </div>
+    }
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package!.EndTimeSlot">Ten minste houdbaar tot</label>
-        <div>
-            <span asp-validation-for="Package!.EndTimeSlot" class="text-danger"></span>
-        </div>
-        <input type="date" asp-for="Package!.EndTimeSlot" tooltip="Best before date" class="form-control"/>
+        <label asp-for="Package!.StartTimeSlot">Beschikbaar vanaf</label>
+        <input type="datetime-local" asp-for="Package!.StartTimeSlot" tooltip="Start of the timeslot" class="form-control"/>
     </div>
 
+
     <div class="form-outline required mb-4">
-        <label asp-for="Package!.StartTimeSlot">Ophaaldatum</label>
-        <div>
-            <span asp-validation-for="Package!.StartTimeSlot" class="text-danger"></span>
-        </div>
-        <input type="date" asp-for="Package!.StartTimeSlot" tooltip="Pickup time for the package" class="form-control"/>
+        <label asp-for="Package!.EndTimeSlot">Beschikbaar tot</label>
+        <input type="datetime-local" asp-for="Package!.EndTimeSlot" tooltip="End of the timeslot" class="form-control"/>
     </div>
 
     <div class="form-outline mb-4">
-        <div>
-            <span asp-validation-for="Package!.EighteenPlus" class="text-danger"></span>
-        </div>
         <div class="form-check form-switch">
             <input asp-for="Package!.EighteenPlus" class="form-check-input" type="checkbox">
             <label asp-for="Package!.EighteenPlus" class="form-check-label">18+</label>
         </div>
     </div>
-    @Html.HiddenFor(model => model.Package!.PackageId)
-    @Html.HiddenFor(model => model.Package!.CafeteriaId)
-    @Html.HiddenFor(model => model.Package!.CityId)
-
+    
+    @Html.HiddenFor(m => Model.OptionsList)
+    @Html.HiddenFor(m => Model.Package!.PackageId)
+    @Html.HiddenFor(m => Model.Package!.CafeteriaId)
+    @Html.HiddenFor(m => Model.Package!.Cafeteria)
+    @Html.HiddenFor(m => Model.Package!.CityId)
+    @Html.HiddenFor(m => Model.Package!.City)
+    
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Bewerken</button>
+    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Update</button>
 </form>
+

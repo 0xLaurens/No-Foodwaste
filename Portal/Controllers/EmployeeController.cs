@@ -55,6 +55,7 @@ public class EmployeeController : Controller
             Package = null,
             OptionsList = list
         };
+        
         return View(viewModel);
     }
 
@@ -65,27 +66,29 @@ public class EmployeeController : Controller
         var email = User.FindFirstValue(ClaimTypes.Email);
         var employee = _employeeRepository.GetEmployeeByEmail(email);
 
-
         var productIds = model.ProductsList;
         model.Package!.Products = productIds?.Select(p => _productRepository.GetProductById(p)).ToList();
 
         if (!_packageService.PackageHasCorrectDate(model.Package!) || !ModelState.IsValid)
         {
             var products = _productRepository.GetProducts();
-            model.OptionsList = products.Select(l => model.Package.Products != null && model.Package.Products.Contains(l)
-                    ? new PackageViewModel.CheckboxOptions() { IsChecked = true, Value = l }
-                    : new PackageViewModel.CheckboxOptions() { IsChecked = false, Value = l })
+            model.OptionsList = products.Select(l =>
+                    model.Package.Products != null && model.Package.Products.Contains(l)
+                        ? new PackageViewModel.CheckboxOptions() { IsChecked = true, Value = l }
+                        : new PackageViewModel.CheckboxOptions() { IsChecked = false, Value = l })
                 .ToList();
 
             var dateError1 = _packageService.PackageDateNotTooFarInTheFutureOrPast(model.Package!);
             var dateError2 = _packageService.PackageHasCorrectStartAndEnd(model.Package!);
-            
+
             if (!dateError1)
-                ModelState.AddModelError("DateError", "Start date and end date must be today, tomorrow or the day after tomorrow"); 
-            
+                ModelState.AddModelError("DateError",
+                    "Start date and end date must be today, tomorrow or the day after tomorrow");
+
             if (!dateError2)
-                ModelState.AddModelError("DateError", "Start time and end must be on the same day, the start must be earlier than the end time"); 
-            
+                ModelState.AddModelError("DateError",
+                    "Start time and end must be on the same day, the start must be earlier than the end time");
+
             return View(model);
         }
 
@@ -95,7 +98,6 @@ public class EmployeeController : Controller
 
         model.Package.CafeteriaId = employee.CafeteriaId;
         model.Package.CityId = employee.CityId;
-
 
         _packageRepository.CreatePackage(model.Package!);
         return Redirect("/");
@@ -111,34 +113,59 @@ public class EmployeeController : Controller
                 ? new PackageViewModel.CheckboxOptions() { IsChecked = true, Value = l }
                 : new PackageViewModel.CheckboxOptions() { IsChecked = false, Value = l })
             .ToList();
-        var model = new PackageViewModel
+        package.PackageId = id;
+        var viewModel = new PackageViewModel
         {
             Package = package,
             OptionsList = check,
         };
 
-        if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package))
-            model.Package.EighteenPlus = true;
+        if (_packageService.PackagesHasProductThatContainsAlcohol(viewModel.Package))
+            viewModel.Package.EighteenPlus = true;
 
-        return View(model);
+        return View(viewModel);
     }
 
     [HttpPost]
     [Authorize(Policy = "EmployeeOnly")]
     public IActionResult Update(PackageViewModel model)
     {
-        if (!_packageService.CanPackageBeAltered(model.Package!))
-            throw new InvalidOperationException();
-        if (!_packageService.PackageHasCorrectDate(model.Package!))
-            throw new InvalidOperationException("Wrong date");
-
-
         var productIds = model.ProductsList;
         model.Package!.Products = productIds?.Select(p => _productRepository.GetProductById(p)).ToList();
 
+        if (!_packageService.PackageHasCorrectDate(model.Package!) || 
+            !ModelState.IsValid ||
+            !_packageService.CanPackageBeAltered(model.Package!))
+        {
+            if (!_packageService.CanPackageBeAltered(model.Package!))
+                ModelState.AddModelError("UpdateError", "This package cannot be altered, it's already reserved");
+
+            var products = _productRepository.GetProducts();
+            model.OptionsList = products.Select(l =>
+                    model.Package.Products != null && model.Package.Products.Contains(l)
+                        ? new PackageViewModel.CheckboxOptions() { IsChecked = true, Value = l }
+                        : new PackageViewModel.CheckboxOptions() { IsChecked = false, Value = l })
+                .ToList();
+
+            var dateError1 = _packageService.PackageDateNotTooFarInTheFutureOrPast(model.Package!);
+            var dateError2 = _packageService.PackageHasCorrectStartAndEnd(model.Package!);
+
+            if (!dateError1)
+                ModelState.AddModelError("DateError",
+                    "Start date and end date must be today, tomorrow or the day after tomorrow");
+
+            if (!dateError2)
+                ModelState.AddModelError("DateError",
+                    "Start time and end must be on the same day, the start must be earlier than the end time");
+
+            return View(model);
+        }
+
+
         if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package!))
             model.Package!.EighteenPlus = true;
-        _packageRepository.UpdatePackage(model.Package);
+
+        _packageRepository.UpdatePackage(model.Package!);
         return Redirect("/");
     }
 

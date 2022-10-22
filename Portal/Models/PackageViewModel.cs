@@ -6,7 +6,6 @@ namespace Avans_NoWaste.Models;
 public class PackageViewModel
 {
    public Package? Package { get; set; } 
-   [Required]
    public List<CheckboxOptions>? OptionsList { get; set; }
    
    [Required(ErrorMessage = "Enter a selection of products for the preview")]
