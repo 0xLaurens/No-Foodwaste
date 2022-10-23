@@ -1,8 +1,6 @@
 using Domain;
 using DomainServices.Repos.Inf;
 using DomainServices.Services.Inf;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -22,7 +20,7 @@ public class PackageRepository : IPackageRepository
         return _context.Packages.SingleOrDefault(p => p.PackageId == id);
     }
 
-    public List<Package> GetPackages()
+    public IEnumerable<Package> GetPackages()
     {
         return _context.Packages!
             .OrderBy(p => p.EndTimeSlot)
@@ -35,6 +33,23 @@ public class PackageRepository : IPackageRepository
             .Where(p => p.StudentId == null)
             .ToList();
     }
+
+    public IEnumerable<Package> GetNonReservedPackagesFiltered(Category? category, string? location)
+    {
+        if (location != null)
+        {
+            return GetNonReservedPackages().Where(p => p.Cafeteria!.Location!.Name == location);
+
+        }
+
+        if (category != null)
+        {
+          return GetNonReservedPackages().Where(p => p.Category == (Category) category);
+        }
+        
+        return GetNonReservedPackages();
+    }
+
 
     public List<Package> GetNonReservedPackagesPerCafeteria(int id)
     {

@@ -1,8 +1,15 @@
-﻿@model List<Domain.Package>
+﻿@using Domain
+@model IEnumerable<Package> 
 
 @{
     ViewData["Title"] = "Home";
 }
+<form asp-action="Index" asp method="get">
+    <select name="Category" asp-for="@ViewData["CategoryFilter"]" asp-items="@Html.GetEnumSelectList<Category>()">
+        <option selected="selected">Category filter</option>
+    </select>
+    <input type="submit" value="Filter" class="btn btn-primary"/> | <a asp-action="Index">clear filters</a>
+</form>
 
 <section class="pt-5 pb-2">
     <div class="container py-5">

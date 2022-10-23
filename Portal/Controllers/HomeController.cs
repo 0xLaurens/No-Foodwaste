@@ -6,6 +6,7 @@ using Domain;
 using DomainServices.Repos.Inf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Avans_NoWaste.Controllers;
 
@@ -26,9 +27,11 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    public IActionResult Index()
+    public IActionResult Index(Category? category, string? location)
     {
-        return View(_packageRepository.GetNonReservedPackages());
+        ViewData["LocationFilter"] = string.IsNullOrEmpty(location) ? location : null;
+        ViewData["CategoryFilter"] = category;
+        return View(_packageRepository.GetNonReservedPackagesFiltered(category, location));
     }
     
     [Authorize]
@@ -36,7 +39,7 @@ public class HomeController : Controller
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var student = _studentRepository.GetStudentByEmail(email);
-        return View(student == null ? new List<Package>() : _packageRepository.GetPackagesByStudent(student.StudentId));
+        return View(_packageRepository.GetPackagesByStudent(student.StudentId));
     }
 
 
