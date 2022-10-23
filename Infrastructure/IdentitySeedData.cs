@@ -1,37 +1,37 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
-namespace Avans_NoWaste.Models;
+namespace Infrastructure;
 
-public class IdentitySeedData
+public static class IdentitySeedData
 {
-   private const string employeeEmail = "admin@avans.nl";
-   private const string employeePassword = "AvansLover123!";
+   private const string EmployeeEmail = "admin@avans.nl";
+   private const string EmployeePassword = "AvansLover123!";
 
-   private const string studentEmail= "student@student.avans.nl";
-   private const string studentPassword = "AvansLover123!";
+   private const string StudentEmail= "student@student.avans.nl";
+   private const string StudentPassword = "AvansLover123!";
 
    public static async Task EnsurePopulated(UserManager<IdentityUser> userManager)
    {
-      var employee = await userManager.FindByEmailAsync(employeeEmail);
+      var employee = await userManager.FindByEmailAsync(EmployeeEmail);
       if (employee == null)
       {
          employee = new IdentityUser("Employee")
          {
-            Email = employeeEmail 
+            Email = EmployeeEmail 
          };
-         await userManager.CreateAsync(employee, employeePassword);
+         await userManager.CreateAsync(employee, EmployeePassword);
          await userManager.AddClaimAsync(employee, new Claim("Employee", "true"));
       }
 
-      var student = await userManager.FindByEmailAsync(studentEmail);
+      var student = await userManager.FindByEmailAsync(StudentEmail);
       if (student == null)
       {
          student = new IdentityUser("Student")
          {
-            Email = studentEmail
+            Email = StudentEmail
          };
-         await userManager.CreateAsync(student, studentPassword);
+         await userManager.CreateAsync(student, StudentPassword);
          await userManager.AddClaimAsync(student, new Claim("Student", "true"));
       }
    }
