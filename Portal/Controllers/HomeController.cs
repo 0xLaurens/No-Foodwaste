@@ -16,11 +16,13 @@ public class HomeController : Controller
     private readonly IPackageRepository _packageRepository;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IStudentRepository _studentRepository;
+    private readonly ILocationRepository _locationRepository;
 
 
-    public HomeController(ILogger<HomeController> logger, IPackageRepository packageRepository, UserManager<IdentityUser> userManager, IStudentRepository studentRepository)
+    public HomeController(ILogger<HomeController> logger, IPackageRepository packageRepository, UserManager<IdentityUser> userManager, IStudentRepository studentRepository, ILocationRepository locationRepository)
     {
         _studentRepository = studentRepository;
+        _locationRepository = locationRepository;
         _logger = logger;
         _packageRepository = packageRepository;
         _userManager = userManager;
@@ -29,7 +31,8 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult Index(Category? category, string? location)
     {
-        ViewData["LocationFilter"] = string.IsNullOrEmpty(location) ? location : null;
+        ViewData["Locations"] = _locationRepository.GetLocations().Select(x => x.Name).ToList();
+        ViewData["LocationFilter"] = location;
         ViewData["CategoryFilter"] = category;
         return View(_packageRepository.GetNonReservedPackagesFiltered(category, location));
     }

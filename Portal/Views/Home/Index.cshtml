@@ -3,22 +3,38 @@
 
 @{
     ViewData["Title"] = "Home";
+    var locations = ViewData["Locations"] as List<string>; 
 }
+
 <form asp-action="Index" asp method="get">
     <select name="Category" asp-for="@ViewData["CategoryFilter"]" asp-items="@Html.GetEnumSelectList<Category>()">
         <option selected="selected">Category filter</option>
     </select>
-    <input type="submit" value="Filter" class="btn btn-primary"/> | <a asp-action="Index">clear filters</a>
+    <select name="Location" asp-for="@ViewData["LocationFilter"]" asp-items="@(new SelectList(locations))" >
+        <option selected="selected">Location filter</option>
+    </select>
+    <input type="submit" value="Filter" class="btn btn-primary"/> | <a asp-action="Index">Reset filters</a>
 </form>
 
 <section class="pt-5 pb-2">
     <div class="container py-5">
         <div class="row mb-4 mb-lg-5">
             <div class="col mx-auto">
-                <h2 class="fw-bold">Featured</h2>
+                @if (!Model.Any())
+                {
+                    <h2 class="fw-bold">No packages found.</h2>
+                }
+                else
+                {
+                    <h2 class="fw-bold">Featured</h2>
+                }
             </div>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
+            @if (!Model.Any())
+            {
+                <h6><a asp-action="Index">Reset filters.</a></h6>
+            }
             @foreach (var p in Model)
             {
                 @await Html.PartialAsync("Partials/_packCard", p)
