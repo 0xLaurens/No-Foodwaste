@@ -4,7 +4,7 @@ namespace DomainServices.Repos.Inf;
 
 public interface IPackageRepository
 {
-    public Package GetPackageById(int id);
+    public Package? GetPackageById(int id);
     public IQueryable<Package> GetPackages();
     public IQueryable<Package> GetNonReservedPackages();
     public IQueryable<Package> GetNonReservedPackagesFiltered(Category? category, string? location);

@@ -15,9 +15,9 @@ public class PackageRepository : IPackageRepository
         _packageService = packageService;
     }
 
-    public Package GetPackageById(int id)
+    public Package? GetPackageById(int id)
     {
-        return _context.Packages.SingleOrDefault(p => p.PackageId == id);
+        return _context.Packages!.SingleOrDefault(p => p.PackageId == id);
     }
 
     public IQueryable<Package> GetPackages()
