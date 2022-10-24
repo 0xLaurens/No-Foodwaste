@@ -30,7 +30,18 @@ builder.Services.AddDbContext<AccountDbContext>(options =>
     );
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+        options =>
+        { 
+            options.SignIn.RequireConfirmedAccount = false;
+            options.SignIn.RequireConfirmedEmail = false;
+            options.Password.RequiredLength = 1;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireDigit= false;
+            
+        })
     .AddEntityFrameworkStores<AccountDbContext>();
 
 builder.Services.AddAuthorization(options => 
@@ -50,6 +61,14 @@ builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+
+//Return user to home if trying to access protected page 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/";
+});
+
+
 
 var app = builder.Build();
 

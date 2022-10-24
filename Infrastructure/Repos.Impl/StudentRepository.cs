@@ -25,4 +25,10 @@ public class StudentRepository: IStudentRepository
     {
         return _context.Students!;
     }
+
+    public void AddStudent(Student student)
+    {
+        _context.Students!.Add(student);
+        _context.SaveChanges();
+    }
 }

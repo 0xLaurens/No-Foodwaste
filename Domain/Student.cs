@@ -5,7 +5,8 @@ namespace Domain;
 
 public class Student
 {
-    private DateTime? _DateOfBirth;
+    private DateTime? _dateOfBirth;
+    
     public int StudentId { get; init; }
     [EmailAddress]
     public string? EmailAddress { get; init; }
@@ -15,7 +16,7 @@ public class Student
     [Required(ErrorMessage = "Enter your Date of Birth")]
     public DateTime? DateOfBirth
     {
-        get => _DateOfBirth;
+        get => _dateOfBirth;
         set
         {
             if (value!.Value.Date > DateTime.Now.Date)
@@ -23,7 +24,7 @@ public class Student
             if (value.Value.Date > DateTime.Now.AddYears(-16).Date)
                 throw new InvalidOperationException("Student must be at least 16 years old");
 
-            _DateOfBirth = value.Value.Date;
+            _dateOfBirth = value.Value.Date;
         }
     }
 
