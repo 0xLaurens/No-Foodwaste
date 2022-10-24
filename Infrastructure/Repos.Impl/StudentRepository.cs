@@ -13,16 +13,16 @@ public class StudentRepository: IStudentRepository
     }
     public Student GetStudentById(int id)
     {
-        return _context.Students.SingleOrDefault(s => s.StudentId == id);
+        return _context.Students!.SingleOrDefault(s => s.StudentId == id)!;
     }
 
     public Student GetStudentByEmail(string Email)
     {
-        return _context.Students.SingleOrDefault(s => s.EmailAddress == Email);
+        return _context.Students!.SingleOrDefault(s => s.EmailAddress == Email)!;
     }
 
-    public List<Student> GetStudents()
+    public IQueryable<Student> GetStudents()
     {
-        return _context.Students.ToList();
+        return _context.Students!;
     }
 }

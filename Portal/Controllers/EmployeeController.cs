@@ -41,7 +41,7 @@ public class EmployeeController : Controller
     [Authorize(Policy = "EmployeeOnly")]
     public IActionResult Overview()
     {
-        return View(_packageRepository.GetNonReservedPackages());
+        return View(_packageRepository.GetNonReservedPackages().AsEnumerable());
     }
 
     [HttpGet]

@@ -14,12 +14,11 @@ public class ProductRepository : IProductRepository
     }
     public Product GetProductById(int id)
     {
-        return _context.Products.SingleOrDefault(p => p.ProductId == id);
+        return _context.Products!.SingleOrDefault(p => p.ProductId == id)!;
     }
 
-    public List<Product> GetProducts()
+    public IQueryable<Product> GetProducts()
     {
-        return _context.Products
-            .ToList();
+        return _context.Products!;
     }
 }

@@ -20,49 +20,48 @@ public class PackageRepository : IPackageRepository
         return _context.Packages.SingleOrDefault(p => p.PackageId == id);
     }
 
-    public IEnumerable<Package> GetPackages()
+    public IQueryable<Package> GetPackages()
     {
         return _context.Packages!
-            .OrderBy(p => p.EndTimeSlot)
-            .ToList();
+            .OrderBy(p => p.EndTimeSlot);
     }
 
-    public List<Package> GetNonReservedPackages()
+    public IQueryable<Package> GetNonReservedPackages()
     {
         return GetPackages()
-            .Where(p => p.StudentId == null)
-            .ToList();
+            .Where(p => p.StudentId == null);
     }
 
-    public IEnumerable<Package> GetNonReservedPackagesFiltered(Category? category, string? location)
+    public IQueryable<Package> GetNonReservedPackagesFiltered(Category? category, string? location)
     {
-        if (location != null)
+        if (category != null && location != null)
+        {
+            return GetNonReservedPackages()
+                .Where(p => p.Cafeteria!.Location!.Name == location && p.Category == category);
+        }
+        else if (location != null)
         {
             return GetNonReservedPackages().Where(p => p.Cafeteria!.Location!.Name == location);
-
         }
-
-        if (category != null)
+        else if (category != null)
         {
-          return GetNonReservedPackages().Where(p => p.Category == (Category) category);
+            return GetNonReservedPackages().Where(p => p.Category == category);
         }
-        
+
         return GetNonReservedPackages();
     }
 
 
-    public List<Package> GetNonReservedPackagesPerCafeteria(int id)
+    public IQueryable<Package> GetNonReservedPackagesPerCafeteria(int id)
     {
         return GetNonReservedPackages()
-            .Where(p => p.CafeteriaId == id)
-            .ToList();
+            .Where(p => p.CafeteriaId == id);
     }
 
-    public List<Package> GetPackagesByStudent(int studentId)
+    public IQueryable<Package>? GetPackagesByStudent(Student student)
     {
         return GetPackages()
-            .Where(p => p.StudentId == studentId)
-            .ToList();
+            .Where(p => student != null && p.StudentId == student.StudentId);
     }
 
     public void CreatePackage(Package package)

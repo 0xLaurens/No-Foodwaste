@@ -13,11 +13,11 @@ public class LocationRepository : ILocationRepository
     }
     public Location GetLocationById(int id)
     { 
-        return _context.Locations.SingleOrDefault(l => l.LocationId == id);
+        return _context.Locations!.SingleOrDefault(l => l.LocationId == id)!;
     }
 
-    public List<Location> GetLocations()
+    public IQueryable<Location> GetLocations()
     {
-        return _context.Locations.ToList();
+        return _context.Locations!;
     }
 }

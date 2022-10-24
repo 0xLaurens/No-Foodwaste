@@ -14,11 +14,11 @@ public class CityRepository : ICityRepository
     
     public City GetCityById(int id)
     {
-        return _context.Cities.SingleOrDefault(c => c.CityId== id);
+        return _context.Cities!.SingleOrDefault(c => c.CityId== id)!;
     }
 
-    public List<City> GetCities()
+    public IQueryable<City> GetCities()
     {
-        return _context.Cities.ToList();
+        return _context.Cities!;
     }
 }

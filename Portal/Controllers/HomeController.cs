@@ -6,7 +6,6 @@ using Domain;
 using DomainServices.Repos.Inf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Avans_NoWaste.Controllers;
 
@@ -19,7 +18,9 @@ public class HomeController : Controller
     private readonly ILocationRepository _locationRepository;
 
 
-    public HomeController(ILogger<HomeController> logger, IPackageRepository packageRepository, UserManager<IdentityUser> userManager, IStudentRepository studentRepository, ILocationRepository locationRepository)
+    public HomeController(ILogger<HomeController> logger, IPackageRepository packageRepository,
+        UserManager<IdentityUser> userManager, IStudentRepository studentRepository,
+        ILocationRepository locationRepository)
     {
         _studentRepository = studentRepository;
         _locationRepository = locationRepository;
@@ -36,13 +37,13 @@ public class HomeController : Controller
         ViewData["CategoryFilter"] = category;
         return View(_packageRepository.GetNonReservedPackagesFiltered(category, location));
     }
-    
+
     [Authorize]
     public IActionResult Orders()
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         var student = _studentRepository.GetStudentByEmail(email);
-        return View(_packageRepository.GetPackagesByStudent(student.StudentId));
+        return View(_packageRepository.GetPackagesByStudent(student));
     }
 
 

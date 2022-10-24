@@ -5,11 +5,11 @@ namespace DomainServices.Repos.Inf;
 public interface IPackageRepository
 {
     public Package GetPackageById(int id);
-    public IEnumerable<Package> GetPackages();
-    public List<Package> GetNonReservedPackages();
-    public IEnumerable<Package> GetNonReservedPackagesFiltered(Category? category, string? location);
-    public List<Package> GetNonReservedPackagesPerCafeteria(int id);
-    public List<Package> GetPackagesByStudent(int StudentId);
+    public IQueryable<Package> GetPackages();
+    public IQueryable<Package> GetNonReservedPackages();
+    public IQueryable<Package> GetNonReservedPackagesFiltered(Category? category, string? location);
+    public IQueryable<Package> GetNonReservedPackagesPerCafeteria(int id);
+    public IQueryable<Package>? GetPackagesByStudent(Student student);
     public void CreatePackage(Package package);
     public void UpdatePackage(Package package);
     public void ReservePackageForStudent(Package package, Student student);

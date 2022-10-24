@@ -12,18 +12,18 @@ public class EmployeeRepository : IEmployeeRepository
         _context = context;
     }
 
-    public List<Employee> GetEmployees()
+    public IQueryable<Employee> GetEmployees()
     {
-        return _context.Employees.ToList();
+        return _context.Employees!;
     }
 
     public Employee GetEmployeeById(int id)
     {
-        return _context.Employees.SingleOrDefault(e => e.EmployeeId == id);
+        return _context.Employees!.SingleOrDefault(e => e.EmployeeId == id)!;
     }
     
     public Employee GetEmployeeByEmail(string email)
     {
-        return _context.Employees.SingleOrDefault(e => e.Email == email);
+        return _context.Employees!.SingleOrDefault(e => e.Email == email)!;
     }
 }

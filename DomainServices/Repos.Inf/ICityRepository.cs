@@ -5,5 +5,5 @@ namespace DomainServices.Repos.Inf;
 public interface ICityRepository
 {
     public City GetCityById(int id);
-    public List<City> GetCities();
+    public IQueryable<City> GetCities();
 }
