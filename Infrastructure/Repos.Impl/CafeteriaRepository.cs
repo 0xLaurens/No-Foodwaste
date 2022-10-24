@@ -14,11 +14,11 @@ public class CafeteriaRepository : ICafeteriaRepository
     
     public Cafeteria GetCafeteriaById(int id)
     {
-        return _context.Cafeterias.SingleOrDefault(c => c.CafeteriaId == id);
+        return _context.Cafeterias!.SingleOrDefault(c => c.CafeteriaId == id)!;
     }
 
-    public List<Cafeteria> GetCafeterias()
+    public IQueryable<Cafeteria> GetCafeterias()
     {
-        return _context.Cafeterias.ToList();
+        return _context.Cafeterias!;
     }
 }
