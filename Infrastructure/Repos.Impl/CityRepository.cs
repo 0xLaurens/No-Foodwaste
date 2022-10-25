@@ -12,13 +12,15 @@ public class CityRepository : ICityRepository
         _context = context;
     }
     
-    public City GetCityById(int id)
+    public City? GetCityById(int id)
     {
-        return _context.Cities!.SingleOrDefault(c => c.CityId== id)!;
+        return GetCities()
+               .SingleOrDefault(c => c.CityId == id)!;
     }
 
-    public IQueryable<City> GetCities()
+    public IQueryable<City>? GetCities()
     {
-        return _context.Cities!;
+        return _context.Cities?
+            .OrderBy(c => c.Name);
     }
 }

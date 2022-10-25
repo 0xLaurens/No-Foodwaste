@@ -3,9 +3,11 @@ using Avans_NoWaste.Models;
 using Domain;
 using DomainServices.Repos.Inf;
 using Infrastructure;
+using Infrastructure.Repos.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Avans_NoWaste.Controllers;
 
@@ -14,13 +16,15 @@ public class AccountController : Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly IStudentRepository _studentRepository;
+    private readonly ICityRepository _cityRepository;
 
     public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signInMgr,
-        IStudentRepository studentRepository)
+        IStudentRepository studentRepository, ICityRepository cityRepository)
     {
         _userManager = userMgr;
         _signInManager = signInMgr;
         _studentRepository = studentRepository;
+        _cityRepository = cityRepository;
 
         IdentitySeedData.EnsurePopulated(userMgr).Wait();
     }
@@ -67,6 +71,12 @@ public class AccountController : Controller
     [AllowAnonymous]
     public IActionResult Register(string returnUrl)
     {
+        ViewData["Cities"] = _cityRepository.GetCities()!
+            .Select(c => new SelectListItem()
+            {
+                Value = c.CityId.ToString(),
+                Text = c.Name
+            }).ToList();
         return View(new RegisterViewModel()
         {
             ReturnUrl = returnUrl
@@ -84,7 +94,7 @@ public class AccountController : Controller
             CityId = registerViewModel.CityId,
             PhoneNumber = registerViewModel.PhoneNumber,
         };
-        
+
         try
         {
             student.DateOfBirth = registerViewModel.DateOfBirth;
