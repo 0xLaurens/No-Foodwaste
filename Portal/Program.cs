@@ -35,12 +35,11 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
         { 
             options.SignIn.RequireConfirmedAccount = false;
             options.SignIn.RequireConfirmedEmail = false;
-            options.Password.RequiredLength = 1;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireDigit= false;
-            
+            options.Password.RequiredLength = 6;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireDigit = true;
         })
     .AddEntityFrameworkStores<AccountDbContext>();
 

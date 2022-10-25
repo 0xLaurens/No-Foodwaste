@@ -71,7 +71,7 @@ public class AccountController : Controller
     [AllowAnonymous]
     public IActionResult Register(string returnUrl)
     {
-        ViewData["Cities"] = _cityRepository.GetCities()!
+        var cities = _cityRepository.GetCities()!
             .Select(c => new SelectListItem()
             {
                 Value = c.CityId.ToString(),
@@ -79,6 +79,7 @@ public class AccountController : Controller
             }).ToList();
         return View(new RegisterViewModel()
         {
+            Cities = cities,
             ReturnUrl = returnUrl
         });
     }
@@ -88,6 +89,13 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
     {
+        registerViewModel.Cities = _cityRepository.GetCities()!
+            .Select(c => new SelectListItem()
+            {
+                Value = c.CityId.ToString(),
+                Text = c.Name
+            }).ToList();
+
         var student = new Student()
         {
             EmailAddress = registerViewModel.EmailAddress,
@@ -109,9 +117,14 @@ public class AccountController : Controller
 
         var user = new IdentityUser
             { UserName = registerViewModel.EmailAddress, Email = registerViewModel.EmailAddress };
+
+
         var result = await _userManager.CreateAsync(user, registerViewModel.Password);
 
-        if (!result.Succeeded) return View(registerViewModel);
+
+        if (!result.Succeeded)
+            return View(registerViewModel);
+
 
         await _signInManager.SignInAsync(user, isPersistent: false);
         _studentRepository.AddStudent(student);
