@@ -43,12 +43,9 @@ public class Package
 public enum Category
 {
     Fruit,
-    Vegetable,
     Bread,
     Diner,
     Lunch,
     Beveridge,
-    HotMeal,
     Vega,
-    Gluten,
 }

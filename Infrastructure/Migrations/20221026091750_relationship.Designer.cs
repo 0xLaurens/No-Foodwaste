@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    [Migration("20221021145312_PackageCityNull")]
-    partial class PackageCityNull
+    [Migration("20221026091750_relationship")]
+    partial class relationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -184,19 +184,19 @@ namespace Infrastructure.Migrations
                         {
                             LocationId = 1,
                             CityId = 1,
-                            Name = "La"
+                            Name = "LA"
                         },
                         new
                         {
                             LocationId = 2,
                             CityId = 2,
-                            Name = "Ld"
+                            Name = "LD"
                         },
                         new
                         {
                             LocationId = 3,
                             CityId = 3,
-                            Name = "Hl"
+                            Name = "HL"
                         });
                 });
 
@@ -215,7 +215,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("CityId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("EighteenPlus")
@@ -226,7 +225,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal?>("Price")
                         .IsRequired()
@@ -244,6 +243,9 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CityId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("StudentId");
 
                     b.ToTable("Packages");
@@ -253,51 +255,74 @@ namespace Infrastructure.Migrations
                         {
                             PackageId = 1,
                             CafeteriaId = 1,
-                            Category = 2,
+                            Category = 1,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6720),
-                            Name = "Broodpakket",
+                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6867),
+                            Name = "Tosti ham 'n cheese",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6683),
+                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6853),
                             StudentId = 1
                         },
                         new
                         {
                             PackageId = 2,
                             CafeteriaId = 1,
-                            Category = 2,
+                            Category = 1,
                             CityId = 1,
                             EighteenPlus = true,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6743),
-                            Name = "Pretpakket",
+                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6910),
+                            Name = "Beer and chicken",
                             Price = 2.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6741)
+                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6895)
                         },
                         new
                         {
                             PackageId = 3,
-                            CafeteriaId = 3,
+                            CafeteriaId = 2,
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6749),
+                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6939),
                             Name = "Fruit bowl",
                             Price = 3.44m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6747)
+                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6924)
                         },
                         new
                         {
                             PackageId = 4,
                             CafeteriaId = 2,
-                            Category = 7,
+                            Category = 5,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6755),
+                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6967),
                             Name = "Vega delight",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6753),
-                            StudentId = 1
+                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6952)
+                        },
+                        new
+                        {
+                            PackageId = 5,
+                            CafeteriaId = 3,
+                            Category = 1,
+                            CityId = 1,
+                            EighteenPlus = false,
+                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6991),
+                            Name = "Sloppy spaghetti sandwich",
+                            Price = 2.49m,
+                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6977)
+                        },
+                        new
+                        {
+                            PackageId = 6,
+                            CafeteriaId = 3,
+                            Category = 4,
+                            CityId = 1,
+                            EighteenPlus = true,
+                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(7025),
+                            Name = "Heineken Beer",
+                            Price = 1m,
+                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(7010)
                         });
                 });
 
@@ -313,12 +338,16 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Products");
 
@@ -332,80 +361,101 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            ProductId = 3,
+                            ProductId = 2,
                             ContainsAlcohol = false,
                             Name = "Ham",
                             Photo = "Image of ham"
                         },
                         new
                         {
-                            ProductId = 4,
+                            ProductId = 3,
                             ContainsAlcohol = false,
                             Name = "Banana",
                             Photo = "Image of banana"
                         },
                         new
                         {
-                            ProductId = 5,
+                            ProductId = 4,
                             ContainsAlcohol = false,
                             Name = "Orange",
                             Photo = "Image of Orange"
                         },
                         new
                         {
-                            ProductId = 6,
+                            ProductId = 5,
                             ContainsAlcohol = false,
                             Name = "Chicken",
                             Photo = "Image of chicken"
                         },
                         new
                         {
-                            ProductId = 7,
+                            ProductId = 6,
                             ContainsAlcohol = true,
                             Name = "Heineken beer",
                             Photo = "Image of Heineken"
                         },
                         new
                         {
-                            ProductId = 8,
+                            ProductId = 7,
                             ContainsAlcohol = false,
                             Name = "Pasta Bolognese",
                             Photo = "Image of Pasta Bolognese"
                         },
                         new
                         {
+                            ProductId = 8,
+                            ContainsAlcohol = false,
+                            Name = "White Bread",
+                            Photo = "Image of brood"
+                        },
+                        new
+                        {
                             ProductId = 9,
                             ContainsAlcohol = false,
-                            Name = "Bruin brood",
+                            Name = "Brown Bread",
                             Photo = "Image of brood"
                         },
                         new
                         {
                             ProductId = 10,
                             ContainsAlcohol = false,
-                            Name = "Wit brood",
-                            Photo = "Image of brood"
-                        },
-                        new
-                        {
-                            ProductId = 11,
-                            ContainsAlcohol = false,
                             Name = "Paprika",
                             Photo = "Image of Paprika"
                         },
                         new
                         {
-                            ProductId = 12,
+                            ProductId = 11,
                             ContainsAlcohol = false,
                             Name = "Mayonaise",
                             Photo = "Image of Mayonaise"
                         },
                         new
                         {
-                            ProductId = 13,
+                            ProductId = 12,
                             ContainsAlcohol = false,
                             Name = "Ketchup",
                             Photo = "Image of Ketchup"
+                        },
+                        new
+                        {
+                            ProductId = 13,
+                            ContainsAlcohol = false,
+                            Name = "Apple",
+                            Photo = "Image of apple"
+                        },
+                        new
+                        {
+                            ProductId = 14,
+                            ContainsAlcohol = false,
+                            Name = "Broccoli",
+                            Photo = "Image of Broccoli"
+                        },
+                        new
+                        {
+                            ProductId = 15,
+                            ContainsAlcohol = false,
+                            Name = "Lettuce",
+                            Photo = "Image of Lettuce"
                         });
                 });
 
@@ -425,7 +475,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailAddress")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -433,6 +483,10 @@ namespace Infrastructure.Migrations
                     b.HasKey("StudentId");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("EmailAddress")
+                        .IsUnique()
+                        .HasFilter("[EmailAddress] IS NOT NULL");
 
                     b.ToTable("Students");
 
@@ -468,6 +522,83 @@ namespace Infrastructure.Migrations
                     b.HasIndex("ProductsProductId");
 
                     b.ToTable("PackageProduct");
+
+                    b.HasData(
+                        new
+                        {
+                            PackagesPackageId = 1,
+                            ProductsProductId = 1
+                        },
+                        new
+                        {
+                            PackagesPackageId = 1,
+                            ProductsProductId = 2
+                        },
+                        new
+                        {
+                            PackagesPackageId = 1,
+                            ProductsProductId = 8
+                        },
+                        new
+                        {
+                            PackagesPackageId = 1,
+                            ProductsProductId = 12
+                        },
+                        new
+                        {
+                            PackagesPackageId = 2,
+                            ProductsProductId = 5
+                        },
+                        new
+                        {
+                            PackagesPackageId = 2,
+                            ProductsProductId = 6
+                        },
+                        new
+                        {
+                            PackagesPackageId = 3,
+                            ProductsProductId = 3
+                        },
+                        new
+                        {
+                            PackagesPackageId = 3,
+                            ProductsProductId = 4
+                        },
+                        new
+                        {
+                            PackagesPackageId = 3,
+                            ProductsProductId = 13
+                        },
+                        new
+                        {
+                            PackagesPackageId = 4,
+                            ProductsProductId = 10
+                        },
+                        new
+                        {
+                            PackagesPackageId = 4,
+                            ProductsProductId = 14
+                        },
+                        new
+                        {
+                            PackagesPackageId = 4,
+                            ProductsProductId = 15
+                        },
+                        new
+                        {
+                            PackagesPackageId = 5,
+                            ProductsProductId = 7
+                        },
+                        new
+                        {
+                            PackagesPackageId = 5,
+                            ProductsProductId = 9
+                        },
+                        new
+                        {
+                            PackagesPackageId = 6,
+                            ProductsProductId = 6
+                        });
                 });
 
             modelBuilder.Entity("Domain.Cafeteria", b =>
@@ -507,9 +638,7 @@ namespace Infrastructure.Migrations
 
                     b.HasOne("Domain.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
                     b.HasOne("Domain.Student", null)
                         .WithMany("Packages")
