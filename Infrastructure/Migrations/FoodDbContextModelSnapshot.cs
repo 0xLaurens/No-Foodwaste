@@ -235,6 +235,12 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Thumbnail")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ThumbnailFormat")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PackageId");
 
                     b.HasIndex("CafeteriaId");
@@ -256,10 +262,10 @@ namespace Infrastructure.Migrations
                             Category = 1,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6867),
+                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6671),
                             Name = "Tosti ham 'n cheese",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6853),
+                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6657),
                             StudentId = 1
                         },
                         new
@@ -269,10 +275,10 @@ namespace Infrastructure.Migrations
                             Category = 1,
                             CityId = 1,
                             EighteenPlus = true,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6910),
+                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6728),
                             Name = "Beer and chicken",
                             Price = 2.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6895)
+                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6709)
                         },
                         new
                         {
@@ -281,10 +287,10 @@ namespace Infrastructure.Migrations
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6939),
+                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6761),
                             Name = "Fruit bowl",
                             Price = 3.44m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6924)
+                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6747)
                         },
                         new
                         {
@@ -293,10 +299,10 @@ namespace Infrastructure.Migrations
                             Category = 5,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6967),
+                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6799),
                             Name = "Vega delight",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6952)
+                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6780)
                         },
                         new
                         {
@@ -305,10 +311,10 @@ namespace Infrastructure.Migrations
                             Category = 1,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(6991),
+                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6833),
                             Name = "Sloppy spaghetti sandwich",
                             Price = 2.49m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(6977)
+                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6818)
                         },
                         new
                         {
@@ -317,10 +323,10 @@ namespace Infrastructure.Migrations
                             Category = 4,
                             CityId = 1,
                             EighteenPlus = true,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 14, 17, 50, 644, DateTimeKind.Local).AddTicks(7025),
+                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6871),
                             Name = "Heineken Beer",
                             Price = 1m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 11, 17, 50, 644, DateTimeKind.Local).AddTicks(7010)
+                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6857)
                         });
                 });
 
@@ -338,8 +344,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Photo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("ProductId");
 
@@ -354,106 +360,91 @@ namespace Infrastructure.Migrations
                         {
                             ProductId = 1,
                             ContainsAlcohol = false,
-                            Name = "Cheese slice",
-                            Photo = "Image of cheese"
+                            Name = "Cheese slice"
                         },
                         new
                         {
                             ProductId = 2,
                             ContainsAlcohol = false,
-                            Name = "Ham",
-                            Photo = "Image of ham"
+                            Name = "Ham"
                         },
                         new
                         {
                             ProductId = 3,
                             ContainsAlcohol = false,
-                            Name = "Banana",
-                            Photo = "Image of banana"
+                            Name = "Banana"
                         },
                         new
                         {
                             ProductId = 4,
                             ContainsAlcohol = false,
-                            Name = "Orange",
-                            Photo = "Image of Orange"
+                            Name = "Orange"
                         },
                         new
                         {
                             ProductId = 5,
                             ContainsAlcohol = false,
-                            Name = "Chicken",
-                            Photo = "Image of chicken"
+                            Name = "Chicken"
                         },
                         new
                         {
                             ProductId = 6,
                             ContainsAlcohol = true,
-                            Name = "Heineken beer",
-                            Photo = "Image of Heineken"
+                            Name = "Heineken beer"
                         },
                         new
                         {
                             ProductId = 7,
                             ContainsAlcohol = false,
-                            Name = "Pasta Bolognese",
-                            Photo = "Image of Pasta Bolognese"
+                            Name = "Pasta Bolognese"
                         },
                         new
                         {
                             ProductId = 8,
                             ContainsAlcohol = false,
-                            Name = "White Bread",
-                            Photo = "Image of brood"
+                            Name = "White Bread"
                         },
                         new
                         {
                             ProductId = 9,
                             ContainsAlcohol = false,
-                            Name = "Brown Bread",
-                            Photo = "Image of brood"
+                            Name = "Brown Bread"
                         },
                         new
                         {
                             ProductId = 10,
                             ContainsAlcohol = false,
-                            Name = "Paprika",
-                            Photo = "Image of Paprika"
+                            Name = "Paprika"
                         },
                         new
                         {
                             ProductId = 11,
                             ContainsAlcohol = false,
-                            Name = "Mayonaise",
-                            Photo = "Image of Mayonaise"
+                            Name = "Mayonnaise"
                         },
                         new
                         {
                             ProductId = 12,
                             ContainsAlcohol = false,
-                            Name = "Ketchup",
-                            Photo = "Image of Ketchup"
+                            Name = "Ketchup"
                         },
                         new
                         {
                             ProductId = 13,
                             ContainsAlcohol = false,
-                            Name = "Apple",
-                            Photo = "Image of apple"
+                            Name = "Apple"
                         },
                         new
                         {
                             ProductId = 14,
                             ContainsAlcohol = false,
-                            Name = "Broccoli",
-                            Photo = "Image of Broccoli"
+                            Name = "Broccoli"
                         },
                         new
                         {
                             ProductId = 15,
                             ContainsAlcohol = false,
-                            Name = "Lettuce",
-                            Photo = "Image of Lettuce"
+                            Name = "Lettuce"
                         });
                 });
 

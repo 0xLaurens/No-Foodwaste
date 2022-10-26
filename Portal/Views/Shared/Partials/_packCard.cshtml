@@ -4,6 +4,12 @@
         <a class="text-decoration-none text-black" asp-action="Package" asp-controller="Package" asp-route-id="@Model.PackageId">
             <div class="card-body">
                 <h4>@Model.Name</h4>
+                @if (@Model.Thumbnail != null)
+                {
+                    <div class="card-img-top vh-100 w-100">
+                        <img src="Data:@Model.ThumbnailFormat;base64,@Convert.ToBase64String(Model.Thumbnail!)" alt="Image of @Model.Name"/>
+                    </div>
+                }
                 <ul class="list-unstyled">
                     <li>@Model.City?.Name: @Model.Cafeteria?.Location!.Name</li>
                     <li>@Model.Category</li>

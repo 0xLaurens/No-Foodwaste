@@ -7,6 +7,9 @@ public class PackageViewModel
 {
    public Package? Package { get; set; } 
    public List<CheckboxOptions>? OptionsList { get; set; }
+  
+   [Required(ErrorMessage = "Select an image")]
+   public IFormFile? Picture { get; set; }
    
    [Required(ErrorMessage = "Enter a selection of products for the preview")]
    public List<int>? ProductsList { get; set; }

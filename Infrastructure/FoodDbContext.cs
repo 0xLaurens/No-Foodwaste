@@ -1,3 +1,5 @@
+using System.Net.Mime;
+using System.Text;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -82,77 +84,92 @@ public class FoodDbContext : DbContext
         {
             new Product
             {
-                ProductId = 1, Name = "Cheese slice", Photo = "Image of cheese", Packages = new List<Package>(),
+                ProductId = 1, Name = "Cheese slice",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 2, Name = "Ham", Photo = "Image of ham", Packages = new List<Package>(),
+                ProductId = 2, Name = "Ham",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 3, Name = "Banana", Photo = "Image of banana", Packages = new List<Package>(),
+                ProductId = 3, Name = "Banana",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 4, Name = "Orange", Photo = "Image of Orange", Packages = new List<Package>(),
+                ProductId = 4, Name = "Orange",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 5, Name = "Chicken", Photo = "Image of chicken", Packages = new List<Package>(),
+                ProductId = 5, Name = "Chicken",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 6, Name = "Heineken beer", Photo = "Image of Heineken", Packages = new List<Package>(),
+                ProductId = 6, Name = "Heineken beer",
+                Packages = new List<Package>(),
                 ContainsAlcohol = true
             },
             new Product
             {
-                ProductId = 7, Name = "Pasta Bolognese", Photo = "Image of Pasta Bolognese",
-                Packages = new List<Package>(), ContainsAlcohol = false
-            },
-            new Product
-            {
-                ProductId = 8, Name = "White Bread", Photo = "Image of brood", Packages = new List<Package>(),
+                ProductId = 7, Name = "Pasta Bolognese",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 9, Name = "Brown Bread", Photo = "Image of brood", Packages = new List<Package>(),
+                ProductId = 8, Name = "White Bread",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 10, Name = "Paprika", Photo = "Image of Paprika", Packages = new List<Package>(),
+                ProductId = 9, Name = "Brown Bread",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 11, Name = "Mayonaise", Photo = "Image of Mayonaise", Packages = new List<Package>(),
+                ProductId = 10, Name = "Paprika",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 12, Name = "Ketchup", Photo = "Image of Ketchup", Packages = new List<Package>(),
+                ProductId = 11, Name = "Mayonnaise",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 13, Name = "Apple", Photo = "Image of apple", Packages = new List<Package>(),
+                ProductId = 12, Name = "Ketchup",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 14, Name = "Broccoli", Photo = "Image of Broccoli", Packages = new List<Package>(),
+                ProductId = 13, Name = "Apple",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
             new Product
             {
-                ProductId = 15, Name = "Lettuce", Photo = "Image of Lettuce", Packages = new List<Package>(),
+                ProductId = 14, Name = "Broccoli",
+                Packages = new List<Package>(),
+                ContainsAlcohol = false
+            },
+            new Product
+            {
+                ProductId = 15, Name = "Lettuce",
+                Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
         };
@@ -295,14 +312,14 @@ public class FoodDbContext : DbContext
             .HasData(packages);
 
         // products
-        
+
         modelBuilder.Entity<Product>()
             .HasIndex(p => p.Name)
             .IsUnique();
 
         modelBuilder.Entity<Product>()
             .HasData(products);
-        
+
         // package product 
         modelBuilder.Entity("PackageProduct")
             .HasData(
@@ -310,21 +327,16 @@ public class FoodDbContext : DbContext
                 new { PackagesPackageId = 1, ProductsProductId = 2 },
                 new { PackagesPackageId = 1, ProductsProductId = 8 },
                 new { PackagesPackageId = 1, ProductsProductId = 12 },
-                
                 new { PackagesPackageId = 2, ProductsProductId = 5 },
                 new { PackagesPackageId = 2, ProductsProductId = 6 },
-                
                 new { PackagesPackageId = 3, ProductsProductId = 3 },
                 new { PackagesPackageId = 3, ProductsProductId = 4 },
                 new { PackagesPackageId = 3, ProductsProductId = 13 },
-                
                 new { PackagesPackageId = 4, ProductsProductId = 10 },
                 new { PackagesPackageId = 4, ProductsProductId = 14 },
                 new { PackagesPackageId = 4, ProductsProductId = 15 },
-                
                 new { PackagesPackageId = 5, ProductsProductId = 7 },
                 new { PackagesPackageId = 5, ProductsProductId = 9 },
-                
                 new { PackagesPackageId = 6, ProductsProductId = 6 }
             );
 

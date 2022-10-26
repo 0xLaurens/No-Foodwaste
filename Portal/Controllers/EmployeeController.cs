@@ -55,7 +55,7 @@ public class EmployeeController : Controller
             Package = null,
             OptionsList = list
         };
-        
+
         return View(viewModel);
     }
 
@@ -96,6 +96,10 @@ public class EmployeeController : Controller
         if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package))
             model.Package.EighteenPlus = true;
 
+        model.Package.ThumbnailFormat = model.Picture.ContentType;
+        var ms = new MemoryStream();
+        model.Picture.CopyTo(ms);
+        model.Package.Thumbnail = ms.ToArray();
         model.Package.CafeteriaId = employee.CafeteriaId;
         model.Package.CityId = employee.CityId;
 
@@ -133,7 +137,7 @@ public class EmployeeController : Controller
         var productIds = model.ProductsList;
         model.Package!.Products = productIds?.Select(p => _productRepository.GetProductById(p)).ToList();
 
-        if (!_packageService.PackageHasCorrectDate(model.Package!) || 
+        if (!_packageService.PackageHasCorrectDate(model.Package!) ||
             !ModelState.IsValid ||
             !_packageService.CanPackageBeAltered(model.Package!))
         {
@@ -161,6 +165,10 @@ public class EmployeeController : Controller
             return View(model);
         }
 
+        model.Package.ThumbnailFormat = model.Picture.ContentType;
+        var ms = new MemoryStream();
+        model.Picture.CopyTo(ms);
+        model.Package.Thumbnail = ms.ToArray();
 
         if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package!))
             model.Package!.EighteenPlus = true;
