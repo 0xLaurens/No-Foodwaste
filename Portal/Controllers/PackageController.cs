@@ -35,15 +35,15 @@ public class PackageController : Controller
         var email = User.FindFirstValue(ClaimTypes.Email);
         var student = _studentRepository.GetStudentByEmail(email);
 
-        if (!_packageService.StudentCanOrderPackageOnDate(package, student))
+        if (!_packageService.StudentCanOrderPackageOnDate(package!, student))
         {
-            if (!_packageService.CanPackageBeAltered(package))
+            if (!_packageService.CanPackageBeAltered(package!))
                 ViewBag.Error = "The package you are trying to reserve has already been reserved";
     
-            if (!_packageService.StudentCanOrderPackageOnDate(package, student))
+            if (!_packageService.StudentCanOrderPackageOnDate(package!, student))
                 ViewBag.Error = "You already ordered a package for that date, you can only pickup one package per day";
 
-            if (!_packageService.StudentOldEnoughForPackage(package, student))
+            if (!_packageService.StudentOldEnoughForPackage(package!, student))
                 ViewBag.Error =
                     "This package is marked as 18 plus, you have to be 18 or older on the date of the package pickup";
            
@@ -51,7 +51,7 @@ public class PackageController : Controller
         }
 
 
-        _packageRepository.ReservePackageForStudent(package, student);
+        _packageRepository.ReservePackageForStudent(package!, student);
         return Redirect("/");
     }
 }

@@ -74,13 +74,13 @@ public class PackageRepository : IPackageRepository
     public void UpdatePackage(Package package)
     {
         var entry = GetPackageById(package.PackageId);
-        if (!_packageService.CanPackageBeAltered(entry))
+        if (!_packageService.CanPackageBeAltered(entry!))
             throw new InvalidOperationException("Cannot be altered");
         if (!_packageService.PackageHasCorrectDate(package))
             throw new InvalidOperationException("Wrong date");
 
         // Explicit deletion of all foreign keys
-        entry.Products!.Any(p => entry.Products!.Remove(p));
+        entry!.Products!.Any(p => entry.Products!.Remove(p)!);
 
 
         entry.Products = package.Products;
@@ -103,9 +103,9 @@ public class PackageRepository : IPackageRepository
     public void RemovePackage(int id)
     {
         var entry = GetPackageById(id);
-        if (!_packageService.CanPackageBeAltered(entry))
+        if (!_packageService.CanPackageBeAltered(entry!))
             throw new InvalidOperationException();
-        _context.Packages?.Remove(entry);
+        _context.Packages?.Remove(entry!);
         _context.SaveChanges();
     }
 }

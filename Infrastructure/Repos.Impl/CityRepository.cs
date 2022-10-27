@@ -14,7 +14,7 @@ public class CityRepository : ICityRepository
     
     public City? GetCityById(int id)
     {
-        return GetCities()
+        return GetCities()?
                .SingleOrDefault(c => c.CityId == id)!;
     }
 

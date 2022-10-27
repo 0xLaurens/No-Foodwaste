@@ -21,4 +21,22 @@ public class CafeteriaRepository : ICafeteriaRepository
     {
         return _context.Cafeterias!;
     }
+
+    public void CreateCafeteria(Cafeteria cafeteria)
+    {
+        _context.Cafeterias!.Add(cafeteria);
+        _context.SaveChanges();
+    }
+
+    public void UpdateCafeteria(Cafeteria cafeteria)
+    {
+        _context.Cafeterias!.Update(cafeteria);
+        _context.SaveChanges();
+    }
+
+    public void DeleteCafeteria(Cafeteria cafeteria)
+    {
+        _context.Cafeterias!.Remove(cafeteria);
+        _context.SaveChanges();
+    }
 }

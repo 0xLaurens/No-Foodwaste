@@ -179,17 +179,14 @@ public class FoodDbContext : DbContext
             new Cafeteria
             {
                 CafeteriaId = 1, CityId = 1, LocationId = locations[0].LocationId, Location = null,
-                Packages = new List<Package>()
             },
             new Cafeteria
             {
                 CafeteriaId = 2, CityId = 1, LocationId = locations[1].LocationId, Location = null,
-                Packages = new List<Package>()
             },
             new Cafeteria
             {
                 CafeteriaId = 3, CityId = 1, LocationId = locations[2].LocationId, Location = null,
-                Packages = new List<Package>()
             }
         };
 
