@@ -1,5 +1,6 @@
 using Domain;
 using DomainServices.Repos.Inf;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -7,10 +8,11 @@ public class CityRepository : ICityRepository
 {
     private readonly FoodDbContext _context;
 
-    public CityRepository(FoodDbContext context)
+    public CityRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
     {
-        _context = context;
+        _context = dbContextFactory.CreateDbContext();
     }
+    
 
     public City? GetCityById(int id)
     {
@@ -20,7 +22,7 @@ public class CityRepository : ICityRepository
 
     public IQueryable<City>? GetCities()
     {
-        return _context.Cities?
+        return _context.Cities!
             .OrderBy(c => c.Name);
     }
 

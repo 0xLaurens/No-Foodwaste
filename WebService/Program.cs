@@ -4,14 +4,10 @@ using DomainServices.Services.Inf;
 using Infrastructure;
 using Infrastructure.Repos.Impl;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using WebService.GraphQL;
 
 var builder = WebApplication.CreateBuilder(args);
 // Hot Chocolate
-builder.Services.AddPooledDbContextFactory<FoodDbContext>(o => 
-    o.UseSqlServer(builder.Configuration.GetConnectionString("FoodDb")));
-
 
 builder.Services.AddGraphQLServer()
     .AddQueryType<PackageGraphQl>();
@@ -22,19 +18,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 
-// Reference loop
-builder.Services.AddMvc().AddNewtonsoftJson(
-    options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
 // FoodDb
-builder.Services.AddDbContext<FoodDbContext>(options =>
-{
-    options
-        .UseLazyLoadingProxies()
-        .UseSqlServer(
-            builder.Configuration.GetConnectionString("FoodDb")
-        );
-});
-
+builder.Services.AddPooledDbContextFactory<FoodDbContext>(o => 
+    o.UseSqlServer(builder.Configuration.GetConnectionString("FoodDb")));
 
 // IdentityDb
 builder.Services.AddDbContext<AccountDbContext>(options =>
@@ -43,6 +29,7 @@ builder.Services.AddDbContext<AccountDbContext>(options =>
         builder.Configuration.GetConnectionString("IdentityDb")
     );
 });
+
 builder.Services.AddScoped<IPackageService, PackageService>();
 // Injection (Needs knowledge of Infrastructure)
 builder.Services.AddScoped<ICafeteriaRepository, CafeteriaRepository>();

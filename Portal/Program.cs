@@ -8,19 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 // FoodDb
-builder.Services.AddDbContext<FoodDbContext>(options =>
-{
-    options
-        .UseLazyLoadingProxies()
-        .UseSqlServer(
-            builder.Configuration.GetConnectionString("FoodDb")
-        );
-});
-
+builder.Services.AddPooledDbContextFactory<FoodDbContext>(o => 
+    o.UseSqlServer(builder.Configuration.GetConnectionString("FoodDb")));
 
 // IdentityDb
 builder.Services.AddDbContext<AccountDbContext>(options =>

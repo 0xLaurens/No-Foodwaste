@@ -7,11 +7,12 @@ public class Package
 {
     public int PackageId { get; set; }
 
+    [Required(ErrorMessage = "Enter a unique name")]
+    public string? Name { get; set; }
+
     public byte[]? Thumbnail { get; set; }
     public string? ThumbnailFormat { get; set; }
 
-    [Required(ErrorMessage = "Enter a unique name")]
-    public string? Name { get; set; }
 
     public int? CityId { get; set; }
     public virtual City? City { get; set; }

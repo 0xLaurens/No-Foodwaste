@@ -10,21 +10,24 @@ public class PackageRepository : IPackageRepository
     private readonly FoodDbContext _context;
     private readonly IPackageService _packageService;
 
-    public PackageRepository(FoodDbContext context, IPackageService packageService, IDbContextFactory<FoodDbContext>? contextFactory)
+    public PackageRepository(IPackageService packageService, IDbContextFactory<FoodDbContext> contextFactory)
     {
-        _context = context;
-        if (contextFactory != null) _context = contextFactory.CreateDbContext();
+        _context = contextFactory.CreateDbContext();
         _packageService = packageService;
     }
 
     public Package? GetPackageById(int id)
     {
-        return _context.Packages!.SingleOrDefault(p => p.PackageId == id);
+        return GetPackages().SingleOrDefault(p => p.PackageId == id);
     }
 
     public IQueryable<Package> GetPackages()
     {
         return _context.Packages!
+            .Include(p => p.Cafeteria)
+            .ThenInclude(c => c.Location)
+            .Include(p => p.City)
+            .Include(p => p.Products)
             .OrderBy(p => p.EndTimeSlot);
     }
 

@@ -8,10 +8,9 @@ public class LocationRepository : ILocationRepository
 {
     private readonly FoodDbContext _context;
 
-    public LocationRepository(FoodDbContext context)
+    public LocationRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
     {
-        _context = context;
-        
+        _context = dbContextFactory.CreateDbContext();
     }
 
     public Location GetLocationById(int id)
@@ -21,6 +20,7 @@ public class LocationRepository : ILocationRepository
 
     public IQueryable<Location> GetLocations()
     {
-        return _context.Locations!;
+        return _context.Locations!
+            .Include(l => l.Employees);
     }
 }

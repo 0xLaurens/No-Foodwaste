@@ -1,5 +1,6 @@
 using Domain;
 using DomainServices.Repos.Inf;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -7,19 +8,20 @@ public class CafeteriaRepository : ICafeteriaRepository
 {
     private readonly FoodDbContext _context;
 
-    public CafeteriaRepository(FoodDbContext context)
+    public CafeteriaRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
     {
-        _context = context;
+        _context = dbContextFactory.CreateDbContext();
     }
 
     public Cafeteria GetCafeteriaById(int id)
     {
-        return _context.Cafeterias!.SingleOrDefault(c => c.CafeteriaId == id)!;
+        return GetCafeterias().SingleOrDefault(c => c.CafeteriaId == id)!;
     }
 
     public IQueryable<Cafeteria> GetCafeterias()
     {
-        return _context.Cafeterias!;
+        return _context.Cafeterias!
+            .Include(c => c.Location);
     }
 
     public void CreateCafeteria(Cafeteria cafeteria)
