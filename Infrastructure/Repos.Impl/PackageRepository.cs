@@ -1,6 +1,7 @@
 using Domain;
 using DomainServices.Repos.Inf;
 using DomainServices.Services.Inf;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -9,9 +10,10 @@ public class PackageRepository : IPackageRepository
     private readonly FoodDbContext _context;
     private readonly IPackageService _packageService;
 
-    public PackageRepository(FoodDbContext context, IPackageService packageService)
+    public PackageRepository(FoodDbContext context, IPackageService packageService, IDbContextFactory<FoodDbContext>? contextFactory)
     {
         _context = context;
+        if (contextFactory != null) _context = contextFactory.CreateDbContext();
         _packageService = packageService;
     }
 

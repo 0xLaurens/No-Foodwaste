@@ -1,5 +1,6 @@
 using Location = Domain.Location;
 using DomainServices.Repos.Inf;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -10,6 +11,7 @@ public class LocationRepository : ILocationRepository
     public LocationRepository(FoodDbContext context)
     {
         _context = context;
+        
     }
 
     public Location GetLocationById(int id)

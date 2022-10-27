@@ -5,10 +5,16 @@ using Infrastructure;
 using Infrastructure.Repos.Impl;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using WebService.GraphQL;
 
 var builder = WebApplication.CreateBuilder(args);
+// Hot Chocolate
+builder.Services.AddPooledDbContextFactory<FoodDbContext>(o => 
+    o.UseSqlServer(builder.Configuration.GetConnectionString("FoodDb")));
 
-// Add services to the container.
+
+builder.Services.AddGraphQLServer()
+    .AddQueryType<PackageGraphQl>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -63,5 +69,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGraphQL();
 
 app.Run();
