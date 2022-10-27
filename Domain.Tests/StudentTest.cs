@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Domain.Tests;
 
-public class StudentTest 
+public class StudentTest
 {
     [Fact]
     public void DateOfBirth_YoungerThan16()
@@ -24,7 +24,7 @@ public class StudentTest
         Assert.Equal("Student must be at least 16 years old", act.Message);
         Assert.Null(student.DateOfBirth);
     }
-    
+
     [Fact]
     public void DateOfBirth_BirthdayInTheFuture()
     {
@@ -43,11 +43,11 @@ public class StudentTest
         Assert.Equal("Birthday cannot be in the future", act.Message);
         Assert.Null(student.DateOfBirth);
     }
-    
+
     [Fact]
     public void DateOfBirth_16thBirthdayToday()
     {
-         // Arrange
+        // Arrange
         var student = new Student
         {
             StudentId = 1,
@@ -59,9 +59,9 @@ public class StudentTest
             DateOfBirth = DateTime.Now.AddYears(-16)
         };
         // Assert
-        Assert.Equal( DateTime.Now.AddYears(-16).Date, student.DateOfBirth);
+        Assert.Equal(DateTime.Now.AddYears(-16).Date, student.DateOfBirth);
     }
-    
+
     [Fact]
     public void DateOfBirth_OlderThan16()
     {
@@ -77,8 +77,6 @@ public class StudentTest
             DateOfBirth = DateTime.Now.AddYears(-19)
         };
         // Assert
-        Assert.Equal( DateTime.Now.AddYears(-19).Date, student.DateOfBirth);
+        Assert.Equal(DateTime.Now.AddYears(-19).Date, student.DateOfBirth);
     }
-    
-    
 }

@@ -11,7 +11,7 @@ public class CafeteriaRepository : ICafeteriaRepository
     {
         _context = context;
     }
-    
+
     public Cafeteria GetCafeteriaById(int id)
     {
         return _context.Cafeterias!.SingleOrDefault(c => c.CafeteriaId == id)!;

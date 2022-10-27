@@ -1,6 +1,5 @@
 using Domain;
 using DomainServices.Repos.Inf;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -12,6 +11,7 @@ public class ProductRepository : IProductRepository
     {
         _context = context;
     }
+
     public Product GetProductById(int id)
     {
         return _context.Products!.SingleOrDefault(p => p.ProductId == id)!;

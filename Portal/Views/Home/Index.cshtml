@@ -1,16 +1,16 @@
 ﻿@using Domain
-@model IEnumerable<Package> 
+@model IEnumerable<Domain.Package> 
 
 @{
     ViewData["Title"] = "Home";
-    var locations = ViewData["Locations"] as List<string>; 
+    var locations = ViewData["Locations"] as List<string>;
 }
 
 <form asp-action="Index" asp method="get">
     <select name="Category" asp-for="@ViewData["CategoryFilter"]" asp-items="@Html.GetEnumSelectList<Category>()">
         <option selected="selected">Category filter</option>
     </select>
-    <select name="Location" asp-for="@ViewData["LocationFilter"]" asp-items="@(new SelectList(locations))" >
+    <select name="Location" asp-for="@ViewData["LocationFilter"]" asp-items="@(new SelectList(locations))">
         <option selected="selected">Location filter</option>
     </select>
     <input type="submit" value="Filter" class="btn btn-primary"/> | <a asp-action="Index">Reset filters</a>
@@ -33,7 +33,9 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
             @if (!Model.Any())
             {
-                <h6><a asp-action="Index">Reset filters.</a></h6>
+                <h6>
+                    <a asp-action="Index">Reset filters.</a>
+                </h6>
             }
             @foreach (var p in Model)
             {

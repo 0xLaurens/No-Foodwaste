@@ -11,8 +11,9 @@ public class LocationRepository : ILocationRepository
     {
         _context = context;
     }
+
     public Location GetLocationById(int id)
-    { 
+    {
         return _context.Locations!.SingleOrDefault(l => l.LocationId == id)!;
     }
 

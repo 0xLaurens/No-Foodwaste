@@ -39,14 +39,14 @@ public class PackageController : Controller
         {
             if (!_packageService.CanPackageBeAltered(package!))
                 ViewBag.Error = "The package you are trying to reserve has already been reserved";
-    
+
             if (!_packageService.StudentCanOrderPackageOnDate(package!, student))
                 ViewBag.Error = "You already ordered a package for that date, you can only pickup one package per day";
 
             if (!_packageService.StudentOldEnoughForPackage(package!, student))
                 ViewBag.Error =
                     "This package is marked as 18 plus, you have to be 18 or older on the date of the package pickup";
-           
+
             return View("Package", _packageRepository.GetPackageById(id));
         }
 

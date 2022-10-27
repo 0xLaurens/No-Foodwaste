@@ -1,18 +1,19 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain;
 
 public class Student
 {
     private DateTime? _dateOfBirth;
-    
+
     public int StudentId { get; init; }
-    [EmailAddress]
-    public string? EmailAddress { get; init; }
+
+    [EmailAddress] public string? EmailAddress { get; init; }
+
     public int? CityId { get; set; }
-    [Phone] 
-    public string? PhoneNumber { get; set; }
+
+    [Phone] public string? PhoneNumber { get; set; }
+
     [Required(ErrorMessage = "Enter your Date of Birth")]
     public DateTime? DateOfBirth
     {

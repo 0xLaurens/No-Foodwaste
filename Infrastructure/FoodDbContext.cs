@@ -1,5 +1,3 @@
-using System.Net.Mime;
-using System.Text;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,178 +19,178 @@ public class FoodDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var avansCities = new List<City>()
+        var avansCities = new List<City>
         {
-            new City { CityId = 1, Name = "Breda", Locations = new List<Location>() },
-            new City { CityId = 2, Name = "Den Bosch", Locations = new List<Location>() },
-            new City { CityId = 3, Name = "Tilburg", Locations = new List<Location>() }
+            new() { CityId = 1, Name = "Breda", Locations = new List<Location>() },
+            new() { CityId = 2, Name = "Den Bosch", Locations = new List<Location>() },
+            new() { CityId = 3, Name = "Tilburg", Locations = new List<Location>() }
         };
 
-        var locations = new List<Location>()
+        var locations = new List<Location>
         {
-            new Location
+            new()
             {
                 LocationId = 1, Name = "LA", CityId = 1, Employees = new List<Employee>(),
                 Cafeterias = new List<Cafeteria>()
             },
-            new Location
+            new()
             {
                 LocationId = 2, Name = "LD", CityId = 2, Employees = new List<Employee>(),
                 Cafeterias = new List<Cafeteria>()
             },
-            new Location
+            new()
             {
                 LocationId = 3, Name = "HL", CityId = 3, Employees = new List<Employee>(),
                 Cafeterias = new List<Cafeteria>()
             }
         };
 
-        var workers = new List<Employee>()
+        var workers = new List<Employee>
         {
-            new Employee
+            new()
             {
                 EmployeeId = 1, Name = "Admin", Email = "admin@avans.nl", LocationId = 1, CafeteriaId = 1,
                 CityId = locations[0].CityId
             },
-            new Employee
+            new()
             {
                 EmployeeId = 2, Name = "Harry de Strijder", Email = "h.strijder@avans.nl", LocationId = 2,
                 CafeteriaId = 2, CityId = locations[1].CityId
             },
-            new Employee
+            new()
             {
                 EmployeeId = 3, Name = "Ankie Bloempot", Email = "a.Bloempot", LocationId = 3, CafeteriaId = 3,
                 CityId = locations[2].CityId
             }
         };
 
-        var students = new List<Student>()
+        var students = new List<Student>
         {
-            new Student
+            new()
             {
                 StudentId = 1, EmailAddress = "student@student.avans.nl", CityId = 1, PhoneNumber = "06 58912302",
                 DateOfBirth = new DateTime(2003, 01, 19), Packages = new List<Package>()
             },
-            new Student
+            new()
             {
                 StudentId = 2, EmailAddress = "L.pieters@student.avans.nl", CityId = 1, PhoneNumber = "06 38912302",
                 DateOfBirth = new DateTime(2001, 11, 30), Packages = new List<Package>()
-            },
+            }
         };
 
-        var products = new List<Product>()
+        var products = new List<Product>
         {
-            new Product
+            new()
             {
                 ProductId = 1, Name = "Cheese slice",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 2, Name = "Ham",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 3, Name = "Banana",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 4, Name = "Orange",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 5, Name = "Chicken",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 6, Name = "Heineken beer",
                 Packages = new List<Package>(),
                 ContainsAlcohol = true
             },
-            new Product
+            new()
             {
                 ProductId = 7, Name = "Pasta Bolognese",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 8, Name = "White Bread",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 9, Name = "Brown Bread",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 10, Name = "Paprika",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 11, Name = "Mayonnaise",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 12, Name = "Ketchup",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 13, Name = "Apple",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 14, Name = "Broccoli",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
             },
-            new Product
+            new()
             {
                 ProductId = 15, Name = "Lettuce",
                 Packages = new List<Package>(),
                 ContainsAlcohol = false
-            },
-        };
-
-        var cafeterias = new List<Cafeteria>()
-        {
-            new Cafeteria
-            {
-                CafeteriaId = 1, CityId = 1, LocationId = locations[0].LocationId, Location = null,
-            },
-            new Cafeteria
-            {
-                CafeteriaId = 2, CityId = 1, LocationId = locations[1].LocationId, Location = null,
-            },
-            new Cafeteria
-            {
-                CafeteriaId = 3, CityId = 1, LocationId = locations[2].LocationId, Location = null,
             }
         };
 
-        var packages = new List<Package>()
+        var cafeterias = new List<Cafeteria>
         {
-            new Package
+            new()
+            {
+                CafeteriaId = 1, CityId = 1, LocationId = locations[0].LocationId, Location = null
+            },
+            new()
+            {
+                CafeteriaId = 2, CityId = 1, LocationId = locations[1].LocationId, Location = null
+            },
+            new()
+            {
+                CafeteriaId = 3, CityId = 1, LocationId = locations[2].LocationId, Location = null
+            }
+        };
+
+        var packages = new List<Package>
+        {
+            new()
             {
                 PackageId = 1,
                 Name = "Tosti ham 'n cheese",
@@ -208,7 +206,7 @@ public class FoodDbContext : DbContext
                 Category = Category.Bread,
                 StudentId = students.First().StudentId
             },
-            new Package
+            new()
             {
                 PackageId = 2,
                 Name = "Beer and chicken",
@@ -221,9 +219,9 @@ public class FoodDbContext : DbContext
                 EndTimeSlot = DateTime.Now.AddHours(3),
                 EighteenPlus = true,
                 Price = 2.99m,
-                Category = Category.Bread,
+                Category = Category.Bread
             },
-            new Package
+            new()
             {
                 PackageId = 3,
                 Name = "Fruit bowl",
@@ -237,9 +235,9 @@ public class FoodDbContext : DbContext
                 Category = Category.Fruit,
                 StudentId = null,
                 Products = new List<Product>(),
-                City = null,
+                City = null
             },
-            new Package
+            new()
             {
                 PackageId = 4,
                 Name = "Vega delight",
@@ -253,9 +251,9 @@ public class FoodDbContext : DbContext
                 Category = Category.Vega,
                 StudentId = null,
                 Products = new List<Product>(),
-                City = null,
+                City = null
             },
-            new Package
+            new()
             {
                 PackageId = 5,
                 Name = "Sloppy spaghetti sandwich",
@@ -269,9 +267,9 @@ public class FoodDbContext : DbContext
                 Category = Category.Bread,
                 StudentId = null,
                 Products = new List<Product>(),
-                City = null,
+                City = null
             },
-            new Package
+            new()
             {
                 PackageId = 6,
                 Name = "Heineken Beer",
@@ -285,8 +283,8 @@ public class FoodDbContext : DbContext
                 Category = Category.Beveridge,
                 StudentId = null,
                 Products = new List<Product>(),
-                City = null,
-            },
+                City = null
+            }
         };
 
         base.OnModelCreating(modelBuilder);
@@ -296,13 +294,13 @@ public class FoodDbContext : DbContext
             .IsUnique();
 
         modelBuilder.Entity<Package>()
-            .HasOne<Cafeteria>(p => p.Cafeteria);
+            .HasOne(p => p.Cafeteria);
 
         modelBuilder.Entity<Package>()
-            .HasOne<City>(p => p.City);
+            .HasOne(p => p.City);
 
         modelBuilder.Entity<Package>()
-            .HasMany<Product>(p => p.Products)
+            .HasMany(p => p.Products)
             .WithMany(p => p.Packages);
 
         modelBuilder.Entity<Package>()

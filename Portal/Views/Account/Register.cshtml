@@ -1,4 +1,3 @@
-@using Domain
 @model RegisterViewModel
 
 @{
@@ -7,14 +6,14 @@
 
 <section class="vh-100 align-content-center">
     <h1 class="fw-bold p-5">@ViewBag.Title</h1>
-    
+
     @if (ViewData.ModelState.ContainsKey("Error"))
     {
         <div class="alert alert-danger d-flex text-center align-items-center mb-2">
             @Html.ValidationMessage("Error")
         </div>
     }
-    
+
     <form asp-action="Register" asp-controller="Account" method="post">
         <div class="form-outline mb-4">
             <label asp-for="EmailAddress">Email</label>
@@ -37,7 +36,7 @@
             <div>
                 <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
-            <select name="Category" name="CityId" asp-for="CityId" asp-items="@(@Model.Cities)">
+            <select name="Category" name="CityId" asp-for="CityId" asp-items="@(Model.Cities)">
                 <option selected="selected">Select a City</option>
             </select>
         </div>
@@ -70,7 +69,7 @@
             </div>
             <input type="password" placeholder="password" asp-for="ConfirmPassword" class="form-control"/>
         </div>
-        
+
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary btn-lg btn-block w-100">@ViewBag.Title</button>
     </form>

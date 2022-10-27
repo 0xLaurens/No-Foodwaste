@@ -236,7 +236,7 @@ public class PackageServiceTest
         var student = new Student
         {
             StudentId = 1, EmailAddress = "Underage@gmail.com", CityId = 1, PhoneNumber = "06 58123456",
-            DateOfBirth = DateTime.Now.AddYears(-19), Packages = new List<Package>()
+            DateOfBirth = DateTime.Now.AddYears(-19), Packages = new List<Package>
             {
                 package
             }
@@ -288,7 +288,7 @@ public class PackageServiceTest
         var student = new Student
         {
             StudentId = 1, EmailAddress = "Underage@gmail.com", CityId = 1, PhoneNumber = "06 58123456",
-            DateOfBirth = DateTime.Now.AddYears(-19), Packages = new List<Package>()
+            DateOfBirth = DateTime.Now.AddYears(-19), Packages = new List<Package>
             {
                 package
             }
@@ -303,12 +303,12 @@ public class PackageServiceTest
     public void PackageHasProductsThatContainsAlcohol_NoProductsThatContainAlcohol()
     {
         // Arrange
-        var products = new List<Product>()
+        var products = new List<Product>
         {
-            new() { ProductId = 1, Name = "p1", ContainsAlcohol = false, },
-            new() { ProductId = 2, Name = "p2", ContainsAlcohol = false, },
-            new() { ProductId = 3, Name = "p3", ContainsAlcohol = false, },
-            new() { ProductId = 4, Name = "p4", ContainsAlcohol = false, },
+            new() { ProductId = 1, Name = "p1", ContainsAlcohol = false },
+            new() { ProductId = 2, Name = "p2", ContainsAlcohol = false },
+            new() { ProductId = 3, Name = "p3", ContainsAlcohol = false },
+            new() { ProductId = 4, Name = "p4", ContainsAlcohol = false }
         };
         var package = new Package
         {
@@ -336,12 +336,12 @@ public class PackageServiceTest
     public void PackageHasProductsThatContainsAlcohol_AProductThatContainsAlcohol()
     {
         // Arrange
-        var products = new List<Product>()
+        var products = new List<Product>
         {
-            new() { ProductId = 1, Name = "p1", ContainsAlcohol = false, },
-            new() { ProductId = 2, Name = "p2", ContainsAlcohol = false, },
-            new() { ProductId = 3, Name = "p3", ContainsAlcohol = true, },
-            new() { ProductId = 4, Name = "p4", ContainsAlcohol = true, },
+            new() { ProductId = 1, Name = "p1", ContainsAlcohol = false },
+            new() { ProductId = 2, Name = "p2", ContainsAlcohol = false },
+            new() { ProductId = 3, Name = "p3", ContainsAlcohol = true },
+            new() { ProductId = 4, Name = "p4", ContainsAlcohol = true }
         };
         var package = new Package
         {

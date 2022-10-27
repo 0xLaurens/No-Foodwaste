@@ -1,21 +1,21 @@
 ﻿using System.Diagnostics;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
 using Avans_NoWaste.Models;
 using Domain;
 using DomainServices.Repos.Inf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Avans_NoWaste.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly ILocationRepository _locationRepository;
     private readonly ILogger<HomeController> _logger;
     private readonly IPackageRepository _packageRepository;
-    private readonly UserManager<IdentityUser> _userManager;
     private readonly IStudentRepository _studentRepository;
-    private readonly ILocationRepository _locationRepository;
+    private readonly UserManager<IdentityUser> _userManager;
 
 
     public HomeController(ILogger<HomeController> logger, IPackageRepository packageRepository,

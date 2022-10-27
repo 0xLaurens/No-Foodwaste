@@ -1,9 +1,7 @@
-using System.Security.Claims;
 using Avans_NoWaste.Models;
 using Domain;
 using DomainServices.Repos.Inf;
 using Infrastructure;
-using Infrastructure.Repos.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +11,10 @@ namespace Avans_NoWaste.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly ICityRepository _cityRepository;
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly IStudentRepository _studentRepository;
-    private readonly ICityRepository _cityRepository;
+    private readonly UserManager<IdentityUser> _userManager;
 
     public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signInMgr,
         IStudentRepository studentRepository, ICityRepository cityRepository)
@@ -72,12 +70,12 @@ public class AccountController : Controller
     public IActionResult Register(string returnUrl)
     {
         var cities = _cityRepository.GetCities()!
-            .Select(c => new SelectListItem()
+            .Select(c => new SelectListItem
             {
                 Value = c.CityId.ToString(),
                 Text = c.Name
             }).ToList();
-        return View(new RegisterViewModel()
+        return View(new RegisterViewModel
         {
             Cities = cities,
             ReturnUrl = returnUrl
@@ -90,17 +88,17 @@ public class AccountController : Controller
     public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
     {
         registerViewModel.Cities = _cityRepository.GetCities()!
-            .Select(c => new SelectListItem()
+            .Select(c => new SelectListItem
             {
                 Value = c.CityId.ToString(),
                 Text = c.Name
             }).ToList();
 
-        var student = new Student()
+        var student = new Student
         {
             EmailAddress = registerViewModel.EmailAddress,
             CityId = registerViewModel.CityId,
-            PhoneNumber = registerViewModel.PhoneNumber,
+            PhoneNumber = registerViewModel.PhoneNumber
         };
 
         try
@@ -126,7 +124,7 @@ public class AccountController : Controller
             return View(registerViewModel);
 
 
-        await _signInManager.SignInAsync(user, isPersistent: false);
+        await _signInManager.SignInAsync(user, false);
         _studentRepository.AddStudent(student);
         return LocalRedirect(registerViewModel.ReturnUrl);
     }

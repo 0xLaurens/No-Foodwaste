@@ -35,18 +35,11 @@ public class PackageRepository : IPackageRepository
     public IQueryable<Package> GetNonReservedPackagesFiltered(Category? category, string? location)
     {
         if (category != null && location != null)
-        {
             return GetNonReservedPackages()
                 .Where(p => p.Cafeteria!.Location!.Name == location && p.Category == category);
-        }
-        else if (location != null)
-        {
+        if (location != null)
             return GetNonReservedPackages().Where(p => p.Cafeteria!.Location!.Name == location);
-        }
-        else if (category != null)
-        {
-            return GetNonReservedPackages().Where(p => p.Category == category);
-        }
+        if (category != null) return GetNonReservedPackages().Where(p => p.Category == category);
 
         return GetNonReservedPackages();
     }

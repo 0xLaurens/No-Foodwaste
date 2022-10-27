@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Domain;
-using Infrastructure.Repos.Impl;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Avans_NoWaste.Models;
@@ -22,11 +20,7 @@ public class RegisterViewModel
 
     [Required(ErrorMessage = "Enter a password")]
     [DataType(DataType.Password)]
-    public string? Password
-    {
-        get;
-        set;
-    }
+    public string? Password { get; set; }
 
 
     [Required(ErrorMessage = "Confirm your password")]

@@ -3,7 +3,7 @@ using DomainServices.Repos.Inf;
 
 namespace Infrastructure.Repos.Impl;
 
-public class StudentRepository: IStudentRepository
+public class StudentRepository : IStudentRepository
 {
     private readonly FoodDbContext _context;
 
@@ -11,6 +11,7 @@ public class StudentRepository: IStudentRepository
     {
         _context = context;
     }
+
     public Student GetStudentById(int id)
     {
         return _context.Students!.SingleOrDefault(s => s.StudentId == id)!;
