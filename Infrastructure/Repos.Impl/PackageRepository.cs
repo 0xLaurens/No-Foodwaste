@@ -93,12 +93,20 @@ public class PackageRepository : IPackageRepository
         _context.SaveChanges();
     }
 
-    public void RemovePackage(int id)
+    public void DeletePackage(int id)
     {
         var entry = GetPackageById(id);
         if (!_packageService.CanPackageBeAltered(entry!))
             throw new InvalidOperationException();
         _context.Packages?.Remove(entry!);
+        _context.SaveChanges();
+    }
+    
+    public void DeletePackage(Package package)
+    {
+        if (!_packageService.CanPackageBeAltered(package))
+            throw new InvalidOperationException();
+        _context.Packages?.Remove(package);
         _context.SaveChanges();
     }
 }

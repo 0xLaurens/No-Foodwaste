@@ -2,7 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebService.Models.Employee;
 
-public class NewEmployeeDto 
+public class NewEmployeeDto
 {
-    [Required] public string? Name { get; set; }
+    public string? Name { get; set; }
+    [Required] 
+    [EmailAddress] 
+    public string? Email { get; set; }
+
+    public int? LocationId { get; set; }
+    public int CafeteriaId { get; set; }
+    public int? CityId { get; set; }
 }

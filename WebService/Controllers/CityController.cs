@@ -36,7 +36,7 @@ public class CityController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<NewCreatedCafteriaDTO> CreateCity([FromBody] NewCityDTO newCity)
+    public ActionResult<NewCreatedCityDTO> CreateCity([FromBody] NewCityDTO newCity)
     {
         var cityToCreate = new City
         {
@@ -51,7 +51,7 @@ public class CityController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public ActionResult<NewCreatedCafteriaDTO> UpdateCity([FromBody] UpdatedCityDto cityToChange, int id)
+    public ActionResult<UpdatedCityDto> UpdateCity([FromBody] UpdatedCityDto cityToChange, int id)
     {
         var cityToEdit = _cityRepository.GetCityById(id);
 

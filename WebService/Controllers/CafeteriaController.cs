@@ -42,7 +42,6 @@ public class CafeteriaController : ControllerBase
         var cafeToCreate = new Cafeteria
         {
             CityId = newCafe.CityId, LocationId = newCafe.LocationId,
-            City = _cityRepository.GetCityById(newCafe.CityId),
             Location = _locationRepository.GetLocationById(newCafe.LocationId)
         };
 
@@ -54,13 +53,12 @@ public class CafeteriaController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public ActionResult<NewCreatedCafteriaDTO> UpdateCafeteria([FromBody] UpdatedCafeteriaDto cafeToChange, int id)
+    public ActionResult<UpdatedCafeteriaDto> UpdateCafeteria([FromBody] UpdatedCafeteriaDto cafeToChange, int id)
     {
         var cafeToEdit = _cafeteriaRepository.GetCafeteriaById(id);
 
         if (id != cafeToChange.CafeteriaId) return BadRequest();
 
-        cafeToEdit.City = _cityRepository.GetCityById(cafeToChange.CityId);
         cafeToEdit.CityId = cafeToChange.CityId;
         cafeToEdit.Location = _locationRepository.GetLocationById(cafeToChange.LocationId);
         cafeToEdit.LocationId = cafeToChange.LocationId;

@@ -13,5 +13,6 @@ public interface IPackageRepository
     public void CreatePackage(Package package);
     public void UpdatePackage(Package package);
     public void ReservePackageForStudent(Package package, Student student);
-    public void RemovePackage(int id);
+    public void DeletePackage(int id);
+    public void DeletePackage(Package package);
 }

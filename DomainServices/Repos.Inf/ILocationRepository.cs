@@ -1,4 +1,4 @@
-using Domain;
+using Location = Domain.Location;
 
 namespace DomainServices.Repos.Inf;
 

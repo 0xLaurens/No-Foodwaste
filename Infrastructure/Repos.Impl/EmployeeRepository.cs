@@ -26,4 +26,22 @@ public class EmployeeRepository : IEmployeeRepository
     {
         return _context.Employees!.SingleOrDefault(e => e.Email == email)!;
     }
+
+    public void CreateEmployee(Employee employee)
+    {
+        _context.Employees!.Add(employee);
+        _context.SaveChanges();
+    }
+
+    public void UpdateEmployee(Employee employee)
+    {
+        _context.Employees!.Update(employee);
+        _context.SaveChanges();
+    }
+
+    public void DeleteEmployee(Employee employee)
+    {
+        _context.Employees!.Remove(employee);
+        _context.SaveChanges();
+    }
 }

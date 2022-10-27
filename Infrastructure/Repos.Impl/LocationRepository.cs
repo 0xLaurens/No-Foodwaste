@@ -1,4 +1,4 @@
-using Domain;
+using Location = Domain.Location;
 using DomainServices.Repos.Inf;
 
 namespace Infrastructure.Repos.Impl;

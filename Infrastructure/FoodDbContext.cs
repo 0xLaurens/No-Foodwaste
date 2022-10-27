@@ -1,5 +1,6 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using Location = Domain.Location;
 
 namespace Infrastructure;
 
@@ -31,17 +32,14 @@ public class FoodDbContext : DbContext
             new()
             {
                 LocationId = 1, Name = "LA", CityId = 1, Employees = new List<Employee>(),
-                Cafeterias = new List<Cafeteria>()
             },
             new()
             {
                 LocationId = 2, Name = "LD", CityId = 2, Employees = new List<Employee>(),
-                Cafeterias = new List<Cafeteria>()
             },
             new()
             {
                 LocationId = 3, Name = "HL", CityId = 3, Employees = new List<Employee>(),
-                Cafeterias = new List<Cafeteria>()
             }
         };
 

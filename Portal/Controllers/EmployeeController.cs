@@ -183,7 +183,7 @@ public class EmployeeController : Controller
         if (!_packageService.CanPackageBeAltered(_packageRepository.GetPackageById(id)))
             throw new InvalidOperationException();
 
-        _packageRepository.RemovePackage(id);
+        _packageRepository.DeletePackage(id);
         return Redirect("/Employee");
     }
 }
