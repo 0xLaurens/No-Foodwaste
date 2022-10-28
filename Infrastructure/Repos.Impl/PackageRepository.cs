@@ -24,8 +24,9 @@ public class PackageRepository : IPackageRepository
     public IQueryable<Package> GetPackages()
     {
         return _context.Packages!
+            .Where(p => p.StartTimeSlot > DateTime.Today.Date)
             .Include(p => p.Cafeteria)
-            .ThenInclude(c => c.Location)
+            .ThenInclude(c => c!.Location)
             .Include(p => p.City)
             .Include(p => p.Products)
             .OrderBy(p => p.EndTimeSlot);
