@@ -27,6 +27,7 @@ public class PackageRepository : IPackageRepository
             .Where(p => p.StartTimeSlot > DateTime.Today.Date)
             .Include(p => p.Cafeteria)
             .ThenInclude(c => c!.Location)
+            .ThenInclude(l => l.Employees)
             .Include(p => p.City)
             .Include(p => p.Products)
             .OrderBy(p => p.EndTimeSlot);
@@ -79,10 +80,8 @@ public class PackageRepository : IPackageRepository
             throw new InvalidOperationException("Wrong date");
 
         // Explicit deletion of all foreign keys
-        entry!.Products!.Any(p => entry.Products!.Remove(p)!);
+        entry!.Products!.Any(p => entry.Products!.Remove(p));
 
-
-        entry.Products = package.Products;
         _context.Entry(entry).CurrentValues.SetValues(package);
 
         _context.SaveChanges();

@@ -23,6 +23,8 @@ public class CityRepository : ICityRepository
     public IQueryable<City> GetCities()
     {
         return _context.Cities!
+            .Include(c => c.Locations!)
+            .ThenInclude(l => l.Employees)
             .OrderBy(c => c.Name);
     }
 

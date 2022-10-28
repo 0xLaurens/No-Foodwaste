@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using DomainServices.Repos.Inf;
 using DomainServices.Services.Impl;
 using DomainServices.Services.Inf;
@@ -7,8 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using WebService.GraphQL;
 
 var builder = WebApplication.CreateBuilder(args);
-// Hot Chocolate
+//Reference loop
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+// Hot Chocolate
 builder.Services.AddGraphQLServer()
     .AddQueryType<PackageGraphQl>();
 

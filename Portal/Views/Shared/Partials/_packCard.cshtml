@@ -1,37 +1,67 @@
 @model Domain.Package
-<div class="col">
-    <div class="card rounded-2">
-        <a class="text-decoration-none text-black" asp-action="Package" asp-controller="Package" asp-route-id="@Model.PackageId">
-            <div class="card-body">
-                <h4>@Model.Name</h4>
-                @if (Model.Thumbnail != null)
+<div class="container">
+    <section class="mx-auto my-5" style="max-width: 23rem;">
+
+        <div class="card" style="text-decoration: none">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                @if (@Model.Thumbnail != null)
                 {
-                    <div class="card-img-top vh-100 w-100">
-                        <img src="Data:@Model.ThumbnailFormat;base64,@Convert.ToBase64String(Model.Thumbnail!)" alt="Image of @Model.Name"/>
-                    </div>
+                    <img src="data:@Model.ThumbnailFormat;Base64,@Convert.ToBase64String(@Model.Thumbnail)" class="img-fluid" alt="Image of @Model.Name"/>
+                } else {
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Food/8-col/img (5).jpg" class="img-fluid" alt="Image of @Model.Name"/>
                 }
-                <ul class="list-unstyled">
-                    <li>@Model.City?.Name: @Model.Cafeteria?.Location!.Name</li>
-                    <li>@Model.Category</li>
-                    <li>@Model.EndTimeSlot</li>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title font-weight-bold">
+                    @Model.Name
                     @if (Model.EighteenPlus)
                     {
-                        <li>18+</li>
+                        <span class="badge bg-secondary">18+</span>
                     }
-                    <li>€ @Model.Price</li>
-                </ul>
+                </h5>
+                <p class="mb-2">€ @Model.Price • @Model.Cafeteria!.Location!.Name, @Model.City!.Name</p>
+                <span class="badge bg-primary">@Model.Category</span>
+                <hr class="my-4"/>
+                <p class="lead">
+                    <strong>Pickup time</strong>
+                </p>
+                <p class="mb-2">
+                    <ul class="list-unstyled list-inline d-flex">
+                        <li class="list-inline-item pl-2">
+                            <i class="fa-solid fa-clock"></i>
+                        </li>
+                        <li class="list-inline-item pl-2">
+                            <span class="">@Model.StartTimeSlot.ToString("ddd")</span>
+                        </li>
+                        <li class="list-inline-item me-0">
+                            <span class="badge bg-secondary">@Model.StartTimeSlot.ToString("t")</span>
+                        </li>
+                        <li class="list-inline-item px-1">
+                            <i class="fa-solid fa-horizontal-rule"></i>
+                        </li>
+                        <li class="list-inline-item me-0">
+                            <span class="badge bg-secondary">@Model.EndTimeSlot.ToString("t")</span>
+                        </li>
+                    </ul>
+                </p>
+                @if (Context.Request.Path.Value!.Contains("Employee") && Model.StudentId == null)
+                {
+                    <ul class="list-unstyled list-inline d-flex justify-content-between">
+                        <li>
+                            <a asp-controller="Employee" asp-action="Update" asp-route-id="@Model.PackageId">
+                                Edit
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Employee" asp-action="Delete" asp-route-id="@Model.PackageId">
+                                Delete
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </li>
+                    </ul>
+                }
             </div>
-        </a>
-        @if (Context.Request.Path.Value!.Contains("Employee") && Model.StudentId == null)
-        {
-            <ul class="list-unstyled">
-                <li>
-                    <a asp-controller="Employee" asp-action="Update" asp-route-id="@Model.PackageId">Edit</a>
-                </li>
-                <li>
-                    <a asp-controller="Employee" asp-action="Delete" asp-route-id="@Model.PackageId">Delete</a>
-                </li>
-            </ul>
-        }
-    </div>
+        </div>
+    </section>
 </div>

@@ -4,73 +4,84 @@
     ViewBag.Title = "Register";
 }
 
-<section class="vh-100 align-content-center">
-    <h1 class="fw-bold p-5">@ViewBag.Title</h1>
-
-    @if (ViewData.ModelState.ContainsKey("Error"))
-    {
-        <div class="alert alert-danger d-flex text-center align-items-center mb-2">
-            @Html.ValidationMessage("Error")
-        </div>
-    }
-
-    <form asp-action="Register" asp-controller="Account" method="post">
-        <div class="form-outline mb-4">
-            <label asp-for="EmailAddress">Email</label>
-            <div>
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+<section class="vh-100 align-content-center" style="overflow-y: hidden">
+    <div class="container py-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
+            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                <img src="~/images/login.svg"
+                     class="img-fluid" alt="Phone image">
             </div>
-            <input type="email" placeholder="email@avans.nl" asp-for="EmailAddress" class="form-control"/>
-        </div>
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <h1 class="fw-bold pt-5 pb-5">@ViewBag.Title</h1>
 
-        <div class="form-outline mb-4">
-            <label asp-for="PhoneNumber">Phone number</label>
-            <div>
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                @if (ViewData.ModelState.ContainsKey("Error"))
+                {
+                    <div class="alert alert-danger d-flex text-center align-items-center mb-2">
+                        @Html.ValidationMessage("Error")
+                    </div>
+                }
+
+                <form asp-action="Register" asp-controller="Account" method="post">
+                    <div class="form-outline mb-4">
+                        <label asp-for="EmailAddress">Email</label>
+                        <div>
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        </div>
+                        <input type="email" placeholder="email@avans.nl" asp-for="EmailAddress" class="form-control"/>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label asp-for="PhoneNumber">Phone number</label>
+                        <div>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <input asp-for="PhoneNumber" placeholder="06 123456789" class="form-control"/>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label asp-for="CityId">City</label>
+                        <div>
+                            <span asp-validation-for="CityId" class="text-danger"></span>
+                        </div>
+                        <select class="form-select" name="CityId" asp-for="CityId" asp-items="@(Model.Cities!)">
+                            <option selected="selected">Select a City</option>
+                        </select>
+                    </div>
+
+                    @if (ViewData.ModelState.ContainsKey("DateError"))
+                    {
+                        <div class="alert alert-danger d-flex text-center align-items-center mb-2">
+                            @Html.ValidationMessage("DateError")
+                        </div>
+                    }
+
+                    <div class="form-outline mb-4">
+                        <label asp-for="DateOfBirth">Date of birth</label>
+                        <input type="Date" asp-for="DateOfBirth" class="form-control"/>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label asp-for="Password"></label>
+                        <div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <input type="password" placeholder="password" asp-for="Password" tooltip="Password is required" class="form-control"/>
+                    </div>
+
+
+                    <div class="form-outline mb-4">
+                        <label asp-for="ConfirmPassword">Confirm Password</label>
+                        <div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <input type="password" placeholder="password" asp-for="ConfirmPassword" class="form-control"/>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-lg btn-block primary w-100">@ViewBag.Title</button>
+                </form>
             </div>
-            <input asp-for="PhoneNumber" placeholder="06 123456789" class="form-control"/>
         </div>
+    </div>
 
-        <div class="form-outline mb-4">
-            <label asp-for="CityId">City</label>
-            <div>
-                <span asp-validation-for="CityId" class="text-danger"></span>
-            </div>
-            <select name="Category" name="CityId" asp-for="CityId" asp-items="@(Model.Cities)">
-                <option selected="selected">Select a City</option>
-            </select>
-        </div>
-
-        @if (ViewData.ModelState.ContainsKey("DateError"))
-        {
-            <div class="alert alert-danger d-flex text-center align-items-center mb-2">
-                @Html.ValidationMessage("DateError")
-            </div>
-        }
-
-        <div class="form-outline mb-4">
-            <label asp-for="DateOfBirth">Date of birth</label>
-            <input type="Date" asp-for="DateOfBirth" class="form-control"/>
-        </div>
-
-        <div class="form-outline mb-4">
-            <label asp-for="Password"></label>
-            <div>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <input type="password" placeholder="password" asp-for="Password" tooltip="Password is required" class="form-control"/>
-        </div>
-
-
-        <div class="form-outline mb-4">
-            <label asp-for="ConfirmPassword">Confirm Password</label>
-            <div>
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <input type="password" placeholder="password" asp-for="ConfirmPassword" class="form-control"/>
-        </div>
-
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-lg btn-block w-100">@ViewBag.Title</button>
-    </form>
 </section>

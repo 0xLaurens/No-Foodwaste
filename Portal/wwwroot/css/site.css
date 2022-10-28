@@ -21,3 +21,44 @@ body {
     content: "*";
     color: #a10000;
 }
+
+.primary{
+    background-color: #618641;
+    color: white;
+    font-weight: bold;
+}
+
+button:hover .primary:hover {
+    background-color: #91c47e;
+    color: white;
+}
+
+h1 {
+    color: #618641 !important;
+    font-weight: bold;
+}
+
+label {
+    font-weight: bolder;
+    font-size: medium;
+    color: #000000;
+}
+
+
+.link {
+    color: #1E1E1E;
+    opacity: 75%;
+}
+
+input {
+    outline: none;
+}
+
+input[type=input] {
+    background-color: #E3E3E3;
+    outline: none;
+}
+
+.form-control {
+    border-radius: .5rem !important;
+}
