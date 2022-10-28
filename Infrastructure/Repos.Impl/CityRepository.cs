@@ -14,13 +14,13 @@ public class CityRepository : ICityRepository
     }
     
 
-    public City? GetCityById(int id)
+    public City GetCityById(int id)
     {
         return GetCities()?
             .SingleOrDefault(c => c.CityId == id)!;
     }
 
-    public IQueryable<City>? GetCities()
+    public IQueryable<City> GetCities()
     {
         return _context.Cities!
             .OrderBy(c => c.Name);
