@@ -38,8 +38,6 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("CafeteriaId");
 
-                    b.HasIndex("CityId");
-
                     b.HasIndex("LocationId");
 
                     b.ToTable("Cafeterias");
@@ -182,19 +180,19 @@ namespace Infrastructure.Migrations
                         {
                             LocationId = 1,
                             CityId = 1,
-                            Name = "La"
+                            Name = "LA"
                         },
                         new
                         {
                             LocationId = 2,
                             CityId = 2,
-                            Name = "Ld"
+                            Name = "LD"
                         },
                         new
                         {
                             LocationId = 3,
                             CityId = 3,
-                            Name = "Hl"
+                            Name = "HL"
                         });
                 });
 
@@ -213,7 +211,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("CityId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("EighteenPlus")
@@ -224,7 +221,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal?>("Price")
                         .IsRequired()
@@ -236,11 +233,20 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Thumbnail")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ThumbnailFormat")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PackageId");
 
                     b.HasIndex("CafeteriaId");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("StudentId");
 
@@ -251,51 +257,74 @@ namespace Infrastructure.Migrations
                         {
                             PackageId = 1,
                             CafeteriaId = 1,
-                            Category = 2,
+                            Category = 1,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6720),
-                            Name = "Broodpakket",
+                            EndTimeSlot = new DateTime(2022, 10, 27, 20, 3, 17, 214, DateTimeKind.Local).AddTicks(9384),
+                            Name = "Tosti ham 'n cheese",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6683),
+                            StartTimeSlot = new DateTime(2022, 10, 27, 17, 3, 17, 214, DateTimeKind.Local).AddTicks(9370),
                             StudentId = 1
                         },
                         new
                         {
                             PackageId = 2,
                             CafeteriaId = 1,
-                            Category = 2,
+                            Category = 1,
                             CityId = 1,
                             EighteenPlus = true,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6743),
-                            Name = "Pretpakket",
+                            EndTimeSlot = new DateTime(2022, 10, 27, 20, 3, 17, 214, DateTimeKind.Local).AddTicks(9446),
+                            Name = "Beer and chicken",
                             Price = 2.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6741)
+                            StartTimeSlot = new DateTime(2022, 10, 27, 17, 3, 17, 214, DateTimeKind.Local).AddTicks(9426)
                         },
                         new
                         {
                             PackageId = 3,
-                            CafeteriaId = 3,
+                            CafeteriaId = 2,
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6749),
+                            EndTimeSlot = new DateTime(2022, 10, 27, 20, 3, 17, 214, DateTimeKind.Local).AddTicks(9478),
                             Name = "Fruit bowl",
                             Price = 3.44m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6747)
+                            StartTimeSlot = new DateTime(2022, 10, 27, 17, 3, 17, 214, DateTimeKind.Local).AddTicks(9464)
                         },
                         new
                         {
                             PackageId = 4,
                             CafeteriaId = 2,
-                            Category = 7,
+                            Category = 5,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 21, 19, 53, 12, 356, DateTimeKind.Local).AddTicks(6755),
+                            EndTimeSlot = new DateTime(2022, 10, 27, 20, 3, 17, 214, DateTimeKind.Local).AddTicks(9511),
                             Name = "Vega delight",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 21, 16, 53, 12, 356, DateTimeKind.Local).AddTicks(6753),
-                            StudentId = 1
+                            StartTimeSlot = new DateTime(2022, 10, 27, 17, 3, 17, 214, DateTimeKind.Local).AddTicks(9497)
+                        },
+                        new
+                        {
+                            PackageId = 5,
+                            CafeteriaId = 3,
+                            Category = 1,
+                            CityId = 1,
+                            EighteenPlus = false,
+                            EndTimeSlot = new DateTime(2022, 10, 27, 20, 3, 17, 214, DateTimeKind.Local).AddTicks(9544),
+                            Name = "Sloppy spaghetti sandwich",
+                            Price = 2.49m,
+                            StartTimeSlot = new DateTime(2022, 10, 27, 17, 3, 17, 214, DateTimeKind.Local).AddTicks(9530)
+                        },
+                        new
+                        {
+                            PackageId = 6,
+                            CafeteriaId = 3,
+                            Category = 4,
+                            CityId = 1,
+                            EighteenPlus = true,
+                            EndTimeSlot = new DateTime(2022, 10, 27, 20, 3, 17, 214, DateTimeKind.Local).AddTicks(9579),
+                            Name = "Heineken Beer",
+                            Price = 1m,
+                            StartTimeSlot = new DateTime(2022, 10, 27, 17, 3, 17, 214, DateTimeKind.Local).AddTicks(9564)
                         });
                 });
 
@@ -311,12 +340,16 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Photo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("ProductId");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Products");
 
@@ -325,85 +358,91 @@ namespace Infrastructure.Migrations
                         {
                             ProductId = 1,
                             ContainsAlcohol = false,
-                            Name = "Cheese slice",
-                            Photo = "Image of cheese"
+                            Name = "Cheese slice"
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ContainsAlcohol = false,
+                            Name = "Ham"
                         },
                         new
                         {
                             ProductId = 3,
                             ContainsAlcohol = false,
-                            Name = "Ham",
-                            Photo = "Image of ham"
+                            Name = "Banana"
                         },
                         new
                         {
                             ProductId = 4,
                             ContainsAlcohol = false,
-                            Name = "Banana",
-                            Photo = "Image of banana"
+                            Name = "Orange"
                         },
                         new
                         {
                             ProductId = 5,
                             ContainsAlcohol = false,
-                            Name = "Orange",
-                            Photo = "Image of Orange"
+                            Name = "Chicken"
                         },
                         new
                         {
                             ProductId = 6,
-                            ContainsAlcohol = false,
-                            Name = "Chicken",
-                            Photo = "Image of chicken"
+                            ContainsAlcohol = true,
+                            Name = "Heineken beer"
                         },
                         new
                         {
                             ProductId = 7,
-                            ContainsAlcohol = true,
-                            Name = "Heineken beer",
-                            Photo = "Image of Heineken"
+                            ContainsAlcohol = false,
+                            Name = "Pasta Bolognese"
                         },
                         new
                         {
                             ProductId = 8,
                             ContainsAlcohol = false,
-                            Name = "Pasta Bolognese",
-                            Photo = "Image of Pasta Bolognese"
+                            Name = "White Bread"
                         },
                         new
                         {
                             ProductId = 9,
                             ContainsAlcohol = false,
-                            Name = "Bruin brood",
-                            Photo = "Image of brood"
+                            Name = "Brown Bread"
                         },
                         new
                         {
                             ProductId = 10,
                             ContainsAlcohol = false,
-                            Name = "Wit brood",
-                            Photo = "Image of brood"
+                            Name = "Paprika"
                         },
                         new
                         {
                             ProductId = 11,
                             ContainsAlcohol = false,
-                            Name = "Paprika",
-                            Photo = "Image of Paprika"
+                            Name = "Mayonnaise"
                         },
                         new
                         {
                             ProductId = 12,
                             ContainsAlcohol = false,
-                            Name = "Mayonaise",
-                            Photo = "Image of Mayonaise"
+                            Name = "Ketchup"
                         },
                         new
                         {
                             ProductId = 13,
                             ContainsAlcohol = false,
-                            Name = "Ketchup",
-                            Photo = "Image of Ketchup"
+                            Name = "Apple"
+                        },
+                        new
+                        {
+                            ProductId = 14,
+                            ContainsAlcohol = false,
+                            Name = "Broccoli"
+                        },
+                        new
+                        {
+                            ProductId = 15,
+                            ContainsAlcohol = false,
+                            Name = "Lettuce"
                         });
                 });
 
@@ -423,14 +462,16 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailAddress")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("EmailAddress")
+                        .IsUnique()
+                        .HasFilter("[EmailAddress] IS NOT NULL");
 
                     b.ToTable("Students");
 
@@ -466,16 +507,89 @@ namespace Infrastructure.Migrations
                     b.HasIndex("ProductsProductId");
 
                     b.ToTable("PackageProduct");
+
+                    b.HasData(
+                        new
+                        {
+                            PackagesPackageId = 1,
+                            ProductsProductId = 1
+                        },
+                        new
+                        {
+                            PackagesPackageId = 1,
+                            ProductsProductId = 2
+                        },
+                        new
+                        {
+                            PackagesPackageId = 1,
+                            ProductsProductId = 8
+                        },
+                        new
+                        {
+                            PackagesPackageId = 1,
+                            ProductsProductId = 12
+                        },
+                        new
+                        {
+                            PackagesPackageId = 2,
+                            ProductsProductId = 5
+                        },
+                        new
+                        {
+                            PackagesPackageId = 2,
+                            ProductsProductId = 6
+                        },
+                        new
+                        {
+                            PackagesPackageId = 3,
+                            ProductsProductId = 3
+                        },
+                        new
+                        {
+                            PackagesPackageId = 3,
+                            ProductsProductId = 4
+                        },
+                        new
+                        {
+                            PackagesPackageId = 3,
+                            ProductsProductId = 13
+                        },
+                        new
+                        {
+                            PackagesPackageId = 4,
+                            ProductsProductId = 10
+                        },
+                        new
+                        {
+                            PackagesPackageId = 4,
+                            ProductsProductId = 14
+                        },
+                        new
+                        {
+                            PackagesPackageId = 4,
+                            ProductsProductId = 15
+                        },
+                        new
+                        {
+                            PackagesPackageId = 5,
+                            ProductsProductId = 7
+                        },
+                        new
+                        {
+                            PackagesPackageId = 5,
+                            ProductsProductId = 9
+                        },
+                        new
+                        {
+                            PackagesPackageId = 6,
+                            ProductsProductId = 6
+                        });
                 });
 
             modelBuilder.Entity("Domain.Cafeteria", b =>
                 {
-                    b.HasOne("Domain.City", null)
-                        .WithMany("Cafeterias")
-                        .HasForeignKey("CityId");
-
                     b.HasOne("Domain.Location", "Location")
-                        .WithMany("Cafeterias")
+                        .WithMany()
                         .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
@@ -498,16 +612,14 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Package", b =>
                 {
                     b.HasOne("Domain.Cafeteria", "Cafeteria")
-                        .WithMany("Packages")
+                        .WithMany()
                         .HasForeignKey("CafeteriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
                     b.HasOne("Domain.Student", null)
                         .WithMany("Packages")
@@ -516,13 +628,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Cafeteria");
 
                     b.Navigation("City");
-                });
-
-            modelBuilder.Entity("Domain.Student", b =>
-                {
-                    b.HasOne("Domain.City", null)
-                        .WithMany("Students")
-                        .HasForeignKey("CityId");
                 });
 
             modelBuilder.Entity("PackageProduct", b =>
@@ -540,24 +645,13 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Cafeteria", b =>
-                {
-                    b.Navigation("Packages");
-                });
-
             modelBuilder.Entity("Domain.City", b =>
                 {
-                    b.Navigation("Cafeterias");
-
                     b.Navigation("Locations");
-
-                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("Domain.Location", b =>
                 {
-                    b.Navigation("Cafeterias");
-
                     b.Navigation("Employees");
                 });
 

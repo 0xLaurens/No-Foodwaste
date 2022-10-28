@@ -8,18 +8,20 @@ public class ProductRepository : IProductRepository
 {
     private readonly FoodDbContext _context;
 
-    public ProductRepository(FoodDbContext context)
+    public ProductRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
     {
-        _context = context;
-    }
-    public Product GetProductById(int id)
-    {
-        return _context.Products.SingleOrDefault(p => p.ProductId == id);
+        _context = dbContextFactory.CreateDbContext();
     }
 
-    public List<Product> GetProducts()
+    
+
+    public Product GetProductById(int id)
     {
-        return _context.Products
-            .ToList();
+        return GetProducts().SingleOrDefault(p => p.ProductId == id)!;
+    }
+
+    public IQueryable<Product> GetProducts()
+    {
+        return _context.Products!;
     }
 }

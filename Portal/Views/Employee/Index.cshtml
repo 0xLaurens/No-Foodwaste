@@ -1,4 +1,4 @@
-﻿@model ICollection<Domain.Package>
+﻿@model IQueryable<Domain.Package>
 
 
 <section class="pt-5 pb-2">
@@ -14,7 +14,7 @@
             {
                 @await Html.PartialAsync("Partials/_packCard", p)
             }
-        </div>   
+        </div>
     </div>
     <a asp-action="Overview">Alle bestellingen zien</a>
 </section>

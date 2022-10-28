@@ -5,5 +5,5 @@ namespace DomainServices.Repos.Inf;
 public interface IProductRepository
 {
     public Product GetProductById(int id);
-    public List<Product> GetProducts();
+    public IQueryable<Product> GetProducts();
 }

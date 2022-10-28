@@ -1,5 +1,6 @@
 using Domain;
 using DomainServices.Repos.Inf;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -7,18 +8,39 @@ public class CityRepository : ICityRepository
 {
     private readonly FoodDbContext _context;
 
-    public CityRepository(FoodDbContext context)
+    public CityRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
     {
-        _context = context;
+        _context = dbContextFactory.CreateDbContext();
     }
     
-    public City GetCityById(int id)
+
+    public City? GetCityById(int id)
     {
-        return _context.Cities.SingleOrDefault(c => c.CityId== id);
+        return GetCities()?
+            .SingleOrDefault(c => c.CityId == id)!;
     }
 
-    public List<City> GetCities()
+    public IQueryable<City>? GetCities()
     {
-        return _context.Cities.ToList();
+        return _context.Cities!
+            .OrderBy(c => c.Name);
+    }
+
+    public void CreateCity(City city)
+    {
+        _context.Cities!.Add(city);
+        _context.SaveChanges();
+    }
+
+    public void UpdateCity(City city)
+    {
+        _context.Cities!.Update(city);
+        _context.SaveChanges();
+    }
+
+    public void DeleteCity(City city)
+    {
+        _context.Cities!.Remove(city);
+        _context.SaveChanges();
     }
 }

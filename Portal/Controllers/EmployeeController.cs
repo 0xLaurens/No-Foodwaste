@@ -10,12 +10,12 @@ namespace Avans_NoWaste.Controllers;
 
 public class EmployeeController : Controller
 {
+    private readonly IEmployeeRepository _employeeRepository;
     private readonly ILogger<HomeController> _logger;
     private readonly IPackageRepository _packageRepository;
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly IEmployeeRepository _employeeRepository;
-    private readonly IProductRepository _productRepository;
     private readonly IPackageService _packageService;
+    private readonly IProductRepository _productRepository;
+    private readonly UserManager<IdentityUser> _userManager;
 
 
     public EmployeeController(ILogger<HomeController> logger, IPackageRepository packageRepository,
@@ -41,7 +41,7 @@ public class EmployeeController : Controller
     [Authorize(Policy = "EmployeeOnly")]
     public IActionResult Overview()
     {
-        return View(_packageRepository.GetNonReservedPackages());
+        return View(_packageRepository.GetNonReservedPackages().AsEnumerable());
     }
 
     [HttpGet]
@@ -55,7 +55,7 @@ public class EmployeeController : Controller
             Package = null,
             OptionsList = list
         };
-        
+
         return View(viewModel);
     }
 
@@ -74,8 +74,8 @@ public class EmployeeController : Controller
             var products = _productRepository.GetProducts();
             model.OptionsList = products.Select(l =>
                     model.Package.Products != null && model.Package.Products.Contains(l)
-                        ? new PackageViewModel.CheckboxOptions() { IsChecked = true, Value = l }
-                        : new PackageViewModel.CheckboxOptions() { IsChecked = false, Value = l })
+                        ? new PackageViewModel.CheckboxOptions { IsChecked = true, Value = l }
+                        : new PackageViewModel.CheckboxOptions { IsChecked = false, Value = l })
                 .ToList();
 
             var dateError1 = _packageService.PackageDateNotTooFarInTheFutureOrPast(model.Package!);
@@ -96,6 +96,10 @@ public class EmployeeController : Controller
         if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package))
             model.Package.EighteenPlus = true;
 
+        model.Package.ThumbnailFormat = model.Picture.ContentType;
+        var ms = new MemoryStream();
+        model.Picture.CopyTo(ms);
+        model.Package.Thumbnail = ms.ToArray();
         model.Package.CafeteriaId = employee.CafeteriaId;
         model.Package.CityId = employee.CityId;
 
@@ -110,14 +114,14 @@ public class EmployeeController : Controller
         var list = _productRepository.GetProducts();
         var package = _packageRepository.GetPackageById(id);
         var check = list.Select(l => package.Products!.Contains(l)
-                ? new PackageViewModel.CheckboxOptions() { IsChecked = true, Value = l }
-                : new PackageViewModel.CheckboxOptions() { IsChecked = false, Value = l })
+                ? new PackageViewModel.CheckboxOptions { IsChecked = true, Value = l }
+                : new PackageViewModel.CheckboxOptions { IsChecked = false, Value = l })
             .ToList();
         package.PackageId = id;
         var viewModel = new PackageViewModel
         {
             Package = package,
-            OptionsList = check,
+            OptionsList = check
         };
 
         if (_packageService.PackagesHasProductThatContainsAlcohol(viewModel.Package))
@@ -133,7 +137,7 @@ public class EmployeeController : Controller
         var productIds = model.ProductsList;
         model.Package!.Products = productIds?.Select(p => _productRepository.GetProductById(p)).ToList();
 
-        if (!_packageService.PackageHasCorrectDate(model.Package!) || 
+        if (!_packageService.PackageHasCorrectDate(model.Package!) ||
             !ModelState.IsValid ||
             !_packageService.CanPackageBeAltered(model.Package!))
         {
@@ -143,8 +147,8 @@ public class EmployeeController : Controller
             var products = _productRepository.GetProducts();
             model.OptionsList = products.Select(l =>
                     model.Package.Products != null && model.Package.Products.Contains(l)
-                        ? new PackageViewModel.CheckboxOptions() { IsChecked = true, Value = l }
-                        : new PackageViewModel.CheckboxOptions() { IsChecked = false, Value = l })
+                        ? new PackageViewModel.CheckboxOptions { IsChecked = true, Value = l }
+                        : new PackageViewModel.CheckboxOptions { IsChecked = false, Value = l })
                 .ToList();
 
             var dateError1 = _packageService.PackageDateNotTooFarInTheFutureOrPast(model.Package!);
@@ -161,6 +165,10 @@ public class EmployeeController : Controller
             return View(model);
         }
 
+        model.Package.ThumbnailFormat = model.Picture.ContentType;
+        var ms = new MemoryStream();
+        model.Picture.CopyTo(ms);
+        model.Package.Thumbnail = ms.ToArray();
 
         if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package!))
             model.Package!.EighteenPlus = true;
@@ -175,7 +183,7 @@ public class EmployeeController : Controller
         if (!_packageService.CanPackageBeAltered(_packageRepository.GetPackageById(id)))
             throw new InvalidOperationException();
 
-        _packageRepository.RemovePackage(id);
+        _packageRepository.DeletePackage(id);
         return Redirect("/Employee");
     }
 }

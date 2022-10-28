@@ -1,4 +1,4 @@
-﻿@model ICollection<Domain.Package>
+﻿@model IEnumerable<Domain.Package>
 
 <section class="pt-5 pb-2">
     <div class="container py-5">
@@ -7,9 +7,8 @@
                 <h2 class="fw-bold">Aangeboden pakketen</h2>
             </div>
         </div>
-        @foreach (var packages in Model.GroupBy(p => p.Cafeteria?.Location?.Name))
+        @foreach (var packages in Model.GroupBy(p => p.Cafeteria!.Location!.Name))
         {
-            
             <h2>Locatie: @packages.Key</h2>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
                 @foreach (var p in packages)

@@ -17,18 +17,15 @@ public class PackageService : IPackageService
 
     public bool StudentCanOrderPackageOnDate(Package package, Student student)
     {
-        if (student.Packages == null)
-        {
-            return true;
-        }
+        if (student.Packages == null) return true;
         var count = student.Packages!.Count(p => p.StartTimeSlot.Date == package.StartTimeSlot.Date);
         return count + 1 <= 1;
     }
-    
+
     public bool CanPackageBeReservedByStudent(Package package, Student student)
     {
         // timespan of 6574 days is 18 year
-        return StudentOldEnoughForPackage(package, student) 
+        return StudentOldEnoughForPackage(package, student)
                && CanPackageBeAltered(package)
                && StudentCanOrderPackageOnDate(package, student);
     }
@@ -40,7 +37,7 @@ public class PackageService : IPackageService
 
     public bool PackageHasCorrectDate(Package package)
     {
-        return PackageDateNotTooFarInTheFutureOrPast(package) 
+        return PackageDateNotTooFarInTheFutureOrPast(package)
                && PackageHasCorrectStartAndEnd(package);
     }
 
@@ -55,5 +52,4 @@ public class PackageService : IPackageService
         return package.StartTimeSlot.Date == package.EndTimeSlot.Date
                && DateTime.Compare(package.StartTimeSlot, package.EndTimeSlot) <= 0;
     }
-    
 }

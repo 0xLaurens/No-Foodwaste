@@ -1,28 +1,38 @@
 using Domain;
 using DomainServices.Repos.Inf;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
-public class StudentRepository: IStudentRepository
+public class StudentRepository : IStudentRepository
 {
     private readonly FoodDbContext _context;
 
-    public StudentRepository(FoodDbContext context)
+    public StudentRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
     {
-        _context = context;
+        _context = dbContextFactory.CreateDbContext();
     }
+    
+
     public Student GetStudentById(int id)
     {
-        return _context.Students.SingleOrDefault(s => s.StudentId == id);
+        return GetStudents().SingleOrDefault(s => s.StudentId == id)!;
     }
 
-    public Student GetStudentByEmail(string Email)
+    public Student GetStudentByEmail(string email)
     {
-        return _context.Students.SingleOrDefault(s => s.EmailAddress == Email);
+        return GetStudents().SingleOrDefault(s => s.EmailAddress == email)!;
     }
 
-    public List<Student> GetStudents()
+    public IQueryable<Student> GetStudents()
     {
-        return _context.Students.ToList();
+        return _context.Students!
+            .Include(s => s.Packages);
+    }
+
+    public void AddStudent(Student student)
+    {
+        _context.Students!.Add(student);
+        _context.SaveChanges();
     }
 }

@@ -1,6 +1,7 @@
 using Domain;
 using DomainServices.Repos.Inf;
 using DomainServices.Services.Inf;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -9,60 +10,57 @@ public class PackageRepository : IPackageRepository
     private readonly FoodDbContext _context;
     private readonly IPackageService _packageService;
 
-    public PackageRepository(FoodDbContext context, IPackageService packageService)
+    public PackageRepository(IPackageService packageService, IDbContextFactory<FoodDbContext> contextFactory)
     {
-        _context = context;
+        _context = contextFactory.CreateDbContext();
         _packageService = packageService;
     }
 
-    public Package GetPackageById(int id)
+    public Package? GetPackageById(int id)
     {
-        return _context.Packages.SingleOrDefault(p => p.PackageId == id);
+        return GetPackages().SingleOrDefault(p => p.PackageId == id);
     }
 
-    public IEnumerable<Package> GetPackages()
+    public IQueryable<Package> GetPackages()
     {
         return _context.Packages!
-            .OrderBy(p => p.EndTimeSlot)
-            .ToList();
+            .Where(p => p.StartTimeSlot > DateTime.Today.Date)
+            .Include(p => p.Cafeteria)
+            .ThenInclude(c => c!.Location)
+            .Include(p => p.City)
+            .Include(p => p.Products)
+            .OrderBy(p => p.EndTimeSlot);
     }
 
-    public List<Package> GetNonReservedPackages()
+    public IQueryable<Package> GetNonReservedPackages()
     {
         return GetPackages()
-            .Where(p => p.StudentId == null)
-            .ToList();
+            .Where(p => p.StudentId == null);
     }
 
-    public IEnumerable<Package> GetNonReservedPackagesFiltered(Category? category, string? location)
+    public IQueryable<Package> GetNonReservedPackagesFiltered(Category? category, string? location)
     {
+        if (category != null && location != null)
+            return GetNonReservedPackages()
+                .Where(p => p.Cafeteria!.Location!.Name == location && p.Category == category);
         if (location != null)
-        {
             return GetNonReservedPackages().Where(p => p.Cafeteria!.Location!.Name == location);
+        if (category != null) return GetNonReservedPackages().Where(p => p.Category == category);
 
-        }
-
-        if (category != null)
-        {
-          return GetNonReservedPackages().Where(p => p.Category == (Category) category);
-        }
-        
         return GetNonReservedPackages();
     }
 
 
-    public List<Package> GetNonReservedPackagesPerCafeteria(int id)
+    public IQueryable<Package> GetNonReservedPackagesPerCafeteria(int id)
     {
         return GetNonReservedPackages()
-            .Where(p => p.CafeteriaId == id)
-            .ToList();
+            .Where(p => p.CafeteriaId == id);
     }
 
-    public List<Package> GetPackagesByStudent(int studentId)
+    public IQueryable<Package>? GetPackagesByStudent(Student student)
     {
         return GetPackages()
-            .Where(p => p.StudentId == studentId)
-            .ToList();
+            .Where(p => student != null && p.StudentId == student.StudentId);
     }
 
     public void CreatePackage(Package package)
@@ -75,13 +73,13 @@ public class PackageRepository : IPackageRepository
     public void UpdatePackage(Package package)
     {
         var entry = GetPackageById(package.PackageId);
-        if (!_packageService.CanPackageBeAltered(entry))
+        if (!_packageService.CanPackageBeAltered(entry!))
             throw new InvalidOperationException("Cannot be altered");
         if (!_packageService.PackageHasCorrectDate(package))
             throw new InvalidOperationException("Wrong date");
 
         // Explicit deletion of all foreign keys
-        entry.Products!.Any(p => entry.Products!.Remove(p));
+        entry!.Products!.Any(p => entry.Products!.Remove(p)!);
 
 
         entry.Products = package.Products;
@@ -101,12 +99,20 @@ public class PackageRepository : IPackageRepository
         _context.SaveChanges();
     }
 
-    public void RemovePackage(int id)
+    public void DeletePackage(int id)
     {
         var entry = GetPackageById(id);
-        if (!_packageService.CanPackageBeAltered(entry))
+        if (!_packageService.CanPackageBeAltered(entry!))
             throw new InvalidOperationException();
-        _context.Packages?.Remove(entry);
+        _context.Packages?.Remove(entry!);
+        _context.SaveChanges();
+    }
+    
+    public void DeletePackage(Package package)
+    {
+        if (!_packageService.CanPackageBeAltered(package))
+            throw new InvalidOperationException();
+        _context.Packages?.Remove(package);
         _context.SaveChanges();
     }
 }

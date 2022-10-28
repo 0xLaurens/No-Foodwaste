@@ -6,7 +6,7 @@
 }
 
 <h2>Pakket aanmaken</h2>
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-outline required mb-4">
         <label asp-for="Package!.Name">Naam van het pakket</label>
         <div>
@@ -14,6 +14,15 @@
         </div>
         <input asp-for="Package!.Name" class="form-control"/>
     </div>
+
+    <div class="form-outline required mb-4">
+        <label asp-for="Picture">Thumbnail van het pakket</label>
+        <div>
+            <span asp-validation-for="Picture" class="text-danger"></span>
+        </div>
+        <input asp-for="Picture" accept="image/*" class="form-control"/>
+    </div>
+
 
     <div class="form-outline required mb-4">
         <label asp-for="Package!.Price">Prijs</label>
@@ -54,7 +63,7 @@
             }
         }
     </div>
-    
+
     @if (ViewData.ModelState.ContainsKey("DateError"))
     {
         <div class="alert alert-danger d-flex text-center align-items-center mb-2">

@@ -7,18 +7,26 @@
 
 <h2>Update package</h2>
 @if (ViewData.ModelState.ContainsKey("DateError"))
-    {
-        <div class="alert alert-danger d-flex text-center align-items-center mb-2">
-            @Html.ValidationMessage("DateError")
-        </div>
-    }
-<form asp-action="Update" asp-controller="Employee" method="post">
+{
+    <div class="alert alert-danger d-flex text-center align-items-center mb-2">
+        @Html.ValidationMessage("DateError")
+    </div>
+}
+<form asp-action="Update" asp-controller="Employee" method="post" enctype="multipart/form-data">
     <div class="form-outline required mb-4">
         <label asp-for="Package!.Name">Naam van het pakket</label>
         <div>
             <span asp-validation-for="Package!.Name" class="text-danger"></span>
         </div>
         <input asp-for="Package!.Name" class="form-control"/>
+    </div>
+
+    <div class="form-outline required mb-4">
+        <label asp-for="Picture">Thumbnail van het pakket</label>
+        <div>
+            <span asp-validation-for="Picture" class="text-danger"></span>
+        </div>
+        <input asp-for="Picture" accept="image/*" class="form-control"/>
     </div>
 
     <div class="form-outline required mb-4">
@@ -60,7 +68,7 @@
             }
         }
     </div>
-    
+
     @if (ViewData.ModelState.ContainsKey("DateError"))
     {
         <div class="alert alert-danger d-flex text-center align-items-center mb-2">
@@ -70,7 +78,7 @@
 
     <div class="form-outline required mb-4">
         <label asp-for="Package!.StartTimeSlot">Beschikbaar vanaf</label>
-        <input type="datetime-local" asp-for="Package!.StartTimeSlot" tooltip="Start of the timeslot" class="form-control"/>
+        <input type="datetime-local" asp-for="Package!.StartTimeSlot" tooltip="Start of the timeslot" class="form-control" min="@DateOnly.FromDateTime(DateTime.Now)" max="@DateOnly.FromDateTime(DateTime.Today.AddDays(2))"/>
     </div>
 
 
@@ -85,15 +93,14 @@
             <label asp-for="Package!.EighteenPlus" class="form-check-label">18+</label>
         </div>
     </div>
-    
+
     @Html.HiddenFor(m => Model.OptionsList)
     @Html.HiddenFor(m => Model.Package!.PackageId)
     @Html.HiddenFor(m => Model.Package!.CafeteriaId)
     @Html.HiddenFor(m => Model.Package!.Cafeteria)
     @Html.HiddenFor(m => Model.Package!.CityId)
     @Html.HiddenFor(m => Model.Package!.City)
-    
+
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Update</button>
 </form>
-

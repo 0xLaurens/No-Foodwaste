@@ -1,9 +1,9 @@
-using Domain;
+using Location = Domain.Location;
 
 namespace DomainServices.Repos.Inf;
 
 public interface ILocationRepository
 {
     public Location GetLocationById(int id);
-    public List<Location> GetLocations();
+    public IQueryable<Location> GetLocations();
 }
