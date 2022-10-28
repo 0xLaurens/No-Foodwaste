@@ -33,7 +33,7 @@ button:hover .primary:hover {
     color: white;
 }
 
-h1 {
+h1, h2 {
     color: #618641 !important;
     font-weight: bold;
 }

@@ -4,6 +4,8 @@
     ViewBag.Title = "Package overview";
     Layout = "_Layout";
 }
+
+@* ReSharper disable once ConditionIsAlwaysTrueOrFalse *@
 @if (Model != null)
 {
     <h2>@Model.Name</h2>
@@ -26,6 +28,8 @@ else
     </div>
 }
 
+
+@* ReSharper disable once ConditionIsAlwaysTrueOrFalse *@
 @if (Model != null)
 {
     <p>Categorie: @Model.Category</p>
