@@ -39,11 +39,14 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    public IActionResult Orders()
+    public IActionResult Orders(Category? category, string? location)
     {
+        ViewData["Locations"] = _locationRepository.GetLocations().Select(x => x.Name).ToList();
+        ViewData["LocationFilter"] = location;
+        ViewData["CategoryFilter"] = category;
         var email = User.FindFirstValue(ClaimTypes.Email);
         var student = _studentRepository.GetStudentByEmail(email);
-        return View(_packageRepository.GetPackagesByStudent(student));
+        return View(_packageRepository.GetPackagesByStudentFiltered(student, location, category));
     }
 
 

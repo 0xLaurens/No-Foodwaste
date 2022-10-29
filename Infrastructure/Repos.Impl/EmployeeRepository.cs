@@ -1,6 +1,5 @@
 using Domain;
 using DomainServices.Repos.Inf;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repos.Impl;
 
@@ -8,11 +7,11 @@ public class EmployeeRepository : IEmployeeRepository
 {
     private readonly FoodDbContext _context;
 
-    public EmployeeRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
+    public EmployeeRepository(FoodDbContext context)
     {
-        _context = dbContextFactory.CreateDbContext();
+        _context = context;
     }
-    
+
 
     public IQueryable<Employee> GetEmployees()
     {

@@ -1,4 +1,4 @@
-using Location = Domain.Location;
+using Domain;
 using DomainServices.Repos.Inf;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +8,9 @@ public class LocationRepository : ILocationRepository
 {
     private readonly FoodDbContext _context;
 
-    public LocationRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
+    public LocationRepository(FoodDbContext context)
     {
-        _context = dbContextFactory.CreateDbContext();
+        _context = context;
     }
 
     public Location GetLocationById(int id)

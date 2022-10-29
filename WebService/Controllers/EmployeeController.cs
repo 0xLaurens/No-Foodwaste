@@ -8,7 +8,7 @@ namespace WebService.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class EmployeeController: ControllerBase
+public class EmployeeController : ControllerBase
 {
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IMapper _mapper;

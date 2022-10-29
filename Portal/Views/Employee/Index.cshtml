@@ -4,10 +4,18 @@
 <section class="pt-5 pb-2">
     <div class="container py-5">
         <div class="row mb-4 mb-lg-5">
-            <a asp-action="Create">Package aanmaken</a>
+
             <div class="col mx-auto">
                 <h2 class="fw-bold">Aangeboden pakketen bij mijn locatie</h2>
             </div>
+        </div>
+        <div>
+            <h5>
+                <a class="text-reset text-decoration-none" asp-action="Create">
+                    <i class="fa-solid fa-plus"></i>
+                    Package aanmaken
+                </a>
+            </h5>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
             @foreach (var p in Model)
@@ -16,5 +24,11 @@
             }
         </div>
     </div>
-    <a asp-action="Overview">Alle bestellingen zien</a>
+    <div class="text-center">
+        <h5>
+            <a asp-action="Overview">
+                Alle bestellingen zien
+            </a>
+        </h5>
+    </div>
 </section>

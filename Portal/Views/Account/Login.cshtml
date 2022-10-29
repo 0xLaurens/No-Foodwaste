@@ -24,7 +24,7 @@
                 <form asp-action="Login" asp-controller="Account" method="post">
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <label asp-for="Email"></label>
+                        <label class="fw" asp-for="Email"></label>
                         <div>
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
@@ -33,7 +33,7 @@
 
                     <!-- Password input -->
                     <div class="form-outline pb-5">
-                        <label asp-for="Password"></label>
+                        <label class="fw" asp-for="Password"></label>
                         <div>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>

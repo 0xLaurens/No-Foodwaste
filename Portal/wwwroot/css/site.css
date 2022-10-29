@@ -22,7 +22,7 @@ body {
     color: #a10000;
 }
 
-.primary{
+.primary {
     background-color: #618641;
     color: white;
     font-weight: bold;
@@ -38,12 +38,16 @@ h1, h2 {
     font-weight: bold;
 }
 
-label {
+
+.fw {
     font-weight: bolder;
     font-size: medium;
     color: #000000;
 }
 
+.form-check-input {
+    font-weight: normal !important;
+}
 
 .link {
     color: #1E1E1E;

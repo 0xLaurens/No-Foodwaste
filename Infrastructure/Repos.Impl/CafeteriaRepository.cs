@@ -8,9 +8,9 @@ public class CafeteriaRepository : ICafeteriaRepository
 {
     private readonly FoodDbContext _context;
 
-    public CafeteriaRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
+    public CafeteriaRepository(FoodDbContext context)
     {
-        _context = dbContextFactory.CreateDbContext();
+        _context = context;
     }
 
     public Cafeteria GetCafeteriaById(int id)

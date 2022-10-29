@@ -8,7 +8,6 @@ public class Product
     public string? Name { get; set; }
     public byte[]? Photo { get; set; }
     public bool? ContainsAlcohol { get; set; }
-    
-    [JsonIgnore]
-    public virtual ICollection<Package>? Packages { get; set; }
+
+    [JsonIgnore] public virtual ICollection<Package>? Packages { get; set; }
 }

@@ -4,10 +4,12 @@
 
         <div class="card" style="text-decoration: none">
             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                @if (@Model.Thumbnail != null)
+                @if (Model.Thumbnail != null)
                 {
-                    <img src="data:@Model.ThumbnailFormat;Base64,@Convert.ToBase64String(@Model.Thumbnail)" class="img-fluid" alt="Image of @Model.Name"/>
-                } else {
+                    <img src="data:@Model.ThumbnailFormat;Base64,@Convert.ToBase64String(Model.Thumbnail)" class="img-fluid" alt="Image of @Model.Name"/>
+                }
+                else
+                {
                     <img src="https://mdbootstrap.com/img/Photos/Horizontal/Food/8-col/img (5).jpg" class="img-fluid" alt="Image of @Model.Name"/>
                 }
             </div>
@@ -46,15 +48,15 @@
                 </p>
                 @if (Context.Request.Path.Value!.Contains("Employee") && Model.StudentId == null)
                 {
-                    <ul class="list-unstyled list-inline d-flex justify-content-between">
+                    <ul class="list-unstyled list-inline d-flex justify-content-between text-reset text-decoration-none">
                         <li>
-                            <a asp-controller="Employee" asp-action="Update" asp-route-id="@Model.PackageId">
+                            <a class="text-reset text-decoration-none" asp-controller="Employee" asp-action="Update" asp-route-id="@Model.PackageId">
                                 Edit
                                 <i class="fa-solid fa-pen"></i>
                             </a>
                         </li>
                         <li>
-                            <a asp-controller="Employee" asp-action="Delete" asp-route-id="@Model.PackageId">
+                            <a class="text-reset text-decoration-none" asp-controller="Employee" asp-action="Delete" asp-route-id="@Model.PackageId">
                                 Delete
                                 <i class="fa-solid fa-trash"></i>
                             </a>

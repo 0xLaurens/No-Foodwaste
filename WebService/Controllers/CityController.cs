@@ -2,8 +2,6 @@ using AutoMapper;
 using Domain;
 using DomainServices.Repos.Inf;
 using Microsoft.AspNetCore.Mvc;
-using WebService.Models;
-using WebService.Models.Cafeteria;
 using WebService.Models.City;
 
 namespace WebService.Controllers;

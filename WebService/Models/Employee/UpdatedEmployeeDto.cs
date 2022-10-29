@@ -8,9 +8,7 @@ public class UpdatedEmployeeDto
 
     public string? Name { get; set; }
 
-    [EmailAddress] 
-    [Required]
-    public string? Email { get; set; }
+    [EmailAddress] [Required] public string? Email { get; set; }
 
     public int? LocationId { get; set; }
     public int CafeteriaId { get; set; }

@@ -14,7 +14,8 @@ builder.Services.AddControllers()
 
 // Hot Chocolate
 builder.Services.AddGraphQLServer()
-    .AddQueryType<PackageGraphQl>();
+    .AddQueryType<PackageGraphQl>()
+    .AddProjections();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,9 +24,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 
 // FoodDb
-builder.Services.AddPooledDbContextFactory<FoodDbContext>(o => 
-    o.UseSqlServer(builder.Configuration.GetConnectionString("FoodDb")));
-
+builder.Services.AddDbContext<FoodDbContext>(options =>
+{
+    options
+        .UseSqlServer(
+            builder.Configuration.GetConnectionString("FoodDb")
+        );
+});
 // IdentityDb
 builder.Services.AddDbContext<AccountDbContext>(options =>
 {
