@@ -38,7 +38,7 @@ public class PackageController : Controller
 
         if (!_packageService.StudentCanOrderPackageOnDate(package!, student))
         {
-            if (!_packageService.CanPackageBeAltered(package!))
+            if (!package.CanPackageBeAltered())
                 ViewBag.Error = "The package you are trying to reserve has already been reserved";
 
             if (!_packageService.StudentCanOrderPackageOnDate(package!, student))

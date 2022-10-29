@@ -5,6 +5,8 @@ namespace Domain;
 
 public class Package
 {
+    
+    
     public int PackageId { get; set; }
 
     [Required(ErrorMessage = "Enter a unique name")]
@@ -25,6 +27,7 @@ public class Package
 
     [Required(ErrorMessage = "Enter a valid start time")]
     public DateTime StartTimeSlot { get; set; }
+    
 
     [Required(ErrorMessage = "Enter a valid end time")]
     public DateTime EndTimeSlot { get; set; }
@@ -39,7 +42,19 @@ public class Package
     public virtual Category? Category { get; set; }
 
     public int? StudentId { get; set; }
+    
+    // Domain Logic
+    public bool CanPackageBeAltered()
+    {
+        return StudentId == null;
+    }
+    
+    public bool PackagesHasProductThatContainsAlcohol()
+    {
+        return Products!.Any(p => p.ContainsAlcohol == true);
+    }
 }
+
 
 public enum Category
 {

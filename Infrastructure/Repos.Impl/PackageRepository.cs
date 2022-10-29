@@ -85,7 +85,7 @@ public class PackageRepository : IPackageRepository
     public void UpdatePackage(Package package)
     {
         var entry = GetPackageById(package.PackageId);
-        if (!_packageService.CanPackageBeAltered(entry!))
+        if (!entry!.CanPackageBeAltered())
             throw new InvalidOperationException("Cannot be altered");
         if (!_packageService.PackageHasCorrectDate(package))
             throw new InvalidOperationException("Wrong date");
@@ -101,7 +101,7 @@ public class PackageRepository : IPackageRepository
 
     public void ReservePackageForStudent(Package package, Student student)
     {
-        if (!_packageService.CanPackageBeAltered(package))
+        if (!package.CanPackageBeAltered())
             throw new InvalidOperationException("Cannot be altered");
         if (!_packageService.PackageHasCorrectDate(package))
             throw new InvalidOperationException("Wrong date");
@@ -113,7 +113,7 @@ public class PackageRepository : IPackageRepository
     public void DeletePackage(int id)
     {
         var entry = GetPackageById(id);
-        if (!_packageService.CanPackageBeAltered(entry!))
+        if (!entry!.CanPackageBeAltered())
             throw new InvalidOperationException();
         _context.Packages?.Remove(entry!);
         _context.SaveChanges();
@@ -121,7 +121,7 @@ public class PackageRepository : IPackageRepository
 
     public void DeletePackage(Package package)
     {
-        if (!_packageService.CanPackageBeAltered(package))
+        if (!package.CanPackageBeAltered())
             throw new InvalidOperationException();
         _context.Packages?.Remove(package);
         _context.SaveChanges();
