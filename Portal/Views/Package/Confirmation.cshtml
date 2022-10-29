@@ -1,0 +1,23 @@
+@model dynamic
+
+@{
+    ViewBag.Title = "Confirmation";
+    Layout = "_Layout";
+}
+<section class="py-5 justify-content-center d-flex">
+    <div class="card text-center w-25">
+        <div class="py-4">
+            <i class="fa-regular fa-circle-check fa-10x text-primary"></i>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title text-primary font-weight-bold">
+                Success!
+            </h2>
+            <hr class="my-4"/>
+            <p class="lead">
+                <strong>You succesfully ordered the package!</strong>
+            </p>
+            <a class="btn primary" asp-controller="Home" asp-action="Index">Return to home</a>
+        </div>
+    </div>
+</section>
