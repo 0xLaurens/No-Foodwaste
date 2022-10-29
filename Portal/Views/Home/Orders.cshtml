@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="d-inline mb-6">
-            <form asp-action="Index" asp method="get">
+            <form asp-action="Orders" asp method="get">
                 <i class="fa-solid fa-filter pe-1"></i>
                 <select class="form-select d-inline w-25" name="Category" asp-for="@ViewData["CategoryFilter"]" asp-items="@Html.GetEnumSelectList<Category>()">
                     <option value="" selected>
@@ -28,7 +28,7 @@
                         Location filter
                     </option>
                 </select>
-                <input type="submit" value="Filter" class="btn primary"/> <a class="btn btn-link" asp-action="Index">Reset filters</a>
+                <input type="submit" value="Filter" class="btn primary"/> <a class="btn btn-link" asp-action="Orders">Reset filters</a>
             </form>
         </div>
         <hr/>

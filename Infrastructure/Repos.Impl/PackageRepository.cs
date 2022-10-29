@@ -93,6 +93,7 @@ public class PackageRepository : IPackageRepository
         // Explicit deletion of all foreign keys
         entry!.Products!.Any(p => entry.Products!.Remove(p));
 
+        entry.Products = package.Products;
         _context.Entry(entry).CurrentValues.SetValues(package);
 
         _context.SaveChanges();

@@ -74,3 +74,7 @@ input[type=input] {
 .ratio .card-img-top {
     object-fit: cover;
 }
+
+.text-primary {
+    color: #618641 !important;
+}

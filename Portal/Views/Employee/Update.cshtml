@@ -102,7 +102,7 @@
     @Html.HiddenFor(m => Model.Package!.City)
 
     <!-- Submit button -->
-    @if (@Model.Package!.StudentId != null)
+    @if (@Model.Package!.StudentId == null)
     {
         <button type="submit" class="btn primary btn-lg btn-block w-100">Update</button>
     }
