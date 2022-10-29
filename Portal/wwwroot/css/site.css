@@ -28,8 +28,8 @@ body {
     font-weight: bold;
 }
 
-button:hover .primary:hover {
-    background-color: #91c47e;
+.primary:hover {
+    background-color: #3c5228;
     color: white;
 }
 
@@ -65,4 +65,12 @@ input[type=input] {
 
 .form-control {
     border-radius: .5rem !important;
+}
+
+.bg-primary {
+    background-color: #6d8641 !important;
+}
+
+.ratio .card-img-top {
+    object-fit: cover;
 }

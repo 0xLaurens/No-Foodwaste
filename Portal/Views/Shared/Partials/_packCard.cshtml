@@ -3,14 +3,14 @@
     <section class="mx-auto my-5" style="max-width: 23rem;">
 
         <div class="card" style="text-decoration: none">
-            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+            <div class="ratio ratio-4x3 hover-overlay ripple" data-mdb-ripple-color="light">
                 @if (Model.Thumbnail != null)
                 {
-                    <img src="data:@Model.ThumbnailFormat;Base64,@Convert.ToBase64String(Model.Thumbnail)" class="img-fluid" alt="Image of @Model.Name"/>
+                    <img src="data:@Model.ThumbnailFormat;Base64,@Convert.ToBase64String(Model.Thumbnail)" class="card-img-top" alt="Image of @Model.Name"/>
                 }
                 else
                 {
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Food/8-col/img (5).jpg" class="img-fluid" alt="Image of @Model.Name"/>
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Food/8-col/img (5).jpg" class="card-img-top" alt="Image of @Model.Name"/>
                 }
             </div>
             <div class="card-body">
@@ -27,25 +27,23 @@
                 <p class="lead">
                     <strong>Pickup time</strong>
                 </p>
-                <p class="mb-2">
-                    <ul class="list-unstyled list-inline d-flex">
-                        <li class="list-inline-item pl-2">
-                            <i class="fa-solid fa-clock"></i>
-                        </li>
-                        <li class="list-inline-item pl-2">
-                            <span class="">@Model.StartTimeSlot.ToString("ddd")</span>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <span class="badge bg-secondary">@Model.StartTimeSlot.ToString("t")</span>
-                        </li>
-                        <li class="list-inline-item px-1">
-                            <i class="fa-solid fa-horizontal-rule"></i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <span class="badge bg-secondary">@Model.EndTimeSlot.ToString("t")</span>
-                        </li>
-                    </ul>
-                </p>
+                <ul class="list-unstyled list-inline d-flex">
+                    <li class="list-inline-item pl-2">
+                        <i class="fa-solid fa-clock"></i>
+                    </li>
+                    <li class="list-inline-item pl-2">
+                        <span class="">@Model.StartTimeSlot.ToString("ddd")</span>
+                    </li>
+                    <li class="list-inline-item me-0">
+                        <span class="badge bg-secondary">@Model.StartTimeSlot.ToString("t")</span>
+                    </li>
+                    <li class="list-inline-item px-1">
+                        <i class="fa-solid fa-horizontal-rule"></i>
+                    </li>
+                    <li class="list-inline-item me-0">
+                        <span class="badge bg-secondary">@Model.EndTimeSlot.ToString("t")</span>
+                    </li>
+                </ul>
                 @if (Context.Request.Path.Value!.Contains("Employee") && Model.StudentId == null)
                 {
                     <ul class="list-unstyled list-inline d-flex justify-content-between text-reset text-decoration-none">

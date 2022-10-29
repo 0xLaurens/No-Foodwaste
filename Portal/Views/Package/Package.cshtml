@@ -5,55 +5,101 @@
     Layout = "_Layout";
 }
 
-@* ReSharper disable once ConditionIsAlwaysTrueOrFalse *@
-@if (Model != null)
-{
-    <h2>@Model.Name</h2>
-}
-else
-{
-    <h2>No package found!</h2>
-    <a asp-controller="Home" asp-action="Index">return home</a>
-}
 
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger mb-2">
-        <h5 class="alert-heading">Error!</h5>
-        @ViewBag.Error
-        <a class="alert-link" asp-action="Index" asp-controller="Home">
-            return to home menu.
-        </a>
+<section class="pt-5 pb-2">
+    <div class="container py-5">
+        <div class="row mb-2 mb-lg-3">
+            <div class="col-8">
+                <h2 class="fw-bold">@Model.Name</h2>
+                <div class="ratio ratio-4x3">
+                    @if (Model.Thumbnail != null)
+                    {
+                        <img src="data:@Model.ThumbnailFormat;Base64,@Convert.ToBase64String(Model.Thumbnail)" class="card-img-top" alt="Image of @Model.Name"/>
+                    }
+                    else
+                    {
+                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Food/8-col/img (5).jpg" class="card-img-top" alt="Image of @Model.Name"/>
+                    }
+                </div>
+            </div>
+            <div class="col-4 mx-auto align-items-center justify-content-center d-flex">
+                <div>
+                    <div>
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger mb-2">
+                                <h5 class="alert-heading">Error!</h5>
+                                @ViewBag.Error
+                                <a class="alert-link" asp-action="Index" asp-controller="Home">
+                                    return to home menu.
+                                </a>
 
+                            </div>
+                        }
+                        <h5 class="card-title font-weight-bold">
+                            @Model.Name
+                            @if (Model.EighteenPlus)
+                            {
+                                <span class="badge bg-secondary">18+</span>
+                            }
+                        </h5>
+                        <p class="mb-2">€ @Model.Price • @Model.Cafeteria!.Location!.Name, @Model.City!.Name</p>
+                        <span class="badge bg-primary">@Model.Category</span>
+                        <hr/>
+
+                        <p class="lead">
+                            <strong>What you could get</strong>
+                        </p>
+                        <p>
+                            The package will be filled with:
+                            @foreach (var p in @Model.Products!)
+                            {
+                                @p.Name
+                                @if (p != @Model.Products.Last()){<span>,</span> }
+                            }
+                        </p>
+                        <hr/>
+
+                        <p class="lead">
+                            <strong>Pickup time</strong>
+                        </p>
+                        <ul class="list-unstyled list-inline d-flex">
+                            <li class="list-inline-item pl-2">
+                                <i class="fa-solid fa-clock"></i>
+                            </li>
+                            <li class="list-inline-item pl-2">
+                                <span class="">@Model.StartTimeSlot.ToString("ddd")</span>
+                            </li>
+                            <li class="list-inline-item me-0">
+                                <span class="badge bg-secondary">@Model.StartTimeSlot.ToString("t")</span>
+                            </li>
+                            <li class="list-inline-item px-1">
+                                <i class="fa-solid fa-horizontal-rule"></i>
+                            </li>
+                            <li class="list-inline-item me-0">
+                                <span class="badge bg-secondary">@Model.EndTimeSlot.ToString("t")</span>
+                            </li>
+                        </ul>
+
+                        <div class="pt-5">
+                            @if (Model.StudentId == null)
+                            {
+                                <form method="post">
+                                    <button type="submit" class="btn btn-block primary" asp-action="ReservePackage" asp-controller="Package" asp-route-id="@Model.PackageId">Reserve</button>
+                                </form>
+                            }
+
+                            @if (Model.StudentId != null)
+                            {
+                                <form method="post">
+                                    <button type="submit" class="btn primary disabled w-full" asp-action="ReservePackage" asp-controller="Package" asp-route-id="@Model.PackageId">Reserve</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-}
-
-
-@* ReSharper disable once ConditionIsAlwaysTrueOrFalse *@
-@if (Model != null)
-{
-    <p>Categorie: @Model.Category</p>
-    <p>Price: @Model.Price</p>
-    <p>City: @Model.City!.Name</p>
-    <p>Location: @Model.Cafeteria?.Location?.Name</p>
-    <ul>
-        @foreach (var p in Model.Products!)
-        {
-            <li>@p.Name</li>
-        }
-    </ul>
-
-@if (Model.StudentId == null)
-{
-    <form method="post">
-        <button type="submit" class="btn btn-primary" asp-action="ReservePackage" asp-controller="Package" asp-route-id="@Model.PackageId">Reserve</button>
-    </form>
-}
-
-@if (Model.StudentId != null)
-{
-    <form method="post">
-        <button type="submit" class="btn btn-primary disabled" asp-action="ReservePackage" asp-controller="Package" asp-route-id="@Model.PackageId">Reserve</button>
-    </form>
-}
-}
+</section>
