@@ -1,6 +1,5 @@
 using AutoMapper;
 using Domain;
-using WebService.Models;
 using WebService.Models.Cafeteria;
 using WebService.Models.City;
 using WebService.Models.Employee;

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using DomainServices.Repos.Inf;
 using DomainServices.Services.Impl;
 using DomainServices.Services.Inf;
@@ -7,10 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using WebService.GraphQL;
 
 var builder = WebApplication.CreateBuilder(args);
-// Hot Chocolate
+//Reference loop
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+// Hot Chocolate
 builder.Services.AddGraphQLServer()
-    .AddQueryType<PackageGraphQl>();
+    .AddQueryType<PackageGraphQl>()
+    .AddProjections();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,9 +24,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 
 // FoodDb
-builder.Services.AddPooledDbContextFactory<FoodDbContext>(o => 
-    o.UseSqlServer(builder.Configuration.GetConnectionString("FoodDb")));
-
+builder.Services.AddDbContext<FoodDbContext>(options =>
+{
+    options
+        .UseSqlServer(
+            builder.Configuration.GetConnectionString("FoodDb")
+        );
+});
 // IdentityDb
 builder.Services.AddDbContext<AccountDbContext>(options =>
 {

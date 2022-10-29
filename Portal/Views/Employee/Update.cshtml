@@ -14,7 +14,7 @@
 }
 <form asp-action="Update" asp-controller="Employee" method="post" enctype="multipart/form-data">
     <div class="form-outline required mb-4">
-        <label asp-for="Package!.Name">Naam van het pakket</label>
+        <label class="fw" asp-for="Package!.Name">Naam van het pakket</label>
         <div>
             <span asp-validation-for="Package!.Name" class="text-danger"></span>
         </div>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="form-outline required mb-4">
-        <label asp-for="Picture">Thumbnail van het pakket</label>
+        <label class="fw" asp-for="Picture">Thumbnail van het pakket</label>
         <div>
             <span asp-validation-for="Picture" class="text-danger"></span>
         </div>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package!.Price">Prijs</label>
+        <label class="fw" asp-for="Package!.Price">Prijs</label>
         <div>
             <span asp-validation-for="Package!.Price" class="text-danger"></span>
         </div>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package!.Category">Categorie</label>
+        <label class="fw" asp-for="Package!.Category">Categorie</label>
         <div>
             <span asp-validation-for="Package!.Category" class="text-danger"></span>
         </div>
@@ -50,7 +50,7 @@
 
     <div class="form-checkform-outline mb-4">
         <div class="form-outline required">
-            <label asp-for="OptionsList">Producten</label>
+            <label class="fw" asp-for="OptionsList">Producten</label>
         </div>
         <div>
             <span asp-validation-for="ProductsList" class="text-danger"></span>
@@ -77,20 +77,20 @@
     }
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package!.StartTimeSlot">Beschikbaar vanaf</label>
+        <label class="fw" asp-for="Package!.StartTimeSlot">Beschikbaar vanaf</label>
         <input type="datetime-local" asp-for="Package!.StartTimeSlot" tooltip="Start of the timeslot" class="form-control" min="@DateOnly.FromDateTime(DateTime.Now)" max="@DateOnly.FromDateTime(DateTime.Today.AddDays(2))"/>
     </div>
 
 
     <div class="form-outline required mb-4">
-        <label asp-for="Package!.EndTimeSlot">Beschikbaar tot</label>
+        <label class="fw" asp-for="Package!.EndTimeSlot">Beschikbaar tot</label>
         <input type="datetime-local" asp-for="Package!.EndTimeSlot" tooltip="End of the timeslot" class="form-control"/>
     </div>
 
     <div class="form-outline mb-4">
         <div class="form-check form-switch">
             <input asp-for="Package!.EighteenPlus" class="form-check-input" type="checkbox">
-            <label asp-for="Package!.EighteenPlus" class="form-check-label">18+</label>
+            <label asp-for="Package!.EighteenPlus" class="form-check-label fw">18+</label>
         </div>
     </div>
 
@@ -102,5 +102,12 @@
     @Html.HiddenFor(m => Model.Package!.City)
 
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Update</button>
+    @if (@Model.Package!.StudentId == null)
+    {
+        <button type="submit" class="btn primary btn-lg btn-block w-100">Update</button>
+    }
+    else
+    {
+        <button type="submit" disabled class="btn primary btn-lg btn-block w-100">Update</button>
+    }
 </form>

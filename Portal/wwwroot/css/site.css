@@ -21,3 +21,60 @@ body {
     content: "*";
     color: #a10000;
 }
+
+.primary {
+    background-color: #618641;
+    color: white;
+    font-weight: bold;
+}
+
+.primary:hover {
+    background-color: #3c5228;
+    color: white;
+}
+
+h1, h2 {
+    color: #618641 !important;
+    font-weight: bold;
+}
+
+
+.fw {
+    font-weight: bolder;
+    font-size: medium;
+    color: #000000;
+}
+
+.form-check-input {
+    font-weight: normal !important;
+}
+
+.link {
+    color: #1E1E1E;
+    opacity: 75%;
+}
+
+input {
+    outline: none;
+}
+
+input[type=input] {
+    background-color: #E3E3E3;
+    outline: none;
+}
+
+.form-control {
+    border-radius: .5rem !important;
+}
+
+.bg-primary {
+    background-color: #6d8641 !important;
+}
+
+.ratio .card-img-top {
+    object-fit: cover;
+}
+
+.text-primary {
+    color: #618641 !important;
+}

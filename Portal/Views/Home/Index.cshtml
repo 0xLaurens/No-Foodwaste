@@ -6,19 +6,10 @@
     var locations = ViewData["Locations"] as List<string>;
 }
 
-<form asp-action="Index" asp method="get">
-    <select name="Category" asp-for="@ViewData["CategoryFilter"]" asp-items="@Html.GetEnumSelectList<Category>()">
-        <option selected="selected">Category filter</option>
-    </select>
-    <select name="Location" asp-for="@ViewData["LocationFilter"]" asp-items="@(new SelectList(locations))">
-        <option selected="selected">Location filter</option>
-    </select>
-    <input type="submit" value="Filter" class="btn btn-primary"/> | <a asp-action="Index">Reset filters</a>
-</form>
 
 <section class="pt-5 pb-2">
     <div class="container py-5">
-        <div class="row mb-4 mb-lg-5">
+        <div class="row mb-2 mb-lg-3">
             <div class="col mx-auto">
                 @if (!Model.Any())
                 {
@@ -26,20 +17,42 @@
                 }
                 else
                 {
-                    <h2 class="fw-bold">Featured</h2>
+                    <h2 class="fw-bold">Meals at your city</h2>
                 }
             </div>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
+        <div class="d-inline mb-6">
+            <form asp-action="Index" asp method="get">
+                <i class="fa-solid fa-filter pe-1"></i>
+                <select class="form-select d-inline w-25" name="Category" asp-for="@ViewData["CategoryFilter"]" asp-items="@Html.GetEnumSelectList<Category>()">
+                    <option value="" selected>
+                        Category filter
+                    </option>
+                </select>
+                <i class="fa-solid fa-location-pin ps-4 pe-1"></i>
+                <select class="form-select d-inline w-25" name="Location" asp-for="@ViewData["LocationFilter"]" asp-items="@(new SelectList(locations))">
+                    <option value="" selected>
+                        Location filter
+                    </option>
+                </select>
+                <input type="submit" value="Filter" class="btn primary primary:hover"/> <a class="btn btn-link" asp-action="Index">Reset filters</a>
+            </form>
+        </div>
+
+        <hr/>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
             @if (!Model.Any())
             {
                 <h6>
                     <a asp-action="Index">Reset filters.</a>
                 </h6>
             }
+
             @foreach (var p in Model)
             {
-                @await Html.PartialAsync("Partials/_packCard", p)
+                <a class="text-reset text-decoration-none" asp-controller="Package" asp-action="Package" asp-route-id="@p.PackageId">
+                    @await Html.PartialAsync("Partials/_packCard", p)
+                </a>
             }
         </div>
     </div>

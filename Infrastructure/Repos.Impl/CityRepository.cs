@@ -8,11 +8,11 @@ public class CityRepository : ICityRepository
 {
     private readonly FoodDbContext _context;
 
-    public CityRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
+    public CityRepository(FoodDbContext context)
     {
-        _context = dbContextFactory.CreateDbContext();
+        _context = context;
     }
-    
+
 
     public City GetCityById(int id)
     {
@@ -23,6 +23,8 @@ public class CityRepository : ICityRepository
     public IQueryable<City> GetCities()
     {
         return _context.Cities!
+            .Include(c => c.Locations!)
+            .ThenInclude(l => l.Employees)
             .OrderBy(c => c.Name);
     }
 

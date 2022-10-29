@@ -8,11 +8,11 @@ public class StudentRepository : IStudentRepository
 {
     private readonly FoodDbContext _context;
 
-    public StudentRepository(IDbContextFactory<FoodDbContext> dbContextFactory)
+    public StudentRepository(FoodDbContext context)
     {
-        _context = dbContextFactory.CreateDbContext();
+        _context = context;
     }
-    
+
 
     public Student GetStudentById(int id)
     {

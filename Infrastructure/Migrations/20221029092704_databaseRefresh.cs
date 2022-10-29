@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class images : Migration
+    public partial class databaseRefresh : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,6 +38,22 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    StudentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmailAddress = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CityId = table.Column<int>(type: "int", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.StudentId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
@@ -57,27 +73,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    StudentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmailAddress = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.StudentId);
-                    table.ForeignKey(
-                        name: "FK_Students_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "CityId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cafeterias",
                 columns: table => new
                 {
@@ -89,11 +84,6 @@ namespace Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cafeterias", x => x.CafeteriaId);
-                    table.ForeignKey(
-                        name: "FK_Cafeterias_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "CityId");
                     table.ForeignKey(
                         name: "FK_Cafeterias_Locations_LocationId",
                         column: x => x.LocationId,
@@ -129,9 +119,9 @@ namespace Infrastructure.Migrations
                 {
                     PackageId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Thumbnail = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     ThumbnailFormat = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: true),
                     CafeteriaId = table.Column<int>(type: "int", nullable: false),
                     StartTimeSlot = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -219,16 +209,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Locations",
-                columns: new[] { "LocationId", "CityId", "Name" },
-                values: new object[,]
-                {
-                    { 1, 1, "LA" },
-                    { 2, 2, "LD" },
-                    { 3, 3, "HL" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Students",
                 columns: new[] { "StudentId", "CityId", "DateOfBirth", "EmailAddress", "PhoneNumber" },
                 values: new object[,]
@@ -236,6 +216,21 @@ namespace Infrastructure.Migrations
                     { 1, 1, new DateTime(2003, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "student@student.avans.nl", "06 58912302" },
                     { 2, 1, new DateTime(2001, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "L.pieters@student.avans.nl", "06 38912302" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Locations",
+                columns: new[] { "LocationId", "CityId", "Name" },
+                values: new object[] { 1, 1, "LA" });
+
+            migrationBuilder.InsertData(
+                table: "Locations",
+                columns: new[] { "LocationId", "CityId", "Name" },
+                values: new object[] { 2, 2, "LD" });
+
+            migrationBuilder.InsertData(
+                table: "Locations",
+                columns: new[] { "LocationId", "CityId", "Name" },
+                values: new object[] { 3, 3, "HL" });
 
             migrationBuilder.InsertData(
                 table: "Cafeterias",
@@ -262,12 +257,12 @@ namespace Infrastructure.Migrations
                 columns: new[] { "PackageId", "CafeteriaId", "Category", "CityId", "EighteenPlus", "EndTimeSlot", "Name", "Price", "StartTimeSlot", "StudentId", "Thumbnail", "ThumbnailFormat" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, 1, false, new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6671), "Tosti ham 'n cheese", 1.99m, new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6657), 1, null, null },
-                    { 2, 1, 1, 1, true, new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6728), "Beer and chicken", 2.99m, new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6709), null, null, null },
-                    { 3, 2, 0, 1, false, new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6761), "Fruit bowl", 3.44m, new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6747), null, null, null },
-                    { 4, 2, 5, 1, false, new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6799), "Vega delight", 1.99m, new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6780), null, null, null },
-                    { 5, 3, 1, 1, false, new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6833), "Sloppy spaghetti sandwich", 2.49m, new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6818), null, null, null },
-                    { 6, 3, 4, 1, true, new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6871), "Heineken Beer", 1m, new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6857), null, null, null }
+                    { 1, 1, 1, 1, false, new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(7977), "Tosti ham 'n cheese", 1.99m, new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(7962), 1, null, null },
+                    { 2, 1, 1, 1, true, new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8035), "Beer and chicken", 2.99m, new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8015), null, null, null },
+                    { 3, 2, 0, 1, false, new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8063), "Fruit bowl", 3.44m, new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8049), null, null, null },
+                    { 4, 2, 5, 1, false, new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8097), "Vega delight", 1.99m, new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8082), null, null, null },
+                    { 5, 3, 1, 1, false, new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8130), "Sloppy spaghetti sandwich", 2.49m, new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8116), null, null, null },
+                    { 6, 3, 4, 1, true, new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8167), "Heineken Beer", 1m, new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8153), null, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -291,11 +286,6 @@ namespace Infrastructure.Migrations
                     { 5, 9 },
                     { 6, 6 }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cafeterias_CityId",
-                table: "Cafeterias",
-                column: "CityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cafeterias_LocationId",
@@ -344,11 +334,6 @@ namespace Infrastructure.Migrations
                 column: "Name",
                 unique: true,
                 filter: "[Name] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_CityId",
-                table: "Students",
-                column: "CityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_EmailAddress",

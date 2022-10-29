@@ -10,9 +10,9 @@ public class PackageRepository : IPackageRepository
     private readonly FoodDbContext _context;
     private readonly IPackageService _packageService;
 
-    public PackageRepository(IPackageService packageService, IDbContextFactory<FoodDbContext> contextFactory)
+    public PackageRepository(FoodDbContext context, IPackageService packageService)
     {
-        _context = contextFactory.CreateDbContext();
+        _context = context;
         _packageService = packageService;
     }
 
@@ -26,7 +26,7 @@ public class PackageRepository : IPackageRepository
         return _context.Packages!
             .Where(p => p.StartTimeSlot > DateTime.Today.Date)
             .Include(p => p.Cafeteria)
-            .ThenInclude(c => c!.Location)
+            .ThenInclude(cf => cf!.Location)
             .Include(p => p.City)
             .Include(p => p.Products)
             .OrderBy(p => p.EndTimeSlot);
@@ -57,10 +57,22 @@ public class PackageRepository : IPackageRepository
             .Where(p => p.CafeteriaId == id);
     }
 
-    public IQueryable<Package>? GetPackagesByStudent(Student student)
+    public IQueryable<Package> GetPackagesByStudent(Student student)
     {
         return GetPackages()
             .Where(p => student != null && p.StudentId == student.StudentId);
+    }
+
+    public IQueryable<Package> GetPackagesByStudentFiltered(Student student, string? location, Category? category)
+    {
+        if (category != null && location != null)
+            return GetPackagesByStudent(student)
+                .Where(p => p.Cafeteria!.Location!.Name == location && p.Category == category);
+        if (location != null)
+            return GetPackagesByStudent(student).Where(p => p.Cafeteria!.Location!.Name == location);
+        if (category != null) return GetPackagesByStudent(student).Where(p => p.Category == category);
+
+        return GetPackagesByStudent(student);
     }
 
     public void CreatePackage(Package package)
@@ -79,8 +91,7 @@ public class PackageRepository : IPackageRepository
             throw new InvalidOperationException("Wrong date");
 
         // Explicit deletion of all foreign keys
-        entry!.Products!.Any(p => entry.Products!.Remove(p)!);
-
+        entry!.Products!.Any(p => entry.Products!.Remove(p));
 
         entry.Products = package.Products;
         _context.Entry(entry).CurrentValues.SetValues(package);
@@ -107,7 +118,7 @@ public class PackageRepository : IPackageRepository
         _context.Packages?.Remove(entry!);
         _context.SaveChanges();
     }
-    
+
     public void DeletePackage(Package package)
     {
         if (!_packageService.CanPackageBeAltered(package))

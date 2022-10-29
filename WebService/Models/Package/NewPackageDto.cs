@@ -5,7 +5,6 @@ namespace WebService.Models.Package;
 
 public class NewPackageDto
 {
-
     [Required(ErrorMessage = "Enter a unique name")]
     public string? Name { get; set; }
 

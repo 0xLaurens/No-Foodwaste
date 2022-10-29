@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    [Migration("20221026123920_images")]
-    partial class images
+    [Migration("20221029092704_databaseRefresh")]
+    partial class databaseRefresh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -39,8 +39,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CafeteriaId");
-
-                    b.HasIndex("CityId");
 
                     b.HasIndex("LocationId");
 
@@ -264,10 +262,10 @@ namespace Infrastructure.Migrations
                             Category = 1,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6671),
+                            EndTimeSlot = new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(7977),
                             Name = "Tosti ham 'n cheese",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6657),
+                            StartTimeSlot = new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(7962),
                             StudentId = 1
                         },
                         new
@@ -277,10 +275,10 @@ namespace Infrastructure.Migrations
                             Category = 1,
                             CityId = 1,
                             EighteenPlus = true,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6728),
+                            EndTimeSlot = new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8035),
                             Name = "Beer and chicken",
                             Price = 2.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6709)
+                            StartTimeSlot = new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8015)
                         },
                         new
                         {
@@ -289,10 +287,10 @@ namespace Infrastructure.Migrations
                             Category = 0,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6761),
+                            EndTimeSlot = new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8063),
                             Name = "Fruit bowl",
                             Price = 3.44m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6747)
+                            StartTimeSlot = new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8049)
                         },
                         new
                         {
@@ -301,10 +299,10 @@ namespace Infrastructure.Migrations
                             Category = 5,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6799),
+                            EndTimeSlot = new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8097),
                             Name = "Vega delight",
                             Price = 1.99m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6780)
+                            StartTimeSlot = new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8082)
                         },
                         new
                         {
@@ -313,10 +311,10 @@ namespace Infrastructure.Migrations
                             Category = 1,
                             CityId = 1,
                             EighteenPlus = false,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6833),
+                            EndTimeSlot = new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8130),
                             Name = "Sloppy spaghetti sandwich",
                             Price = 2.49m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6818)
+                            StartTimeSlot = new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8116)
                         },
                         new
                         {
@@ -325,10 +323,10 @@ namespace Infrastructure.Migrations
                             Category = 4,
                             CityId = 1,
                             EighteenPlus = true,
-                            EndTimeSlot = new DateTime(2022, 10, 26, 17, 39, 19, 820, DateTimeKind.Local).AddTicks(6871),
+                            EndTimeSlot = new DateTime(2022, 10, 29, 14, 27, 4, 317, DateTimeKind.Local).AddTicks(8167),
                             Name = "Heineken Beer",
                             Price = 1m,
-                            StartTimeSlot = new DateTime(2022, 10, 26, 14, 39, 19, 820, DateTimeKind.Local).AddTicks(6857)
+                            StartTimeSlot = new DateTime(2022, 10, 29, 11, 27, 4, 317, DateTimeKind.Local).AddTicks(8153)
                         });
                 });
 
@@ -473,8 +471,6 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("StudentId");
 
-                    b.HasIndex("CityId");
-
                     b.HasIndex("EmailAddress")
                         .IsUnique()
                         .HasFilter("[EmailAddress] IS NOT NULL");
@@ -594,12 +590,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Cafeteria", b =>
                 {
-                    b.HasOne("Domain.City", null)
-                        .WithMany("Cafeterias")
-                        .HasForeignKey("CityId");
-
                     b.HasOne("Domain.Location", "Location")
-                        .WithMany("Cafeterias")
+                        .WithMany()
                         .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
@@ -622,7 +614,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Package", b =>
                 {
                     b.HasOne("Domain.Cafeteria", "Cafeteria")
-                        .WithMany("Packages")
+                        .WithMany()
                         .HasForeignKey("CafeteriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -640,13 +632,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("Domain.Student", b =>
-                {
-                    b.HasOne("Domain.City", null)
-                        .WithMany("Students")
-                        .HasForeignKey("CityId");
-                });
-
             modelBuilder.Entity("PackageProduct", b =>
                 {
                     b.HasOne("Domain.Package", null)
@@ -662,24 +647,13 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Cafeteria", b =>
-                {
-                    b.Navigation("Packages");
-                });
-
             modelBuilder.Entity("Domain.City", b =>
                 {
-                    b.Navigation("Cafeterias");
-
                     b.Navigation("Locations");
-
-                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("Domain.Location", b =>
                 {
-                    b.Navigation("Cafeterias");
-
                     b.Navigation("Employees");
                 });
 

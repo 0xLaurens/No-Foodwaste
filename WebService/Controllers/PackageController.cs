@@ -8,10 +8,10 @@ namespace WebService.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PackageController: ControllerBase
+public class PackageController : ControllerBase
 {
-    private readonly IPackageRepository _packageRepository;
     private readonly IMapper _mapper;
+    private readonly IPackageRepository _packageRepository;
 
     public PackageController(IMapper mapper, IPackageRepository packageRepository)
     {
@@ -46,7 +46,7 @@ public class PackageController: ControllerBase
             EighteenPlus = newPackage.EighteenPlus,
             Price = newPackage.Price,
             Category = newPackage.Category,
-            StudentId = newPackage.StudentId 
+            StudentId = newPackage.StudentId
         };
 
         _packageRepository.CreatePackage(packageToCreate);
@@ -63,7 +63,7 @@ public class PackageController: ControllerBase
 
         if (id != packageToChange.PackageId) return BadRequest();
 
-        
+
         _packageRepository.UpdatePackage(packageToEdit!);
 
         var editedResource = _mapper.Map<UpdatedPackageDto>(packageToChange);

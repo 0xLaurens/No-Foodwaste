@@ -13,8 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // FoodDb
-builder.Services.AddPooledDbContextFactory<FoodDbContext>(o => 
-    o.UseSqlServer(builder.Configuration.GetConnectionString("FoodDb")));
+builder.Services.AddDbContext<FoodDbContext>(options =>
+{
+    options
+        .UseSqlServer(
+            builder.Configuration.GetConnectionString("FoodDb")
+        );
+});
+
 
 // IdentityDb
 builder.Services.AddDbContext<AccountDbContext>(options =>

@@ -1,6 +1,6 @@
 namespace WebService.Models.Package;
 
-public class NewCreatedPackageDto: NewPackageDto
+public class NewCreatedPackageDto : NewPackageDto
 {
-   public int PackageId { get; set; } 
+    public int PackageId { get; set; }
 }

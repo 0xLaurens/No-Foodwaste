@@ -27,6 +27,7 @@ public class UpdatedPackageDto
 
     [Required(ErrorMessage = "Enter a valid price ex: 1.99")]
     public decimal? Price { get; set; }
+
     public Category? Category { get; set; }
     public int? StudentId { get; set; }
 }

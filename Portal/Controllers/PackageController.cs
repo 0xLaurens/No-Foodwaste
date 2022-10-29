@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Domain;
 using DomainServices.Repos.Inf;
 using DomainServices.Services.Inf;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,11 @@ public class PackageController : Controller
 
 
         _packageRepository.ReservePackageForStudent(package!, student);
-        return Redirect("/");
+        return View("Confirmation");
+    }
+
+    public IActionResult Confirmation()
+    {
+        return View();
     }
 }

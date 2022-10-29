@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Domain;
 
 public class Product
@@ -6,5 +8,6 @@ public class Product
     public string? Name { get; set; }
     public byte[]? Photo { get; set; }
     public bool? ContainsAlcohol { get; set; }
-    public virtual ICollection<Package>? Packages { get; set; }
+
+    [JsonIgnore] public virtual ICollection<Package>? Packages { get; set; }
 }
