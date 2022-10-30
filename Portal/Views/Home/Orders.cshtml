@@ -48,7 +48,9 @@
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-auto">
                         @foreach (var p in packages)
                         {
-                            @await Html.PartialAsync("Partials/_packCard", p)
+                            <a class="text-reset text-decoration-none" asp-controller="Package" asp-action="Package" asp-route-id="@p.PackageId">
+                                @await Html.PartialAsync("Partials/_packCard", p)
+                            </a>
                         }
                     </div>
                     <hr/>
