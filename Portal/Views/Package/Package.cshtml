@@ -10,7 +10,11 @@
     <div class="container py-5">
         <div class="row mb-2 mb-lg-3">
             <div class="col-6">
-                <h2 class="fw-bold pb-5">@Model.Name</h2>
+                <h2 class="fw-bold pb-5">
+                    <a aria-label="Return to previous page" class="link" href="javascript:history.go(-1)">
+                        <i class="fa-solid fa-arrow-left pe-3"></i>
+                    </a> @Model.Name
+                </h2>
                 <div class="ratio ratio-4x3">
                     @if (Model.Thumbnail != null)
                     {
@@ -55,7 +59,10 @@
                             @foreach (var p in @Model.Products!)
                             {
                                 @p.Name
-                                @if (p != @Model.Products.Last()){<span>,</span> }
+                                @if (p != @Model.Products.Last())
+                                {
+                                    <span>,</span>
+                                }
                             }
                         </p>
                         <hr/>
