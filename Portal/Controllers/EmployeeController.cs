@@ -93,7 +93,7 @@ public class EmployeeController : Controller
         }
 
 
-        if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package))
+        if (model.Package.PackagesHasProductThatContainsAlcohol())
             model.Package.EighteenPlus = true;
 
         model.Package.ThumbnailFormat = model.Picture.ContentType;
@@ -117,14 +117,14 @@ public class EmployeeController : Controller
                 ? new PackageViewModel.CheckboxOptions { IsChecked = true, Value = l }
                 : new PackageViewModel.CheckboxOptions { IsChecked = false, Value = l })
             .ToList();
-        package.PackageId = id;
+        package!.PackageId = id;
         var viewModel = new PackageViewModel
         {
             Package = package,
             OptionsList = check
         };
 
-        if (_packageService.PackagesHasProductThatContainsAlcohol(viewModel.Package))
+        if (viewModel.Package.PackagesHasProductThatContainsAlcohol())
             viewModel.Package.EighteenPlus = true;
 
         return View(viewModel);
@@ -139,9 +139,9 @@ public class EmployeeController : Controller
 
         if (!_packageService.PackageHasCorrectDate(model.Package!) ||
             !ModelState.IsValid ||
-            !_packageService.CanPackageBeAltered(model.Package!))
+            !model.Package.CanPackageBeAltered())
         {
-            if (!_packageService.CanPackageBeAltered(model.Package!))
+            if (!model.Package.CanPackageBeAltered())
                 ModelState.AddModelError("UpdateError", "This package cannot be altered, it's already reserved");
 
             var products = _productRepository.GetProducts();
@@ -165,12 +165,12 @@ public class EmployeeController : Controller
             return View(model);
         }
 
-        model.Package.ThumbnailFormat = model.Picture.ContentType;
+        model.Package.ThumbnailFormat = model.Picture!.ContentType;
         var ms = new MemoryStream();
         model.Picture.CopyTo(ms);
         model.Package.Thumbnail = ms.ToArray();
 
-        if (_packageService.PackagesHasProductThatContainsAlcohol(model.Package!))
+        if (model.Package.PackagesHasProductThatContainsAlcohol())
             model.Package!.EighteenPlus = true;
 
         _packageRepository.UpdatePackage(model.Package!);
@@ -180,7 +180,7 @@ public class EmployeeController : Controller
     [Authorize(Policy = "EmployeeOnly")]
     public IActionResult Delete(int id)
     {
-        if (!_packageService.CanPackageBeAltered(_packageRepository.GetPackageById(id)))
+        if (!_packageRepository.GetPackageById(id)!.CanPackageBeAltered())
             throw new InvalidOperationException();
 
         _packageRepository.DeletePackage(id);

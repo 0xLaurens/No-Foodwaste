@@ -4,8 +4,6 @@ namespace DomainServices.Services.Inf;
 
 public interface IPackageService
 {
-    public bool CanPackageBeAltered(Package package);
-    public bool PackagesHasProductThatContainsAlcohol(Package package);
     public bool PackageDateNotTooFarInTheFutureOrPast(Package package);
     public bool PackageHasCorrectStartAndEnd(Package package);
     public bool PackageHasCorrectDate(Package package);

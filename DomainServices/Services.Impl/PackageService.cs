@@ -35,7 +35,7 @@ public class PackageService : IPackageService
         return package.StartTimeSlot.Subtract(student.DateOfBirth!.Value.Date) >= new TimeSpan(6574, 0, 0, 0);
     }
 
-    public bool PackageHasCorrectDate(Package package)
+   public bool PackageHasCorrectDate(Package package)
     {
         return PackageDateNotTooFarInTheFutureOrPast(package)
                && PackageHasCorrectStartAndEnd(package);
@@ -51,5 +51,5 @@ public class PackageService : IPackageService
     {
         return package.StartTimeSlot.Date == package.EndTimeSlot.Date
                && DateTime.Compare(package.StartTimeSlot, package.EndTimeSlot) <= 0;
-    }
+    } 
 }

@@ -23,18 +23,26 @@ body {
 }
 
 .primary {
-    background-color: #618641;
+    background-color: #486430;
     color: white;
     font-weight: bold;
 }
 
-.primary:hover {
-    background-color: #3c5228;
+.primary:hover  {
+    background-color: #618641;
     color: white;
 }
 
+.nav-link {
+    color: black;
+}
+
+.nav-link:hover {
+    color: #618641;
+}
+
 h1, h2 {
-    color: #618641 !important;
+    color: #486430 !important;
     font-weight: bold;
 }
 
@@ -68,7 +76,7 @@ input[type=input] {
 }
 
 .bg-primary {
-    background-color: #6d8641 !important;
+    background-color: #486430 !important;
 }
 
 .ratio .card-img-top {
@@ -76,5 +84,5 @@ input[type=input] {
 }
 
 .text-primary {
-    color: #618641 !important;
+    color: #486430 !important;
 }

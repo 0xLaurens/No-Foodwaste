@@ -1,16 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Domain;
 
 public class Package
 {
+    
+    
     public int PackageId { get; set; }
 
     [Required(ErrorMessage = "Enter a unique name")]
     public string? Name { get; set; }
 
+    [JsonIgnore]
     public byte[]? Thumbnail { get; set; }
+    [JsonIgnore]
     public string? ThumbnailFormat { get; set; }
 
 
@@ -25,6 +30,7 @@ public class Package
 
     [Required(ErrorMessage = "Enter a valid start time")]
     public DateTime StartTimeSlot { get; set; }
+    
 
     [Required(ErrorMessage = "Enter a valid end time")]
     public DateTime EndTimeSlot { get; set; }
@@ -39,7 +45,19 @@ public class Package
     public virtual Category? Category { get; set; }
 
     public int? StudentId { get; set; }
+    
+    // Domain Logic
+    public bool CanPackageBeAltered()
+    {
+        return StudentId == null;
+    }
+    
+    public bool PackagesHasProductThatContainsAlcohol()
+    {
+        return Products!.Any(p => p.ContainsAlcohol == true);
+    }
 }
+
 
 public enum Category
 {
