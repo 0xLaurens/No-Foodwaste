@@ -3,6 +3,7 @@ using Domain;
 using WebService.Models.Cafeteria;
 using WebService.Models.City;
 using WebService.Models.Employee;
+using WebService.Models.Package;
 
 namespace WebService.Mappers;
 
@@ -18,5 +19,7 @@ public class Mapper : Profile
 
         CreateMap<NewEmployeeDto, NewCreatedEmployeeDto>();
         CreateMap<Employee, UpdatedEmployeeDto>();
+
+        CreateMap<Package, UpdatedPackageDto>();
     }
 }

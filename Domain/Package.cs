@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Domain;
 
@@ -12,7 +13,9 @@ public class Package
     [Required(ErrorMessage = "Enter a unique name")]
     public string? Name { get; set; }
 
+    [JsonIgnore]
     public byte[]? Thumbnail { get; set; }
+    [JsonIgnore]
     public string? ThumbnailFormat { get; set; }
 
 
