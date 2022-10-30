@@ -5,7 +5,12 @@
     ViewBag.Title = "Create package";
 }
 
-<h2>Pakket aanmaken</h2>
+<h2>
+    <a aria-label="Return to previous page" class="link" href="javascript:history.go(-1)">
+        <i class="fa-solid fa-arrow-left pe-3"></i>
+    </a>
+    Pakket aanmaken
+</h2>
 <form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-outline required mb-4">
         <label class="fw" asp-for="Package!.Name">Naam van het pakket</label>
