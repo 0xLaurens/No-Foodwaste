@@ -5,7 +5,12 @@
     ViewBag.Title = "Update package";
 }
 
-<h2>Update package</h2>
+<h2>
+    <a aria-label="Return to previous page" class="link" href="javascript:history.go(-1)">
+        <i class="fa-solid fa-arrow-left pe-3"></i>
+    </a>
+    Update package
+</h2>
 @if (ViewData.ModelState.ContainsKey("DateError"))
 {
     <div class="alert alert-danger d-flex text-center align-items-center mb-2">

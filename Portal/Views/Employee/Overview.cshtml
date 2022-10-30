@@ -4,7 +4,12 @@
     <div class="container py-5">
         <div class="row mb-4 mb-lg-5">
             <div class="col mx-auto">
-                <h2 class="fw-bold">Aangeboden pakketen</h2>
+                <h2 class="fw-bold">
+                    <a aria-label="Return to previous page" class="link" href="javascript:history.go(-1)">
+                        <i class="fa-solid fa-arrow-left pe-3"></i>
+                    </a>
+                    Aangeboden pakketen
+                </h2>
             </div>
         </div>
         @foreach (var packages in Model.GroupBy(p => p.Cafeteria!.Location!.Name))
