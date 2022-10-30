@@ -36,29 +36,35 @@ public class PackageController : Controller
         var email = User.FindFirstValue(ClaimTypes.Email);
         var student = _studentRepository.GetStudentByEmail(email);
 
-        
-
-        if (!package!.CanPackageBeAltered())
-        {
-            ViewBag.Error = "The package you are trying to reserve has already been reserved";
-
-            return View("Package", _packageRepository.GetPackageById(id));
-        }
-        
-        if (!_packageService.StudentOldEnoughForPackage(package!, student))
-        {
-            ViewBag.Error =
-                "This package is marked as 18 plus, you have to be 18 or older on the date of the package pickup";
-            return View("Package", _packageRepository.GetPackageById(id));
-        }
 
         if (!_packageService.StudentCanOrderPackageOnDate(package!, student))
         {
-            ViewBag.Error = "You already ordered a package for that date, you can only pickup one package per day";
+            if (!package!.CanPackageBeAltered())
+            {
+                ViewBag.Error = "The package you are trying to reserve has already been reserved";
 
-            return View("Package", _packageRepository.GetPackageById(id));
+                return View("Package", _packageRepository.GetPackageById(id));
+            }
+
+            if (!_packageService.StudentCanOrderPackageOnDate(package!, student) && _packageService.StudentOldEnoughForPackage(package!, student))
+            {
+                ViewBag.Error = "Marked as 18+ and the student already picked up a package for that day";
+            } 
+
+            if (!_packageService.StudentCanOrderPackageOnDate(package!, student))
+            {
+                ViewBag.Error = "You already ordered a package for that date, you can only pickup one package per day";
+
+                return View("Package", _packageRepository.GetPackageById(id));
+            }
+            
+            if (!_packageService.StudentOldEnoughForPackage(package!, student))
+            {
+                ViewBag.Error =
+                    "This package is marked as 18 plus, you have to be 18 or older on the date of the package pickup";
+                return View("Package", _packageRepository.GetPackageById(id));
+            }
         }
-
 
         _packageRepository.ReservePackageForStudent(package!, student);
         return View("Confirmation");
