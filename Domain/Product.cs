@@ -9,5 +9,5 @@ public class Product
     public byte[]? Photo { get; set; }
     public bool? ContainsAlcohol { get; set; }
 
-    [JsonIgnore] public virtual ICollection<Package>? Packages { get; set; }
+    [JsonIgnore] public ICollection<Package>? Packages { get; set; }
 }

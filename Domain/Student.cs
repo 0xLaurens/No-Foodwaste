@@ -29,5 +29,5 @@ public class Student
         }
     }
 
-    public virtual List<Package>? Packages { get; init; }
+    public ICollection<Package>? Packages { get; init; }
 }
